@@ -1,4 +1,7 @@
-
+.gitignore
+.git
+.project
+.idea
 .svn
 .cvs
 *.zip
