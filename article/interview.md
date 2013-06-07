@@ -20,8 +20,15 @@ fiddler4,Firefox,
 
 * 你能描述一下你制作一个网页的工作流程吗？
 ```
-画图，用HTML堆结构*，hardcode内容，切图做sprite，写css*，写js*/整理hardcode内容, 调试*，deliver。
-带*的是在过程中多次修改的
+纸稿或图稿
+用HTML堆结构*
+Hardcode内容
+切图做sprite
+写css*
+写js*/整理hardcode内容
+调试*
+deliver
+带*的会在过程中反复refactor
 ```
 
 * 你能描述一下渐进增强和优雅降级之间的不同吗?
