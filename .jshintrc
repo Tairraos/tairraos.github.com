@@ -1,0 +1,23 @@
+{
+  "eqnull": true,
+  "nonew": true,
+  "jquery": true,
+  "curly": true,
+  "shadow": true,
+  "noarg": true,
+  "loopfunc": true,
+  "smarttabs": true,
+  "undef": true,
+  "sub": true,
+  "expr": true,
+  "debug": true,
+  "browser": true,
+  "worker": true,
+  "devel": true,
+  "gcl": true,
+  "maxcomplexity": 11,
+  "globalstrict": true,
+  "validthis": true,
+  "newcap": false,
+  "eqeqeq": true
+}
