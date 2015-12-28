@@ -3,6 +3,7 @@
  * javascript:(function(){var tool='simpleCD',css='',p=window.pageTools;if(p&&p[tool]){p[tool].run();return;}var d=document,s=d.createElement('script');s.setAttribute('src','http://localhost/tools/loader.js?tool='+tool+'&css='+css);d.body.appendChild(s);}());
  */
 (function ($) {
+    'use strict';
     var toolName = 'simpleCD', doc = document, win = window,
         tools = win.pageTools = win.pageTools || {},
         conf = tools.conf = tools.conf || {},

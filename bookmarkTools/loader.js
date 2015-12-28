@@ -17,6 +17,7 @@
 
 
 (function () {
+    'use strict';
     var $, doc = document, win = window,
         tools = win.pageTools = {},
         conf = tools.conf = {};
