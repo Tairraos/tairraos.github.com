@@ -24,9 +24,9 @@
 
 
     tools.base = {
-        run: function () {
-        }
+        run: function () { }
     };
+
     tools.util = {
         getBox: function () {
             if (!conf.$box) {
@@ -48,17 +48,17 @@
         getPathContent: function (path, selector) {
             var dom = $();
             selector = selector || 'body';
-            $.ajax({ type: "GET", url: path, async: false, dataType: "html", success: function (result) {
-                dom = $(result);
-            } });
+            $.ajax({
+                type: "GET", url: path, async: false, dataType: "html", success: function (result) {
+                    dom = $(result);
+                }
+            });
             $('script', dom).add('link', dom).remove();
             return $(selector, dom);
         }
     };
 
-
     launchLoad();
-
 
     function launchLoad() {
         var waitingHandler, doLoadFlag = false;

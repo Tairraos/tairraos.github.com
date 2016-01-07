@@ -94,7 +94,7 @@
 		conf.title = document.title = 'Build ' + $('#sourceVer').val() + ' vs Build ' + $('#targetVer').val();
 		conf.$mode = $('<span class="change">' + conf.mode + '</span>');
 		conf.$table = $('<table id="report"><tr><td>文件路径</td><td>条件覆盖率</td><td>条件覆盖数</td><td>行覆盖率</td><td>行覆盖数</td></tr></table>');
-		conf.$table.prepend($('<tr></tr>').append($('<td colspan="5">' + conf.title + ', 报表生成时间：' + (today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + (today.getDay() + 1) + ' ' + today.getHours() + ':' + today.getMinutes()) + ' 报表方式：</td>').append(conf.$mode)));
+		conf.$table.prepend($('<tr></tr>').append($('<td colspan="5">' + conf.title + ', 报表生成时间：' + (today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + (today.getDate() + 1) + ' ' + today.getHours() + ':' + today.getMinutes()) + ' 报表方式：</td>').append(conf.$mode)));
 
 		return $.each(filePool, function (i, name) {
 			var s = conf.sourceData[name], t = conf.targetData[name], deltaC, deltaL;
@@ -204,4 +204,4 @@
 			}
 		});
 	}
-}(jQuery))
+}(jQuery));
