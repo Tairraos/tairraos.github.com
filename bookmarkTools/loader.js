@@ -1,7 +1,7 @@
 /**
  * js加载器，会预先加载jQuery，然后加载相应的插件
  * 把下面的链接加到浏览器收藏夹，tool填tool文件名，如果有css填css文件名，不需要扩展名
- * javascript:(function(){var tool='simpleCD',css='',p=window.pageTools;if(p&&p[tool]){p[tool].run();return;}var d=document,s=d.createElement('script');s.setAttribute('src','http://localhost/tools/loader.js?tool='+tool+'&css='+css);d.body.appendChild(s);}());
+ * javascript:(function(){var tool='simpleCD',css='',p=window.pageTools;if(p&&p[tool]){p[tool].run();return;}var d=document,s=d.createElement('script');s.setAttribute('src','//localhost/tools/loader.js?tool='+tool+'&css='+css);d.body.appendChild(s);}());
  * 全代码带排板如下
  (function () {
         var tool = 'simpleCD', css = '', p = window.pageTools;
@@ -10,7 +10,7 @@
             return;
         }
         var d = document, s = d.createElement('script');
-        s.setAttribute('src', 'http://localhost/tools/loader.js?tool=' + tool + '&css=' + css);
+        s.setAttribute('src', '//localhost/tools/loader.js?tool=' + tool + '&css=' + css);
         d.body.appendChild(s);
     }());
  */
@@ -107,7 +107,7 @@
             tools[toolName].run();
         } else if (toolName && !script.length) { //否则，加载它
             toolScript = doc.createElement('script');
-            toolScript.setAttribute('src', 'http://localhost/tools/' + toolName + '.js');
+            toolScript.setAttribute('src', '//localhost/tools/' + toolName + '.js');
             doc.head.appendChild(toolScript);
         }
 
@@ -115,7 +115,7 @@
             cssLink = doc.createElement('link');
             cssLink.setAttribute('type', 'text/css');
             cssLink.setAttribute('rel', 'stylesheet');
-            cssLink.setAttribute('href', 'http://localhost/tools/' + cssName + '.css');
+            cssLink.setAttribute('href', '//localhost/tools/' + cssName + '.css');
             doc.head.appendChild(cssLink);
         }
     }

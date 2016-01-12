@@ -1,6 +1,6 @@
 /**
  * UT对比工具
- * javascript:(function(){var tool='coverageTool',css='coverageTool',p=window.pageTools;if(p&&p[tool]){p[tool].run();return;}var d=document,s=d.createElement('script');s.setAttribute('src','http://localhost/tools/loader.js?tool='+tool+'&css='+css);d.body.appendChild(s);}());
+ * javascript:(function(){var tool='coverageTool',css='coverageTool',p=window.pageTools;if(p&&p[tool]){p[tool].run();return;}var d=document,s=d.createElement('script');s.setAttribute('src','//localhost/tools/loader.js?tool='+tool+'&css='+css);d.body.appendChild(s);}());
  */
 (function ($) {
     'use strict';
@@ -9,8 +9,8 @@
         conf = tools.conf = tools.conf || {};
 
     conf = {
-        page1: location.protocol + '//' + location.host + '/jenkins/job/coveragetest_1/',
-        page2: location.protocol + '//' + location.host + '/jenkins/job/coveragetest_2/',
+        baseUrl1: '//' + location.host + '/jenkins/job/coveragetest_1/',
+        baseUrl2: '//' + location.host + '/jenkins/job/coveragetest_2/',
         inCompare: false
     };
 
@@ -26,9 +26,10 @@
         $('script').remove();
         $('body').empty().append([
             '<div id="coverForm">',
-            '<span><label>URL1：<input type="text" name="url1" id="url1" value=""/></label></span>',
-            '<span><label>URL2：<input type="text" name="url2" id="url2" value=""/></label></span>',
-            '<span><button type="button" id="doLoad">加载内容</button></span>',
+            '<span><label>URL:</label><input type="text" name="url" id="url" value=""/></span>',
+            '<span><label>Build1:</label><input type="text" name="build1" id="build1" value=""/>',
+            '<label>Build2:</label><input type="text" name="build2" id="build2" value=""/>',
+            '<button type="button" id="doLoad">加载内容</button></span>',
             '</div>',
             '<div id="compare-box">',
             '<div id="file1"></div>',
@@ -42,12 +43,15 @@
         $('#file2').on('dblclick', toggleCompare);
 
         function doLoad() {
-            var conf = {
-                file1Url: $('#url1').val(),
-                file2Url: $('#url2').val()
-            };
-            $('#file1').append(getPathContent(conf.file1Url, 'table.source')).on('scroll', onScroll);
-            $('#file2').append(getPathContent(conf.file2Url, 'table.source')).on('scroll', onScroll);
+            var $url = $('#url'), page1, page2;
+            $url.val($url.val().replace(/^.*\/cobertura/, '\/cobertura'));
+            page1 = conf.baseUrl1 + $('#build1').val() + $url.val();
+            page2 = conf.baseUrl2 + $('#build2').val() + $url.val();
+
+            console.log(page1, page2);
+
+            $('#file1').append(getPathContent(page1, 'table.source')).on('scroll', onScroll);
+            $('#file2').append(getPathContent(page2, 'table.source')).on('scroll', onScroll);
             toggleCompare();
         }
 

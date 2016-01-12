@@ -4,8 +4,12 @@
     padding: 3px;
 }
 
-#coverForm input {
-    width: 90%;
+#url {
+    width: 1000px;
+}
+
+#build1, #build2 {
+    width: 50px;
 }
 
 #file1 {
@@ -20,6 +24,13 @@
     overflow-x: scroll;
 }
 
+label {
+    width: 45px;
+    display: inline-block;
+}
+label, button {
+    margin: 0 0 0 20px;
+}
 #footer {
     clear: both;
 }
@@ -30,7 +41,7 @@
 
 .primary .line,
 .primary .hits {
-   background-color:#f00;
+    background-color: #f00;
 }
 
 table.source {
