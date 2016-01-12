@@ -24,6 +24,15 @@
     clear: both;
 }
 
+.minor {
+    opacity: .3;
+}
+
+.primary .line,
+.primary .hits {
+   background-color:#f00;
+}
+
 table.source {
     border-style: solid;
     border-color: #bbb;
