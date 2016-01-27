@@ -1,0 +1,9 @@
+.addon {
+    text-align: center;
+}
+
+.addon button {
+    width: 100px;
+    height: 40px;
+    margin: 0 10px;
+}
