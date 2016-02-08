@@ -58,8 +58,9 @@
                     texts += window.decodeURI($(this).attr('ed2k')) + '\n';
                 }
             });
-            util.getBox().text(texts).focus().select().keydown(function (e) {
+            util.getBox().val(texts).focus().select().keydown(function (e) {
                 if (e.keyCode === 27) {
+                    conf.$txt.val('');
                     conf.$box.hide();
                 }
             });
