@@ -3,7 +3,15 @@
 }
 
 .addon button {
-    width: 100px;
+    width: 80px;
     height: 40px;
     margin: 0 10px;
+}
+
+.addon input {
+    width: 100px;
+    height: 36px;
+    font-size: 20px;
+    margin: 0 10px;
+    vertical-align: middle;
 }

@@ -14,8 +14,13 @@
         run: function () {
             //code here
             var $selector = $('<div class="addon"></div>').append(
-                '<button>Web-HR</button>', '<button>HR-HDTV</button>', '<button>HDTVrip</button>',
-                '<button>MKV</button>', '<button>MP4</button>', '<button>RMVB</button>',
+                '<button>Web-HR</button>',
+                '<button>HR-HDTV</button>',
+                '<button>HDTVrip</button>',
+                '<button>MKV</button>',
+                '<button>MP4</button>',
+                '<button>RMVB</button>',
+                '<input type="text" />',
                 '<button>COPY LINK</button>');
             $('.header-box').after($selector);
             $('button', $selector).on('click', function (e) {
@@ -24,19 +29,22 @@
                     tools[toolName].doCopyLink(selectedPatten);
                 } else {
                     tools[toolName].doSelect(cmd);
-                    selectedPatten = cmd;
                 }
-
+            });
+            $('input', $selector).on('input', function (e) {
+                var cmd = $(e.target).val();
+                    tools[toolName].doSelect(cmd);
             });
         },
         doSelect: function (patten) {
             var regMovieName = new RegExp(patten, 'ig');
             $('dd').css({background: ''}).each(function () {
                 var link = $('a[href]', $(this)).eq(0).text();
-                if (link.length && link.match(regMovieName)) {
+                if (patten!=='' && link.length && link.match(regMovieName)) {
                     $(this).css({background: '#F4E09F'});
                 }
             });
+            selectedPatten = patten;
         },
         doCopyLink: function (patten) {
             if (!patten) {
