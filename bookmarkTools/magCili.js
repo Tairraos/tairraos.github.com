@@ -21,27 +21,32 @@
                 '<button>MP4</button>',
                 '<button>RMVB</button>',
                 '<input type="text" />',
-                '<button>COPY LINK</button>');
+                '<button>COPY LINK</button>',
+                '<button>Restore</button>');
             $('.header-box').after($selector);
             $('button', $selector).on('click', function (e) {
                 var cmd = $(e.target).text();
                 if (cmd === 'COPY LINK') {
                     tools[toolName].doCopyLink(selectedPatten);
+                } else if (cmd === 'Restore') {
+                    tools[toolName].doSelect('.');
                 } else {
                     tools[toolName].doSelect(cmd);
                 }
             });
             $('input', $selector).on('input', function (e) {
                 var cmd = $(e.target).val();
-                    tools[toolName].doSelect(cmd);
+                tools[toolName].doSelect(cmd);
             });
+
+            $('#ad_banner_2').remove();
         },
         doSelect: function (patten) {
             var regMovieName = new RegExp(patten, 'ig');
-            $('dd').css({background: ''}).each(function () {
+            $('dd').css({display:'none'}).each(function () {
                 var link = $('a[href]', $(this)).eq(0).text();
-                if (patten!=='' && link.length && link.match(regMovieName)) {
-                    $(this).css({background: '#F4E09F'});
+                if (patten !== '' && link.length && link.match(regMovieName)) {
+                    $(this).css({display:''});
                 }
             });
             selectedPatten = patten;
