@@ -119,10 +119,6 @@
   
 * 在HTML5中如何使用XML？
   
-* 'data-'属性的作用是什么？
-  
-  ``` 
-  HTML5 TAG的自定义属性，可以自己添加存储一些必要的数据或控制值
   ```
   
 * 如果把HTML5看作做一个开放平台，那它的构建模块有那些？
@@ -131,12 +127,7 @@
   DOM容器, CSS渲染, JS引擎, Canvas, Video, Audio, SVC, local storage
   ```
   
-* 请描述一下cookies，sessionStorage和localStorage的区别？ 
-  
-  Cookie,保存在浏览器缓存目录里，大小有限，条目数量也有限（不同浏览器限制不同）。通常用来记录一些临时数据。每次交互页面都会被传送到服务器端占用流量。
-  
-  local Storage容量大很多，并且可以使用
-
+* 
 ## JS相关问题
 
 * 你使用过那些Javascript库？
