@@ -89,8 +89,8 @@
 
     function loadTool(toolName, cssName) {
         var toolScript, cssLink,
-            script = $('script[src*="tools/' + toolName + '.js"]'),
-            css = $('link[href*="tools/' + cssName + '.css"]');
+            script = $('script[src*="tools/' + toolName + '"]'),
+            css = $('link[href*="tools/' + cssName + '"]');
 
         if (toolName && script.length) { //如果tool已经加载过了，run它
             tools[toolName].run();
