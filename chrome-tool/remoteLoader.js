@@ -69,7 +69,7 @@
             $ = jQuery;
 
             var strSrc = $('script[src*="loader.js"]').attr('src'),
-                toolName = strSrc.match(/tool=([^&]+)/),
+                toolName = strSrc.match(/js=([^&]+)/),
                 cssName = strSrc.match(/css=([^&]+)/);
 
 

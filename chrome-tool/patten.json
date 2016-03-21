@@ -1,10 +1,5 @@
 {
-	".*": { },
-	"cili\\d+\\.com": {
-		"js": "magCili.js"
-	},
-	"10\\.224\\.181\\.55": {
-		"js": "utTool.js", 
-		"css": "utTool.css"
-	}
+	".*": "",
+	"cili\\d+\\.com": "js=magCili.js",
+	"10\\.224\\.181\\.55": "js=utTool.js&css=utTool.css"
 }
