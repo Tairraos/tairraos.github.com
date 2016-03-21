@@ -1,14 +1,10 @@
 {
-	".*": [
-		"{@local}/lib/jquery.js"
-	],
-	"cili\\d+\\.com": [
-		"{@remote}/util.js", 
-		"{@remote}/magCili.js"
-	],
-	"10\\.224\\.181\\.55": [
-		"{@remote}/util.js", 
-		"{@remote}/utTool.js", 
-		"{@remote}/utTool.css"
-	]
+	".*": { },
+	"cili\\d+\\.com": {
+		"js": "magCili.js"
+	},
+	"10\\.224\\.181\\.55": {
+		"js": "utTool.js", 
+		"css": "utTool.css"
+	}
 }
