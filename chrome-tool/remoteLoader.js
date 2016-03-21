@@ -96,7 +96,7 @@
             tools[toolName].run();
         } else if (toolName && !script.length) { //否则，加载它
             toolScript = doc.createElement('script');
-            toolScript.setAttribute('src', conf.remoteBase + '/' + toolName + '.js');
+            toolScript.setAttribute('src', conf.remoteBase + '/' + toolName);
             doc.head.appendChild(toolScript);
         }
 
@@ -104,7 +104,7 @@
             cssLink = doc.createElement('link');
             cssLink.setAttribute('type', 'text/css');
             cssLink.setAttribute('rel', 'stylesheet');
-            cssLink.setAttribute('href', conf.remoteBase + '/' + cssName + '.css');
+            cssLink.setAttribute('href', conf.remoteBase + '/' + cssName);
             doc.head.appendChild(cssLink);
         }
     }
