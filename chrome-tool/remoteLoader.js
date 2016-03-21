@@ -68,7 +68,7 @@
             }
             $ = jQuery;
 
-            var strSrc = $('script[src*="loader.js"]').attr('src'),
+            var strSrc = $('script[src*="remoteLoader.js"]').attr('src'),
                 toolName = strSrc.match(/js=([^&]+)/),
                 cssName = strSrc.match(/css=([^&]+)/);
 
