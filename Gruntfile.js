@@ -5,12 +5,24 @@ module.exports = function (grunt) {
 			build: {
 				expand: true,
 				cwd: 'src/chrome-tool',
-				src: ['*.js', '*.css'], 
+				src: ['*.js', '!jquery.js'], 
 				dest: 'chrome-tool' 
 			} 
 		},
+		cssmin: {
+		  target: {
+		    files: [{
+				cwd: 'src/chrome-tool',
+				src: ['*.css'], 
+				dest: 'chrome-tool', 
+		      	ext: '.css'
+		    }]
+		  }
+		}
     });
 
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.registerTask('default', ['uglify']);
+	grunt.loadNpmTasks('grunt-contrib-cssmin');
+	
+    grunt.registerTask('default', ['uglify', 'cssmin']);
 };
