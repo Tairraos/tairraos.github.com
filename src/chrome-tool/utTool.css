@@ -1,0 +1,31 @@
+#coverageForm {
+    border: 1px solid rgb(136, 136, 136);
+    border-radius: 5px;
+    position: fixed;
+    left: calc(50% - 140px);
+    top: calc(50% - 80px);
+    z-index: 9999;
+    background: rgba(255, 255, 220, 0.9);
+    text-align: center;
+    font: 14px/14px verdana;
+    padding: 20px;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, .2);
+    width: 280px;
+    height: 160px;
+}
+
+#coverageForm input {
+    display: block;
+    width: 100px;
+    margin: 10px auto;
+    border-radius: 4px;
+    border: 1px solid #888;
+    font: 14px/14px verdana;
+    padding: 2px 4px;
+}
+
+#coverageForm button {
+    width: 80px;
+    font: 14px/14px verdana;
+    padding: 4px;
+}
