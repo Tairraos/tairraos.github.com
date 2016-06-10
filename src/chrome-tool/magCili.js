@@ -12,7 +12,7 @@
 
     var watchList=[
         "暴君.Tyrant",
-        "福尔摩斯.演绎法.Elementary",
+        "演绎法.Elementary",
         "格林.Grimm",
         "行尸走肉.The.Walking.Dead",
         "妙女神探.Rizzoli.and.Isles",
@@ -25,7 +25,7 @@
         "永无止境.Limitless",
         "逍遥法外.How.to.Get.Away.with.Murder",
         "黑帆.Black.Sails",
-        "卡特特工.Marvel's.Agent.Carter",
+        "卡特特工.Marvel",
         "凶鬼恶灵.Supernatural",
         "明日传奇.DCs.Legends.of.Tomorrow",
         "灵书妙探.Castle",
