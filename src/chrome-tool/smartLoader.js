@@ -84,7 +84,7 @@
                 dataType: "json",
                 success: function (pattens) {
                     for (var patten in pattens) {
-                        if (pattens.hasOwnProperty(patten) && (new RegExp(patten)).test(location.host)) {
+                        if (pattens.hasOwnProperty(patten) && (new RegExp(patten)).test(location.href)) {
                             var jsName = pattens[patten].match(/js=([^&]+)/),
                                 cssName = pattens[patten].match(/css=([^&]+)/);
                             loadTool(jsName ? jsName[1] : null, cssName ? cssName[1] : null);
@@ -112,7 +112,9 @@
             css = $('link[href*="tools/' + cssName + '"]');
 
         if (toolName && script.length) { //如果tool已经加载过了，run它
-            tools[toolName].run();
+            if (tools[toolName] && tools[toolName].run) {
+                tools[toolName].run();
+            }
         } else if (toolName && !script.length) { //否则，加载它
             toolScript = doc.createElement('script');
             toolScript.setAttribute('src', '//localhost/tools/' + toolName);

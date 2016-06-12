@@ -1,0 +1,21 @@
+table#sourceTable pre,
+table#sourceTable td {
+    font-family: consolas;
+    font-size: 12px;
+}
+
+table#sourceTable tr {
+    height:20px;
+}
+
+tbody#summaryTbody td {
+    font-family: consolas;
+}
+
+.no-covered{
+    background:#ffdddd;
+}
+
+.covered{
+    background:#f2fff2;
+}
