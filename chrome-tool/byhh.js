@@ -1,1 +1,28 @@
-!function(a){"use strict";var b="byhh",c=(document,window),d=c.pageTools=c.pageTools||{};d[b]=a.extend({},d.base,{run:function(){var b=a("#username").val().replace(/ /g,"."),c=window.prompt("请输入特征串"),d=new RegExp(c,"ig"),e=new RegExp(b,"ig");a("td.magTitle").each(function(){var b=a("a[href]",a(this)).attr("href");b.length&&b.match(e)&&b.match(d)&&(a("input",a(this)).get(0).checked=!0)})}}),d[b].run()}(jQuery);
+/**
+ * 功能增强
+ * javascript:(function(){var tool='byhh',css='',p=window.pageTools;if(p&&p[tool]){p[tool].run();return;}var d=document,s=d.createElement('script');s.setAttribute('src','//localhost/tools/loader.js?tool='+tool+'&css='+css);d.body.appendChild(s);}());
+ */
+(function ($) {
+    'use strict';
+    var toolName = 'byhh', doc = document, win = window,
+        tools = win.pageTools = win.pageTools || {};
+
+    tools[toolName] = $.extend({}, tools.base, {
+        run: function () {
+            //code here
+            var movieName = $('#username').val().replace(/ /g,'.'),
+                strInput = window.prompt("请输入特征串"),
+                regInput = new RegExp(strInput,'ig'),
+                regMovieName = new RegExp(movieName,'ig');
+            $('td.magTitle').each(function () {
+                var link = $('a[href]', $(this)).attr('href');
+                if (link.length && link.match(regMovieName) && link.match(regInput)) {
+                    $('input', $(this)).get(0).checked = true;
+                }
+            });
+
+        }
+    });
+
+    tools[toolName].run();
+}(jQuery));
