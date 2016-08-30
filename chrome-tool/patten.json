@@ -1,6 +1,7 @@
 {
   "://cili\\d+\\.com": "js=magCili.js&css=magCili.css",
   "://10\\.224\\.181\\.55": "js=utTool.js&css=utTool.css",
+  "://10\\.224\\.181\\.62": "js=utTool.js&css=utTool.css",
   "://mp\\.weixin\\.qq\\.com": "js=formatWechat.js",
   "://webex\\.com": "js=loadLogger.js",
   "://localhost/unit-result": "js=jscoverage.js&css=jscoverage.css",
