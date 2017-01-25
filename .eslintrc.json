@@ -1,0 +1,219 @@
+{
+  "parserOptions": { //指定你想要支持的JavaScript语言选项
+    "ecmaVersion": 6, //使用ECMAScript 2015版本
+    "sourceType": "module", //代码符合ECMAScript模块标准
+    "ecmaFeatures": { //额外的语言特性
+      "globalReturn": false, //不允许在全局作用域下使用return语句
+      "impliedStrict": true, //启用全局strictmode
+      "jsx": true, //使用 JSX
+      "experimentalObjectRestSpread": false //不支持实验性的objectrest/spread properties
+    }
+  },
+
+  "parser": "babel-eslint", //使用babel-eslint作eslint解析器，代码里可以使用babel语法
+
+  "env": { //预定义的全局变量
+    "browser": true, //browser 全局变量
+    "node": true, //Node.js 全局变量和 Node.js 作用域
+    "commonjs": true, //CommonJS 全局变量和CommonJS作用域（用于WebPack的代码）
+    "shared-node-browser": true, //Node 和Browser通用全局变量
+    "es6": true, //支持除模块外所有ECMAScript6 特性（该选项会自动设置ecmaVersion解析器选项为 6）
+    "worker": true, //webworkers全局变量
+    "amd": true, //定义 require() 和 define()
+    "mocha": true, //添加所有的Mocha测试全局变量
+    "jasmine": true, //添加所有的Jasmine版本 1.3 和 2.0 的测试全局变量
+    "jest": true, //Jest 全局变量
+    "phantomjs": true, //PhantomJS 全局变量
+    "jquery": true //jQuery 全局变量
+  },
+
+  "globals": { //非预置的全局变量
+    "pb": false, //能否被多次赋值？false表示只读
+    "webex": false //能否被多次赋值？false表示只读
+  },
+
+  "extends": [ //扩展配置
+    "eslint:recommended", //所有在rules里未定义到的项，使用eslint推荐值(非缺省值)
+    "plugin:react/recommended" //所有在rules里未定义到的项，使用eslint推荐值(非缺省值)
+  ],
+
+  "plugins": [
+    "react" //使用React语法和语义插件: eslint-plugin-react
+  ],
+
+  "rules": { //规则："off" 关闭规则；"warn" 报告warn但是不会触发检查失败；"error" 发现任何一处error则代码检查不通过
+
+    //Possible Errors 这些规则与JavaScript代码中可能的错误或逻辑错误有关：
+    "no-cond-assign": "error", //[推荐]禁止条件表达式中出现赋值操作符
+    "no-console": "warn", //[推荐]-提醒-不要使用console
+    "no-constant-condition": "error", //[推荐]禁止在条件中使用常量表达式
+    "no-control-regex": "off", //[推荐]*不*禁止在正则表达式中使用控制字符
+    "no-debugger": "error", //[推荐]禁用 debugger
+    "no-dupe-args": "error", //[推荐]禁止function定义中出现重名参数
+    "no-dupe-keys": "error", //[推荐]禁止对象字面量中出现重复的 key
+    "no-duplicate-case": "error", //[推荐]禁止出现重复的case标签
+    "no-empty-character-class": "error", //[推荐]禁止在正则表达式中使用空字符集
+    "no-ex-assign": "error", //[推荐]禁止对catch子句的参数重新赋值
+    "no-extra-boolean-cast": "error", //[推荐]禁止不必要的布尔转换
+    "no-extra-parens": "error", //[可修复]禁止不必要的括号
+    "no-extra-semi": "error", //[推荐][可修复]禁止不必要的分号
+    "no-func-assign": "error", //[推荐]禁止对function声明重新赋值
+    "no-inner-declarations": "error", //[推荐]禁止在嵌套的块中出现变量声明或function声明
+    "no-invalid-regexp": "error", //[推荐]禁止RegExp构造函数中存在无效的正则表达式字符串
+    "no-irregular-whitespace": "error", //[推荐]禁止在字符串和注释之外不规则的空白
+    "no-regex-spaces": "error", //[推荐][可修复]禁止正则表达式字面量中出现多个空格
+    "no-unexpected-multiline": "error", //[推荐]禁止出现令人困惑的多行表达式
+    "no-unreachable": "error", //[推荐]禁止在return、throw、continue 和break语句之后出现不可达代码
+    "no-unsafe-finally": "error", //[推荐]禁止在finally语句块中出现控制流语句
+    "use-isnan": "error", //[推荐]要求使用 isNaN() 检查 NaN
+    "valid-jsdoc": "off", //*不*要使用有效的JSDoc注释
+    "valid-typeof": "error", //[推荐]强制typeof表达式与有效的字符串进行比较
+    
+    //BestPractices这些规则是关于最佳实践的，帮助你避免一些问题:
+    "accessor-pairs": "error", //强制getter和setter在对象中成对出现
+    "array-callback-return": "error", //强制数组方法的回调函数中有return语句
+    "block-scoped-var": "error", //强制把变量的使用限制在其定义的作用域范围内
+    "complexity": ["error", 12], //指定程序中允许的最大环路复杂度
+    "consistent-return": "error", //要求return语句要么总是指定返回的值，要么不指定
+    "curly": "error", //[可修复]强制所有控制语句使用一致的括号风格
+    "default-case": "warn", //-提醒-要求switch语句中有default分支
+    "eqeqeq": "error", //要求使用 === 和 !==
+    "no-alert": "error", //禁用 alert、confirm 和 prompt
+    "no-caller": "error", //禁用 arguments.caller 或 arguments.callee
+    "no-case-declarations": "error", //[推荐]不允许在case子句中申明变量或常量
+    "no-empty-function": "warn", //-提醒-出现空函数
+    "no-eq-null": "error", //禁止在没有类型检查操作符的情况下与null进行比较
+    "no-eval": "error", //禁用 eval()
+    "no-fallthrough": "off", //[推荐]*不*禁止case语句落空
+    "no-implicit-coercion": "off", //[可修复]*不*禁止使用短符号进行类型转换
+    "no-implicit-globals": "off", //*不*禁止在全局范围内使用变量声明和function声明
+    "no-implied-eval": "error", //禁止使用类似 eval() 的方法
+    "no-invalid-this": "error", //禁止this关键字出现在类和类对象之外
+    "no-iterator": "error", //禁用__iterator__属性
+    "no-loop-func": "error", //禁止在循环中出现function声明和表达式
+    "no-multi-spaces": "off", //[可修复]*不*禁止使用多个空格
+    "no-multi-str": "off", //*不*禁止使用多行字符串
+    "no-new-func": "off", //*不*禁止对Function对象使用new操作符
+    "no-new-wrappers": "off", //*不*禁止对 String，Number 和Boolean使用new操作符
+    "no-new": "error", //禁止在非赋值或条件语句中使用new操作符
+    "no-octal-escape": "error", //禁止在字符串中使用八进制转义序列
+    "no-octal": "error", //[推荐]禁用八进制字面量
+    "no-param-reassign": "off", //*不*禁止对function的参数进行重新赋值
+    "no-proto": "error", //禁用__proto__属性
+    "no-redeclare": "error", //[推荐]禁止多次声明同一变量
+    "no-return-assign": "error", //禁止在return语句中使用赋值语句
+    "no-self-assign": "error", //[推荐]禁止自我赋值leta = a;
+    "no-self-compare": "error", //禁止自身比较
+    "no-sequences": "error", //禁用逗号操作符
+    "no-unmodified-loop-condition": "error", //检查无效的循环条件
+    "no-unused-expressions": "error", //禁止出现未使用过的表达式
+    "no-useless-call": "error", //禁止不必要的 .call() 和 .apply()
+    "no-useless-concat": "error", //禁止不必要的字符串字面量或模板字面量的连接
+    "no-useless-escape": "error", //禁用不必要的转义字符
+    "no-useless-return": "error", //[可修复]禁用不必要的return
+    "no-void": "off", //*不*禁用void操作符
+    "no-warning-comments": "warn", //-提醒-以todo和fixme开头的注释
+    "no-with": "error", //禁用with语句
+    "radix": "error", //强制在parseInt()使用基数参数
+    "vars-on-top": "off", //*不*要求所有的var声明出现在它们所在的作用域顶部
+    "wrap-iife": "error", //[可修复]要求IIFE使用括号括起来
+    "yoda": "error", //[可修复]禁止 “Yoda” 条件 ("red" === color) 需要写成 (color === "red")
+    
+    //Strict Mode 该规则与使用严格模式和严格模式指令有关：
+    "strict": "error", //[可修复]使用严格模式指令
+
+    //Variables 这些规则与变量声明有关
+    "no-delete-var": "error", //[推荐]禁止删除变量
+    "no-shadow-restricted-names": "error", //禁止使用NaN, Infinity, undefined, eval, arguments作变量名
+    "no-shadow": "warn", //-提醒-变量声明与外层作用域的变量同名
+    "no-undef-init": "error", //[可修复]禁止将变量初始化为undefined
+    "no-undef": "error", //[推荐]禁用未声明的变量
+    "no-undefined": "off", //*不*禁止使用undefined作变量名
+    "no-unused-vars": "error", //[推荐]禁止定义了变量不使用
+    "no-use-before-define": "error", //禁止在变量定义之前使用它们
+    
+    //Stylistic Issues 这些规则是关于风格指南的，而且是非常主观的
+    "array-bracket-spacing": "error", //[可修复]强制数组方括号中使用一致的空格
+    "block-spacing": "error", //[可修复]强制在单行代码块中使用一致的空格
+    "brace-style": "error", //[可修复]强制在代码块中使用一致的大括号风格
+    "camelcase": "off", //*不*强制使用骆驼拼写法命名约定
+    "comma-dangle": ["error", "never"], //[可修复]要求或禁止末尾逗号
+    "comma-spacing": "error", //[可修复]强制在逗号前后使用一致的空格
+    "comma-style": "error", //[可修复]强制使用一致的逗号风格
+    "computed-property-spacing": "error", //[可修复]强制在计算的属性的方括号中使用一致的空格
+    "consistent-this": "error", //当获取当前执行环境的上下文时，强制使用一致的命名
+    "eol-last": "error", //[可修复]要求或禁止文件末尾存在空行
+    "func-style": "off", //*不*强制一致地使用function声明或表达式
+    "indent": ["warn", 4], //[可修复]-提醒-需要以4个空格为单位缩进
+    "jsx-quotes": "error", //[可修复]强制在JSX属性中一致地使用双引号或单引号
+    "key-spacing": "error", //[可修复]强制在对象字面量的属性中键和值之间使用一致的间距
+    "keyword-spacing": "error", //[可修复]强制在关键字前后使用一致的空格
+    "linebreak-style": ["warn", "unix"], //[可修复]-提醒-使用一致的换行风格
+    "lines-around-comment": "off", //[可修复]*不*要求在注释周围有空行
+    "max-depth": "error", //强制可嵌套的块的最大深度
+    "max-len": ["warn", 200], //-提醒-一行的最大长度
+    "max-lines": ["warn", 1500], //-提醒-最大行数
+    "max-nested-callbacks": "error", //强制回调函数最大嵌套深度
+    "max-params": ["warn", 6], //-提醒-函数定义中最多允许的参数数量
+    "max-statements-per-line": "error", //强制每一行中所允许的最大语句数量
+    "max-statements": ["warn", 200], //-提醒-函数块最多允许的的语句数量
+    "new-parens": "error", //[可修复]要求调用无参构造函数时有圆括号
+    "newline-after-var": "off", //[可修复]*不*要求或禁止变量声明语句后有一行空行
+    "newline-before-return": "off", //[可修复]*不*要求return语句之前有一空行
+    "newline-per-chained-call": "off", //*不*要求方法链中每个调用都有一个换行符
+    "no-array-constructor": "error", //禁用Array构造函数
+    "no-bitwise": "off", //*不*禁用按位运算符
+    "no-continue": "off", //*不*禁用continue语句
+    "no-inline-comments": "off", //*不*禁止在代码后使用内联注释
+    "no-mixed-spaces-and-tabs": "error", //[推荐]禁止空格和tab的混合缩进
+    "no-multiple-empty-lines": "error", //[可修复]禁止出现多行空行
+    "no-negated-condition": "error", //禁用否定的表达式
+    "no-nested-ternary": "off", //*不*禁用嵌套的三元表达式
+    "no-new-object": "error", //禁用Object的构造函数
+    "no-plusplus": "off", //*不*禁用一元操作符 ++ 和 --
+    "no-restricted-syntax": "error", //禁用特定的语法
+    "no-tabs": "error", //disallowtabsin file
+    "no-ternary": "off", //*不*禁用三元操作符
+    "no-trailing-spaces": "off", //[可修复]*不*禁用行尾空格
+    "no-underscore-dangle": "off", //*不*禁止标识符中有下划线
+    "no-unneeded-ternary": "error", //禁止可以在有更简单的可替代的表达式时使用三元操作符
+    "no-whitespace-before-property": "error", //[可修复]禁止属性前有空白
+    "object-curly-newline": "error", //[可修复]强制大括号内换行符的一致性
+    "object-curly-spacing": "error", //[可修复]强制在大括号中使用一致的空格
+    "object-property-newline": "off", //*不*强制将对象的属性放在不同的行上
+    "one-var": "off", //*不*强制函数中的变量要么一起声明要么分开声明
+    "operator-linebreak": "off", //*不*强制操作符使用一致的换行符
+    "quote-props": "off", //[可修复]*不*要求对象字面量属性名称用引号括起来
+    "quotes": "error", //[可修复]强制使用一致的反引号、双引号或单引号
+    "require-jsdoc": "off", //*不*要求使用JSDoc注释
+    "semi": ["error", "always"], //[可修复]要求或禁止使用分号而不是 ASI
+    "space-before-blocks": "error", //[可修复]强制在块之前使用一致的空格
+    "space-in-parens": "error", //[可修复]强制在圆括号内使用一致的空格
+    "space-infix-ops": "error", //[可修复]要求操作符周围有空格
+    "space-unary-ops": "error", //[可修复]强制在一元操作符前后使用一致的空格
+    "spaced-comment": "off", //[可修复]*不*强制在注释中 // 或 /* 使用一致的空格
+    "wrap-regex": "off", //[可修复]*不*要求正则表达式被括号括起来
+    
+    //ECMAScript 6 这些规则只与ES6有关, 即通常所说的ES2015
+    "arrow-body-style": "off", //[可修复]*不*要求箭头函数体使用大括号
+    "arrow-parens": "error", //[可修复]要求箭头函数的参数使用圆括号
+    "arrow-spacing": "error", //[可修复]强制箭头函数的箭头前后使用一致的空格
+    "constructor-super": "error", //[推荐]要求在构造函数中有 super() 的调用
+    "generator-star-spacing": "error", //[可修复]强制generator函数中 * 号周围使用一致的空格
+    "no-class-assign": "error", //[推荐]禁止修改类声明的变量
+    "no-const-assign": "error", //[推荐]禁止修改const声明的变量
+    "no-dupe-class-members": "error", //[推荐]禁止类成员中出现重复的名称
+    "no-this-before-super": "error", //[推荐]禁止在构造函数中，在调用 super() 之前使用this或 super
+    "no-useless-computed-key": "error", //[可修复]disallowunnecessarycomputedpropertykeysinobject literals
+    "no-useless-constructor": "error", //禁用不必要的构造函数
+    "no-var": "off", //[可修复]*不*要求只使用let或const声明变量
+    "object-shorthand": "off", //[可修复]*不*要求或禁止对象字面量中方法和属性使用简写语法
+    "prefer-arrow-callback": "error", //[可修复]要求使用箭头函数作为回调
+    "prefer-const": "off", //[可修复]*不*要求使用const声明那些声明后不再被修改的变量
+    "prefer-spread": "error", //[可修复]要求使用扩展运算符而非 .apply()
+    "prefer-template": "error", //[可修复]要求使用模板字面量而非字符串连接
+    "require-yield": "error", //[推荐]要求generator函数内有 yield
+    "template-curly-spacing": "error", //[可修复]要求或禁止模板字符串中的嵌入表达式周围空格的使用
+    "yield-star-spacing": "error" //[可修复]强制在 yield* 表达式中 * 周围使用空格
+  }
+}
