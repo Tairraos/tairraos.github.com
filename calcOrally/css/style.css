@@ -1,0 +1,28 @@
+ul#questions {
+    display: block;
+    width: 880px;
+    padding: 0;
+    font-size: 20px;
+}
+
+#questions li {
+    display: inline-block;
+    width: 198px;
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    border-radius: 5px;
+    margin: 0 -1px -1px 0;
+    padding: 10px;
+}
+
+.A, .B {
+    width: 40px;
+    display: inline-block;
+    text-align: center;
+}
+
+.O {
+    width: 20px;
+    display: inline-block;
+    text-align: center;
+}
