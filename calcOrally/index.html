@@ -11,5 +11,5 @@
     <ul id="questions"></ul>
 </div>
 </body>
-<script>var conf={questions:100,maxSum:30,minSum:5,operators:["+","-"]},quesSet=[],quesNode=document.getElementById("questions");function getQuestion(){var d=conf.operators[(100*Math.random()|0)%2],a,b,c;"+"===d?(c=Math.random()*(conf.maxSum-conf.minSum)+conf.minSum|0,a=20<c?10*Math.random()+10|0:Math.random()*(c-1)+1|0,b=c-a):"-"===d&&(a=19*Math.random()+1|0,b=19*Math.random()+1|0,a<b&&(c=a,a=b,b=c));return["<li>","<span class='A'>"+a+"</span>","<span class='O'>"+d+"</span>","<span class='B'>"+b+"</span>","<span class='O'>=</span></li>"].join("")}for(var i=1;i<=conf.questions;i++)quesSet.push(getQuestion());quesNode.innerHTML=quesSet.join("");</script>
+<script src="js/main.js"></script>
 </html>
