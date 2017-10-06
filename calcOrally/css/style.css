@@ -1,11 +1,16 @@
-ul#questions {
+body{
+    padding:0;
+    margin:0;
+}
+ul.questions {
     display: block;
     width: 880px;
-    padding: 0;
+    padding: 50px 0 0 0;
     font-size: 20px;
+    margin: 0;
 }
 
-#questions li {
+.questions li {
     display: inline-block;
     width: 198px;
     border: 1px solid #ccc;
@@ -15,6 +20,17 @@ ul#questions {
     padding: 10px;
 }
 
+.n{
+    font-size: 8px;
+    display: inline-block;
+    width: 12px;
+    text-align: center;
+    color: #ccc;
+    float: left;
+    position: relative;
+    top: -11px;
+    left: -11px;
+}
 .A, .B {
     width: 40px;
     display: inline-block;
@@ -25,4 +41,7 @@ ul#questions {
     width: 20px;
     display: inline-block;
     text-align: center;
+}
+.PageNext{
+    page-break-after: always;
 }

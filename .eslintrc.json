@@ -1,6 +1,6 @@
 {
   "parserOptions": { //指定你想要支持的JavaScript语言选项
-    "ecmaVersion": 6, //使用ECMAScript 2015版本
+    "ecmaVersion": 5, //使用ECMAScript 2015版本
     "sourceType": "module", //代码符合ECMAScript模块标准
     "ecmaFeatures": { //额外的语言特性
       "globalReturn": false, //不允许在全局作用域下使用return语句

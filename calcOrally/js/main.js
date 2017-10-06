@@ -1,12 +1,43 @@
 var conf = {
     questions: 100, //题目数
     maxSum: 100, //加法最大和
-    minSum: 20, //加法最小和（被减数）
+    minSum: 2, //加法最小和（被减数）
     operators: ["+", "-"] //生成题目类型
-},quesSet = [], quesNode = document.getElementById("questions");
+}, quesSet = [], quesNode = $(".exam");
+
+/**
+ * gen a random number between 1 to n or n to m
+ * @param {number} n
+ * @param {number} m
+ * @returns {number}
+ */
+function getRandomNum(n, m) {
+    var range = sortNum(n, m);
+    return (Math.random() * 10000 % (range[0] - range[1]) + range[1]) | 0;
+}
+
+/**
+ * select a operators from given operators list
+ * @param {array} operators
+ * @returns {*}
+ */
+function getRandomOperator(operators) {
+    return operators[((Math.random() * 10000) | 0) % operators.length];
+}
+
+/**
+ * return an array, small num is front
+ * @param {number} n
+ * @param {number} m
+ * @returns {array}
+ */
+function sortNum(n, m) {
+    m = m || 1;
+    return n < m ? [n, m] : [m, n];
+}
 
 function getQuestion() {
-    var operator = conf.operators[((Math.random() * 100) | 0) % 2],
+    var operator = getRandomOperator(),
         A, B, C;
     if (operator === "+") {
         C = (Math.random() * (conf.maxSum - conf.minSum) + conf.minSum) | 0;
@@ -17,8 +48,9 @@ function getQuestion() {
         }
         B = C - A;
     } else if (operator === "-") {
-        A = (Math.random() * (conf.maxSum - 1) + 1) | 0;
-        B = (Math.random() * (conf.maxSum - 1) + 1) | 0;
+        A = getRandomNum();
+        B = getRandomNum();
+
         if (A < B) {
             C = A;
             A = B;
@@ -26,16 +58,31 @@ function getQuestion() {
         }
     }
     return [
-        "<li>",
+        "<div class='question'>",
         "<span class='A'>" + A + "</span>",
         "<span class='O'>" + operator + "</span>",
         "<span class='B'>" + B + "</span>",
         "<span class='O'>=</span>",
-        "</li>"
+        "</div>"
     ].join("");
 }
 
-for (var i = 1; i <= conf.questions; i++) {
-    quesSet.push(getQuestion());
+function insertPage() {
+    quesSet = [];
+    for (var i = 1; i <= conf.questions; i++) {
+        quesSet.push(getQuestion(i));
+    }
+
+    quesNode.append("<ul class=\"questions\">" + quesSet.join("") + "</ul><div class=\"PageNext\"></div>");
 }
-quesNode.innerHTML = quesSet.join("");
+
+insertPage();
+insertPage();
+insertPage();
+insertPage();
+insertPage();
+insertPage();
+insertPage();
+insertPage();
+insertPage();
+insertPage();
