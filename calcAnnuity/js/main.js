@@ -3,11 +3,11 @@ function getX(original, rate, years) {
 }
 
 function round(x) {
-    return ((x * 100) | 0) / 100;
+    return (((x + 0.000001) * 100) | 0) / 100;
 }
 
 function currency(x) {
-    return ("" + ((x * 100) | 0)).replace(/(\d\d)$/, ".$1");
+    return ((x + 0.000001) + "00").replace(/(\.\d\d).*$/, "$1");
 }
 
 function doList() {
@@ -17,25 +17,25 @@ function doList() {
         endYear = +$("#endYear").val() + 1,
         years = endYear - startYear,
         x = round(getX(original, rate, years)),
-        tmpOriginal;
+        annal;
 
     var html = $("<table cellspacing=\"1\" cellpadding=\"0\"></table>");
     html.append("<tr><td>年龄</td><td>年初余额</td><td>利率</td><td>年末余额</td><td>支取金额</td></tr>");
     while (years-- > 0) {
-        tmpOriginal = round(original * (1 + rate) - x);
+        annal = round(original * (1 + rate));
 
         html.append(["<tr>",
             "<td>" + (startYear++) + "岁</td>",
             "<td>￥" + currency(original) + "</td>",
             "<td>" + rate * 100 + "%</td>",
-            "<td>￥" + currency(tmpOriginal) + "</td>",
+            "<td>￥" + currency(annal) + "</td>",
             "<td>￥" + x + "</td>",
             "</tr>"].join(""));
-        original = tmpOriginal;
+        original = annal - x;
     }
     html.append(["<tr>",
         "<td>" + (startYear++) + "岁</td>",
-        "<td>￥" + original + "</td>",
+        "<td>￥" + currency(original) + "</td>",
         "<td>&nbsp;</td>",
         "<td>&nbsp;</td>",
         "<td>&nbsp;</td>",
