@@ -1,0 +1,11 @@
+table {
+    margin: 15px 0 0 0;
+    background: #000;
+}
+
+td {
+    background: #fff;
+    padding: 2px 10px;
+    text-align: right;
+    font: 12px/12px consolas;
+}
