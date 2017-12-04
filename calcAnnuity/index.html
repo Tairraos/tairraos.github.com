@@ -3,18 +3,31 @@
 <head>
     <meta charset="utf-8">
     <title>年金计算器</title>
-    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="shortcut icon" href="favicon.ico"/>
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
     <meta name="viewport" content="width=device-width"/>
 </head>
 
 <body>
-<div>起始本金：<input id="original" type="text" value="1000000"/></div>
-<div>年收益率：<input id="rate" type="text" value="0.045"/></div>
-<div>领取年龄：<input id="startYear" type="text" value="60"/></div>
-<div>领至几岁：<input id="endYear" type="text" value="85"/></div>
-<div>
-    <button onclick="doList()">显示表格</button>
+<div class="form">
+    <div>
+        <input type="radio" name="type" value="1"/>
+        从<input id="startAge" type="text" class="w20" value="15"/>岁开始存,
+        每年存<input id="increase" type="text" class="w50" value="80000"/>元,
+        存<input id="duration" type="text" class="w20" value="20"/>年
+    </div>
+    <div>
+        <input type="radio" name="type" value="2" checked="checked"/>
+        本金<input id="original" type="text" class="w60" value="1000000"/>元
+    </div>
+    <div>
+        年利率<input id="rate" type="text" class="w40" value="0.045"/> ,
+        从<input id="startYear" type="text" class="w20" value="60"/>岁开始取,
+        取到<input id="endYear" type="text" class="w20" value="85"/>岁取完
+    </div>
+    <div>
+        <button onclick="doList()">开始计算</button>
+    </div>
 </div>
 <div class="list">
 

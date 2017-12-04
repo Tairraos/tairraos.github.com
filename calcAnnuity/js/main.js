@@ -11,25 +11,56 @@ function currency(x) {
 }
 
 function doList() {
-    var original = +$("#original").val(),
+    var type = $("input[name='type']:checked").val(),
+        startAge = +$("#startAge").val(),
+        increase = +$("#increase").val(),
+        duration1 = +$("#duration").val() - 1,
+        original = +$("#original").val(),
         rate = +$("#rate").val(),
         startYear = +$("#startYear").val(),
         endYear = +$("#endYear").val() + 1,
         years = endYear - startYear,
-        x = round(getX(original, rate, years)),
-        annal;
+        duration2 = startYear - startAge - duration1,
+        x, annal;
 
     var html = $("<table cellspacing=\"1\" cellpadding=\"0\"></table>");
-    html.append("<tr><td>年龄</td><td>年初余额</td><td>利率</td><td>年末余额</td><td>支取金额</td></tr>");
+    html.append("<tr><td>年龄</td><td>年初余额</td><td>利率</td><td>年末余额</td><td>存入/支取金额</td></tr>");
+
+    if (type === "1") {
+        original = increase;
+        while (duration1-- > 0) {
+            annal = round(original * (1 + rate));
+            html.append(["<tr>",
+                "<td>" + (startAge++) + "岁</td>",
+                "<td>￥" + currency(original) + "</td>",
+                "<td>" + rate * 100 + "%</td>",
+                "<td>￥" + currency(annal) + "</td>",
+                "<td class='plus'>+￥" + increase + "</td>",
+                "</tr>"].join(""));
+            original = annal + increase;
+        }
+
+        while (duration2-- > 0) {
+            annal = round(original * (1 + rate));
+            html.append(["<tr>",
+                "<td>" + (startAge++) + "岁</td>",
+                "<td>￥" + currency(original) + "</td>",
+                "<td>" + rate * 100 + "%</td>",
+                "<td>￥" + currency(annal) + "</td>",
+                "<td>￥" + 0 + "</td>",
+                "</tr>"].join(""));
+            original = annal;
+        }
+    }
+    x = round(getX(original, rate, years));
     while (years-- > 0) {
         annal = round(original * (1 + rate));
-
         html.append(["<tr>",
             "<td>" + (startYear++) + "岁</td>",
             "<td>￥" + currency(original) + "</td>",
             "<td>" + rate * 100 + "%</td>",
             "<td>￥" + currency(annal) + "</td>",
-            "<td>￥" + x + "</td>",
+            "<td class='minus'>-￥" + x + "</td>",
             "</tr>"].join(""));
         original = annal - x;
     }
