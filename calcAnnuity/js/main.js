@@ -10,6 +10,10 @@ function currency(x) {
     return ((x + 0.000001) + "00").replace(/(\.\d\d).*$/, "$1");
 }
 
+function rated(x) {
+    return ((x * 100 + 0.000001) + "00").replace(/(\.\d\d).*$/, "$1");
+}
+
 function doList() {
     var type = $("input[name='type']:checked").val(),
         startAge = +$("#startAge").val(),
@@ -33,7 +37,7 @@ function doList() {
             html.append(["<tr>",
                 "<td>" + (startAge++) + "岁</td>",
                 "<td>￥" + currency(original) + "</td>",
-                "<td>" + rate * 100 + "%</td>",
+                "<td>" + rated(rate) + "%</td>",
                 "<td>￥" + currency(annal) + "</td>",
                 "<td class='plus'>+￥" + increase + "</td>",
                 "</tr>"].join(""));
@@ -45,7 +49,7 @@ function doList() {
             html.append(["<tr>",
                 "<td>" + (startAge++) + "岁</td>",
                 "<td>￥" + currency(original) + "</td>",
-                "<td>" + rate * 100 + "%</td>",
+                "<td>" + rated(rate) + "%</td>",
                 "<td>￥" + currency(annal) + "</td>",
                 "<td>￥" + 0 + "</td>",
                 "</tr>"].join(""));
@@ -58,7 +62,7 @@ function doList() {
         html.append(["<tr>",
             "<td>" + (startYear++) + "岁</td>",
             "<td>￥" + currency(original) + "</td>",
-            "<td>" + rate * 100 + "%</td>",
+            "<td>" + rated(rate) + "%</td>",
             "<td>￥" + currency(annal) + "</td>",
             "<td class='minus'>-￥" + x + "</td>",
             "</tr>"].join(""));
