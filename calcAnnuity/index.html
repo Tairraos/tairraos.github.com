@@ -12,19 +12,21 @@
 <div class="form">
     <div>
         <input type="radio" name="type" value="1"/>
-        从<input id="startAge" type="text" class="w20" value="15"/>岁开始存,
-        每年存<input id="increase" type="text" class="w50" value="80000"/>元,
-        存<input id="duration" type="text" class="w20" value="20"/>年
+        从 <input id="startAge" type="text" class="w20" value="15"/> 岁开始存,
+        每年存 <input id="increase" type="text" class="w50" value="80000"/> 元,
+        存 <input id="duration" type="text" class="w20" value="20"/> 年
     </div>
     <div>
         <input type="radio" name="type" value="2" checked="checked"/>
-        本金<input id="original" type="text" class="w60" value="1000000"/>元
+        提取前一年, 帐户本金 <input id="original" type="text" class="w60" value="1000000"/> 元
     </div>
     <div>
-        年利率<input id="rate" type="text" class="w40" value="0.045"/> ,
-        从<input id="startYear" type="text" class="w20" value="60"/>岁开始取,
-        取到<input id="endYear" type="text" class="w20" value="85"/>岁取完
+        年利率 <input id="rate" type="text" class="w40" value="0.045"/> ,
+        从 <input id="startYear" type="text" class="w20" value="60"/> 岁开始取,
+        取到 <input id="endYear" type="text" class="w20" value="85"/> 岁取完
     </div>
+    <div>当期金额: 指保单日金额；</div>
+    <div>期末金额: 指下一保单日前一天金额，客户年龄已增长 1 岁。</div>
     <div>
         <button onclick="doList()">开始计算</button>
     </div>
