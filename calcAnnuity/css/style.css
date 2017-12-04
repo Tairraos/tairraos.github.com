@@ -40,6 +40,7 @@ input.w80 {
 
 .form {
     font: 12px/18px Helvetica;
+    width: 400px;
 }
 
 .form div {
