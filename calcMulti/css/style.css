@@ -1,0 +1,47 @@
+body{
+    padding:0;
+    margin:0;
+}
+.questions {
+    display: block;
+    width: 880px;
+    padding: 50px 0 0 0;
+    font-size: 20px;
+    margin: 0;
+}
+
+.question {
+    display: inline-block;
+    width: 198px;
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    border-radius: 5px;
+    margin: 0 -1px -1px 0;
+    padding: 10px;
+}
+
+.n{
+    font-size: 8px;
+    display: inline-block;
+    width: 12px;
+    text-align: center;
+    color: #ccc;
+    float: left;
+    position: relative;
+    top: -11px;
+    left: -11px;
+}
+.A, .B {
+    width: 40px;
+    display: inline-block;
+    text-align: center;
+}
+
+.O {
+    width: 20px;
+    display: inline-block;
+    text-align: center;
+}
+.PageNext{
+    page-break-after: always;
+}
