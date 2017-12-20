@@ -12,77 +12,75 @@
 // ==/UserScript==
 
 (function ($) {
-    'use strict';
-
     var watchList = [
-        "反击",
-        "天蝎",
-        "打工姐妹花",
-        "末日孤舰",
-        "维京传奇",
-        "女子监狱",
-        "纸牌屋",
-        "真实的人类",
-        "童话镇",
-        "生活大爆炸",
-        "我们的生活",
-        "我们的一天",
-        "福尔摩斯",
-        "凶鬼恶灵",
-        "无耻家庭",
-        "行尸走肉",
-        "诉讼双雄",
-        "金装律师",
-        "神盾局特工",
-        "西部世界",
-        "黑镜",
-        "天堂执法者",
-        "夏威夷特勤组",
-        "逍遥法外",
-        "摩登家庭",
-        "透明家庭",
-        "权力的游戏",
-        "国土安全",
-        "傲骨之战",
-        "绝命律师",
-        "新福尔摩斯",
-        "吸血鬼日记",
-        "暴君",
-        "黑帆",
-        "黑吃黑",
-        "格林",
-        "小律师大作为",
-        "废柴联盟"
-    ], selectedPatten;
+            "反击",
+            "天蝎",
+            "打工姐妹花",
+            "末日孤舰",
+            "维京传奇",
+            "女子监狱",
+            "纸牌屋",
+            "真实的人类",
+            "童话镇",
+            "生活大爆炸",
+            "我们的生活",
+            "我们的一天",
+            "福尔摩斯",
+            "凶鬼恶灵",
+            "无耻家庭",
+            "行尸走肉",
+            "诉讼双雄",
+            "金装律师",
+            "神盾局特工",
+            "西部世界",
+            "黑镜",
+            "天堂执法者",
+            "夏威夷特勤组",
+            "逍遥法外",
+            "摩登家庭",
+            "透明家庭",
+            "权力的游戏",
+            "国土安全",
+            "傲骨之战",
+            "绝命律师",
+            "新福尔摩斯",
+            "吸血鬼日记",
+            "暴君",
+            "黑帆",
+            "黑吃黑",
+            "格林",
+            "小律师大作为",
+            "废柴联盟"
+        ], selectedPatten;
 
     var tools = {
         getBox: function () {
-            if (!tools.$box) {
-                tools.$box = $('<div id="toolShowBox"></div>').appendTo('body').css({
-                    width: '80%', height: '90%', 'z-index': 999999,
-                    position: 'fixed', top: '5%', left: '10%'
-                });
-                tools.$txt = $('<textarea id="toolTextBox"></textarea>').appendTo(tools.$box).css({
-                    width: '100%', height: '100%', font: '12px/28px verdana;',
-                    border: '1px solid #000', 'border-radius': '5px',
-                    opacity: 0.9, resize: 'none'
-                });
-            } else {
+            if (tools.$box) {
                 tools.$txt.empty();
                 tools.$box.show();
+            } else {
+                tools.$box = $("<div id=\"toolShowBox\"></div>").appendTo("body").css({
+                    width: "80%", height: "90%", "z-index": 999999,
+                    position: "fixed", top: "5%", left: "10%"
+                });
+                tools.$txt = $("<textarea id=\"toolTextBox\"></textarea>").appendTo(tools.$box).css({
+                    width: "100%", height: "100%", font: "12px/28px verdana;",
+                    border: "1px solid #000", "border-radius": "5px",
+                    opacity: 0.9, resize: "none"
+                });
             }
             return tools.$txt;
         },
 
         getPathContent: function (path, selector) {
             var dom = $();
-            selector = selector || 'body';
+            selector = selector || "body";
             $.ajax({
                 type: "GET", url: path, async: false, dataType: "html", success: function (result) {
                     dom = $(result);
                 }
             });
-            $('script', dom).add('link', dom).remove();
+            $("script", dom).add("link", dom).remove();
             return $(selector, dom);
         },
 
@@ -99,18 +97,18 @@
 
         doCopyLink: function (patten) {
             var texts = "";
-            if (!patten) {
-                $("dd").each(function () {
-                    var link = $("a[href]", $(this)).eq(0).text();
-                    if ($(this).hasClass("colored")) {
-                        texts += window.decodeURI($(this).attr("ed2k")) + "\n";
-                    }
-                });
-            } else {
+            if (patten) {
                 var regMovieName = new RegExp(patten, "ig");
                 $("dd").each(function () {
                     var link = $("a[href]", $(this)).eq(0).text();
                     if (link.length && link.match(regMovieName)) {
+                        texts += window.decodeURI($(this).attr("ed2k")) + "\n";
+                    }
+                });
+            } else {
+                $("dd").each(function () {
+                    var link = $("a[href]", $(this)).eq(0).text();
+                    if ($(this).hasClass("colored")) {
                         texts += window.decodeURI($(this).attr("ed2k")) + "\n";
                     }
                 });
@@ -123,11 +121,11 @@
             });
         },
 
-        doColorfy: function (watchList) {
+        doColorfy: function (list) {
             $("dd").each(function () {
                 var screenItem = $(this).find(".b").text();
-                for (var index in watchList) {
-                    if (screenItem.indexOf(watchList[index]) >= 0) {
+                for (var index in list) {
+                    if (screenItem.indexOf(list[index]) >= 0) {
                         if ((/web-hr/i).test(screenItem)) {
                             $(this).css({background: "#cfc"}).addClass("colored");
                         } else {
@@ -194,4 +192,4 @@
     };
 
     tools.run();
-})(jQuery, jQuery.noConflict());
+}(jQuery, jQuery.noConflict()));

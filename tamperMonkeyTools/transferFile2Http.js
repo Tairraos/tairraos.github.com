@@ -10,8 +10,6 @@
 // ==/UserScript==
 
 (function () {
-    "use strict";
-
     var tools = window.leSmartTool = {
         run: function () {
             var href = location.href;
@@ -26,5 +24,4 @@
     };
 
     tools.run();
-
-})(jQuery, jQuery.noConflict());
+}(jQuery, jQuery.noConflict()));

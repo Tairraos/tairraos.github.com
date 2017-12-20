@@ -12,7 +12,6 @@
 // ==/UserScript==
 
 (function ($) {
-    "use strict";
     window.leSmartTool = {
         run: function(){
             if (window.thinClientConfig && window.thinClientConfig.pbSettings) {
@@ -24,5 +23,5 @@
             }
         }
     };
-})(jQuery, jQuery.noConflict());
+}(jQuery, jQuery.noConflict()));
 

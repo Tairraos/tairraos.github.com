@@ -12,11 +12,12 @@
 // ==/UserScript==
 
 (function () {
-    "use strict";
     //把所有lazy load的图片都load到
     $("img").each(function () {
         $(this).attr("src", $(this).attr("data-src")).removeAttr("data-src");
-        $(this).removeAttr("data-s").removeAttr("data-type").removeAttr("data-copyright").removeAttr("style").removeAttr("data-ratio").removeAttr("data-w").removeAttr("data-backw").removeAttr("data-backh").removeAttr("_width").removeAttr("data-fail");
+        $(this).removeAttr("data-s").removeAttr("data-type").removeAttr("data-copyright");
+        $(this).removeAttr("style").removeAttr("data-ratio").removeAttr("data-w").removeAttr("data-backw");
+        $(this).removeAttr("data-backh").removeAttr("_width").removeAttr("data-fail");
     });
 
     //移除无用的script和div
@@ -43,5 +44,5 @@
     $(".original_tool_area").remove();
     $(".sougou").remove();
 
-})(jQuery, jQuery.noConflict());
+}(jQuery, jQuery.noConflict()));
 

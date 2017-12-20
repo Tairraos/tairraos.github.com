@@ -11,8 +11,6 @@
 // ==/UserScript==
 
 (function ($) {
-    "use strict";
-
     var tools = window.leSmartTool = {
         baseURL: location.protocol + "//" + location.host + location.pathname.replace(/UT-Parallel\/.*/, "UT-Parallel/"),
         mode: "显示全部",
@@ -77,7 +75,7 @@
             tools.analyticURL(tools.baseURL + tools.$sourceVer.val() + "/cobertura/", tools.sourceData);
             tools.analyticURL(tools.baseURL + tools.$targetVer.val() + "/cobertura/", tools.targetData);
             $.each($.extend({}, tools.sourceData, tools.targetData), function (name) {
-                return ($.inArray(name, tools.filePool) === -1) && tools.filePool.push(name);
+                return  $.inArray(name, tools.filePool) === -1 && tools.filePool.push(name);
             });
             return tools.genReport(tools.filePool.sort()) && tools.showReport();
         },
@@ -88,11 +86,12 @@
          * @returns {*}
          */
         genReport: function (filePool) {
-            var tempColor, today = new Date();
+            var tempColor, today = new Date(),
+                reportTime = "报表生成时间：" + (today.getFullYear() + "/" + (today.getMonth() + 1) + "/" + (today.getDate() + 1) + " " + today.getHours() + ":" + today.getMinutes());
             tools.title = document.title = "Build " + $("#targetVer").val() + " vs Build " + $("#sourceVer").val();
             tools.$mode = $("<span class=\"change\">" + tools.mode + "</span>");
             tools.$table = $("<table id=\"report\"><tr><td>文件路径</td><td>条件覆盖率</td><td>条件覆盖数</td><td>行覆盖率</td><td>行覆盖数</td></tr></table>");
-            tools.$table.prepend($("<tr></tr>").append($("<td colspan=\"5\">" + tools.title + ", 报表生成时间：" + (today.getFullYear() + "/" + (today.getMonth() + 1) + "/" + (today.getDate() + 1) + " " + today.getHours() + ":" + today.getMinutes()) + " 报表方式：</td>").append(tools.$mode)));
+            tools.$table.prepend($("<tr></tr>").append($("<td colspan=\"5\">" + tools.title + "," + reportTime  + " 报表方式：</td>").append(tools.$mode)));
 
             return $.each(filePool, function (i, name) {
                 var s = tools.sourceData[name], t = tools.targetData[name], deltaC, deltaL;
@@ -105,13 +104,29 @@
                 }
 
                 if (s.conditionalsRate === t.conditionalsRate && s.linesRate === t.linesRate) {
-                    tools.$table.append("<tr class=\"same\" style=\"background:#ffffff\"><td><a href=\"" + t.link + "\" target=\"_blank\">" + name + "</a></td><td>" + s.conditionalsRate + "%</td><td>" + s.conditionsText + "</td><td>" + s.linesRate + "%</td><td>" + s.linesText + "</td></tr>");
+                    tools.$table.append("<tr class=\"same\" style=\"background:#ffffff\">" +
+                        "<td><a href=\"" + t.link + "\" target=\"_blank\">" + name + "</a></td>" +
+                        "<td>" + s.conditionalsRate + "%</td>" +
+                        "<td>" + s.conditionsText + "</td>" +
+                        "<td>" + s.linesRate + "%</td>" +
+                        "<td>" + s.linesText + "</td>" +
+                        "</tr>");
                 } else {
                     deltaC = (t.conditionalsRate - s.conditionalsRate).toFixed(2); //条件覆盖增减
                     deltaL = (t.linesRate - s.linesRate).toFixed(2); //行覆盖增减
-                    tempColor = (s.linesText === "" || t.linesText === "") ? "ffc3c3" : ((deltaC < 0 || deltaL < 0) ? "ffe3e3" : "e3ffe3"); //决定行颜色
-                    tools.$table.append("<tr class=\"diff1\" style=\"background:#" + tempColor + "\"><td rowspan=\"2\"><a href=\"" + s.link + "\" target=\"_blank\">" + name + "</a></td><td>" + s.conditionalsRate + "%</td><td>" + s.conditionsText + "</td><td>" + s.linesRate + "%</td><td>" + s.linesText + "</td></tr>");
-                    tools.$table.append("<tr class=\"diff2\" style=\"background:#" + tempColor + "\"><td>" + t.conditionalsRate + "% (" + ((deltaC > 0) ? "+" : "") + deltaC + "%)</td><td>" + t.conditionsText + "</td><td>" + t.linesRate + "% (" + ((deltaL > 0) ? "+" : "") + deltaL + "%)</td><td>" + t.linesText + "</td></tr>");
+                    tempColor = s.linesText === "" || t.linesText === "" ? "ffc3c3" : deltaC < 0 || deltaL < 0 ? "ffe3e3" : "e3ffe3"; //决定行颜色
+                    tools.$table.append("<tr class=\"diff1\" style=\"background:#" + tempColor + "\">" +
+                        "<td rowspan=\"2\"><a href=\"" + s.link + "\" target=\"_blank\">" + name + "</a></td>" +
+                        "<td>" + s.conditionalsRate + "%</td><td>" + s.conditionsText + "</td>" +
+                        "<td>" + s.linesRate + "%</td>" +
+                        "<td>" + s.linesText + "</td>" +
+                        "</tr>");
+                    tools.$table.append("<tr class=\"diff2\" style=\"background:#" + tempColor + "\">" +
+                        "<td>" + t.conditionalsRate + "% (" + (deltaC > 0 ? "+" : "") + deltaC + "%)</td>" +
+                        "<td>" + t.conditionsText + "</td>" +
+                        "<td>" + t.linesRate + "% (" + (deltaL > 0 ? "+" : "") + deltaL + "%)</td>" +
+                        "<td>" + t.linesText + "</td>" +
+                        "</tr>");
                 }
             });
         },
@@ -133,7 +148,7 @@
                 tools.$table.css("border-collapse", "separate");
                 $(".same", tools.$table).toggle();
                 tools.$table.css("border-collapse", "collapse");
-                tools.$mode.text(tools.mode = (tools.mode === "显示全部") ? "只显示差异" : "显示全部");
+                tools.$mode.text(tools.mode = tools.mode === "显示全部" ? "只显示差异" : "显示全部");
             });
         },
 
@@ -194,8 +209,8 @@
                             rateL = +lines.attr("data");
                         dataPool[link.text()] = {
                             link: path + link.attr("href"),
-                            conditionalsRate: (rateC <= 100) ? rateC : 0,
-                            linesRate: (rateL <= 100) ? rateL : 0,
+                            conditionalsRate: rateC <= 100 ? rateC : 0,
+                            linesRate: rateL <= 100 ? rateL : 0,
                             conditionsText: conditionals.find("span.text").text(),
                             linesText: lines.find("span.text").text()
                         };
@@ -209,5 +224,4 @@
 
     //马上运行
     tools.run();
-
-})(jQuery, jQuery.noConflict());
+}(jQuery, jQuery.noConflict()));

@@ -11,8 +11,6 @@
 // ==/UserScript==
 
 (function ($) {
-    "use strict";
-
     var tools = window.leSmartTool = {
         run: function () {
             //代码写这里
@@ -21,9 +19,6 @@
 
     //马上运行
     //tools.run();
-
-})(jQuery, jQuery.noConflict());
-
-
+}(jQuery, jQuery.noConflict()));
 
 
