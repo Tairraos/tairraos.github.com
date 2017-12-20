@@ -1,17 +1,17 @@
 function getX(original, rate, years) {
-    return rate * Math.pow(1 + rate, years) / (Math.pow((1 + rate), years) - 1) * original;
+    return rate * Math.pow(1 + rate, years) / (Math.pow(1 + rate, years) - 1) * original;
 }
 
 function round(x) {
-    return (((x + 0.000001) * 100) | 0) / 100;
+    return ((x + 0.000001) * 100 | 0) / 100;
 }
 
 function currency(x) {
-    return ((x + 0.000001) + "00").replace(/(\.\d\d).*$/, "$1");
+    return (x + 0.000001 + "00").replace(/(\.\d\d).*$/, "$1");
 }
 
 function rated(x) {
-    return ((x * 100 + 0.000001) + "00").replace(/(\.\d\d).*$/, "$1");
+    return (x * 100 + 0.000001 + "00").replace(/(\.\d\d).*$/, "$1");
 }
 
 function doList() {
@@ -35,7 +35,7 @@ function doList() {
         while (duration1-- > 0) {
             annal = round(original * (1 + rate));
             html.append(["<tr>",
-                "<td>" + (startAge++) + "岁</td>",
+                "<td>" + startAge++ + "岁</td>",
                 "<td class='plus'>+￥" + increase + "</td>",
                 "<td>￥" + currency(original) + "</td>",
                 "<td>" + rated(rate) + "%</td>",
@@ -47,7 +47,7 @@ function doList() {
         while (duration2-- > 0) {
             annal = round(original * (1 + rate));
             html.append(["<tr>",
-                "<td>" + (startAge++) + "岁</td>",
+                "<td>" + startAge++ + "岁</td>",
                 "<td>￥0</td>",
                 "<td>￥" + currency(original) + "</td>",
                 "<td>" + rated(rate) + "%</td>",
@@ -62,7 +62,7 @@ function doList() {
 
     if (type === "2") {
         html.append(["<tr>",
-            "<td>" + (startYear++) + "岁</td>",
+            "<td>" + startYear++ + "岁</td>",
             "<td>&nbsp;</td>",
             "<td>&nbsp;</td>",
             "<td>&nbsp;</td>",
@@ -70,7 +70,7 @@ function doList() {
             "</tr>"].join(""));
     } else {
         html.append(["<tr>",
-            "<td>" + (startYear++) + "岁</td>",
+            "<td>" + startYear++ + "岁</td>",
             "<td>￥0</td>",
             "<td>￥" + currency(original) + "</td>",
             "<td>" + rated(rate) + "%</td>",
@@ -81,7 +81,7 @@ function doList() {
     while (--years > 0) {
         annal = round(original * (1 + rate));
         html.append(["<tr>",
-            "<td>" + (startYear++) + "岁</td>",
+            "<td>" + startYear++ + "岁</td>",
             "<td class='minus'>-￥" + x + "</td>",
             "<td>￥" + currency(original) + "</td>",
             "<td>" + rated(rate) + "%</td>",
@@ -90,7 +90,7 @@ function doList() {
         original = annal - x;
     }
     html.append(["<tr>",
-        "<td>" + (startYear++) + "岁</td>",
+        "<td>" + startYear++ + "岁</td>",
         "<td class='minus'>-￥" + x + "</td>",
         "<td>￥" + currency(original) + "</td>",
         "<td>&nbsp;</td>",

@@ -7,7 +7,7 @@ var conf = {}, quesSet = [], quesNode = $(".exam");
  * @returns {number}
  */
 function getRandomNum(n, m) {
-    return (Math.random() * (m - n) + n) | 0;
+    return  Math.random() * (m - n) + n | 0;
 }
 
 /**

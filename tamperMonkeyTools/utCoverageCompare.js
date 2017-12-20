@@ -34,16 +34,30 @@
             tools.$form = $("<div id=\"coverageForm\"></div>").on("keydown", function (e) {
                 if (e.keyCode === 13) {
                     tools.$button.click();
-                } else if (e.keyCode === 27) {
-                    tools.$form.remove();
                 }
             });
             tools.$span = $("<span>生成对比报告: </span>").appendTo(tools.$form);
             tools.$form.append("<span> </span>");
             tools.$sourceVer = $("<input id=\"sourceVer\" style=\"width: 50px;text-align: center;\" />").appendTo(tools.$form).val(tools.sourceVersion);
-            tools.$form.append("<span> 对比 </span>");
+
+            $("<button>+</button>").appendTo(tools.$form).on("click", function () {
+                tools.$sourceVer.val(+tools.$sourceVer.val() + 1);
+            });
+            $("<button>-</button>").appendTo(tools.$form).on("click", function () {
+                tools.$sourceVer.val(+tools.$sourceVer.val() - 1);
+            });
+            $("<span> 对比 </span>").appendTo(tools.$form);
+
             tools.$targetVer = $("<input id=\"targetVer\" style=\"width: 50px;text-align: center;\" />").appendTo(tools.$form).val(tools.targetVersion);
-            tools.$form.append("<span> </span>");
+
+            $("<button>+</button>").appendTo(tools.$form).on("click", function () {
+                tools.$targetVer.val(+tools.$targetVer.val() + 1);
+            });
+            $("<button>-</button>").appendTo(tools.$form).on("click", function () {
+                tools.$targetVer.val(+tools.$targetVer.val() - 1);
+            });
+            $("<span> &nbsp; </span>").appendTo(tools.$form);
+
             tools.$button = $("<button>开始生成</button>").on("click", tools.startAnalytic).appendTo(tools.$form);
             tools.$meta = $("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />").appendTo("head"); //确定中文能正确显示
             $("#description").empty().append(tools.$form);
@@ -54,9 +68,19 @@
          * 取到最后两个build版本
          */
         getVersion: function () {
-            var versionHistory = tools.getPathContent(tools.baseURL, "#buildHistory .build-row:not(.transitive)");
-            tools.sourceVersion = +versionHistory.eq(0).find("td a").eq(1).text().replace(/[^\d]/g, "");
-            tools.targetVersion = +versionHistory.eq(1).find("td a").eq(1).text().replace(/[^\d]/g, "");
+            var versionHistory = $("#buildHistory .build-row:not(.transitive)"), alt;
+
+            tools.sourceVersion = versionHistory.eq(0).text().replace(/[^#\d\s]/g, "").replace(/^#(\d+) .*$/, "$1");
+            for (var index = 1; index < versionHistory.length - 1; index++) {
+                alt = versionHistory.eq(index).find("img").attr("alt");
+                if (alt && alt.replace(/^(\w+) .*$/, "$1") === "Success") {
+                    tools.targetVersion = versionHistory.eq(index).text().replace(/[^#\d\s]/g, "").replace(/^#(\d+) .*$/, "$1");
+                    break;
+                }
+            }
+            if (!tools.targetVersion) {
+                tools.targetVersion = versionHistory.eq(1).text().replace(/[^#\d\s]/g, "").replace(/^#(\d+) .*$/, "$1");
+            }
         },
 
         /**
@@ -75,7 +99,7 @@
             tools.analyticURL(tools.baseURL + tools.$sourceVer.val() + "/cobertura/", tools.sourceData);
             tools.analyticURL(tools.baseURL + tools.$targetVer.val() + "/cobertura/", tools.targetData);
             $.each($.extend({}, tools.sourceData, tools.targetData), function (name) {
-                return  $.inArray(name, tools.filePool) === -1 && tools.filePool.push(name);
+                return $.inArray(name, tools.filePool) === -1 && tools.filePool.push(name);
             });
             return tools.genReport(tools.filePool.sort()) && tools.showReport();
         },
@@ -91,7 +115,7 @@
             tools.title = document.title = "Build " + $("#targetVer").val() + " vs Build " + $("#sourceVer").val();
             tools.$mode = $("<span class=\"change\">" + tools.mode + "</span>");
             tools.$table = $("<table id=\"report\"><tr><td>文件路径</td><td>条件覆盖率</td><td>条件覆盖数</td><td>行覆盖率</td><td>行覆盖数</td></tr></table>");
-            tools.$table.prepend($("<tr></tr>").append($("<td colspan=\"5\">" + tools.title + "," + reportTime  + " 报表方式：</td>").append(tools.$mode)));
+            tools.$table.prepend($("<tr></tr>").append($("<td colspan=\"5\">" + tools.title + "," + reportTime + " 报表方式：</td>").append(tools.$mode)));
 
             return $.each(filePool, function (i, name) {
                 var s = tools.sourceData[name], t = tools.targetData[name], deltaC, deltaL;

@@ -1,9 +1,9 @@
 var conf = {
-    questions: 100, //题目数
-    maxSum: 100, //加法最大和
-    minSum: 2, //加法最小和（被减数）
-    operators: ["+", "-"] //生成题目类型
-}, quesSet = [], quesNode = $(".exam");
+        questions: 100, //题目数
+        maxSum: 100, //加法最大和
+        minSum: 2, //加法最小和（被减数）
+        operators: ["+", "-"] //生成题目类型
+    }, quesSet = [], quesNode = $(".exam");
 
 /**
  * gen a random number between 1 to n or n to m
@@ -13,7 +13,7 @@ var conf = {
  */
 function getRandomNum(n, m) {
     var range = sortNum(n, m);
-    return (Math.random() * 10000 % (range[0] - range[1]) + range[1]) | 0;
+    return  Math.random() * 10000 % (range[0] - range[1]) + range[1] | 0;
 }
 
 /**
@@ -21,8 +21,8 @@ function getRandomNum(n, m) {
  * @param {array} operators
  * @returns {*}
  */
-function getRandomOperator(operators) {
-    return operators[((Math.random() * 10000) | 0) % operators.length];
+function getRandomOperator() {
+    return conf.operators[(Math.random() * 10000 | 0) % conf.operators.length];
 }
 
 /**
@@ -40,11 +40,11 @@ function getQuestion() {
     var operator = getRandomOperator(),
         A, B, C;
     if (operator === "+") {
-        C = (Math.random() * (conf.maxSum - conf.minSum) + conf.minSum) | 0;
+        C = Math.random() * (conf.maxSum - conf.minSum) + conf.minSum | 0;
         if (C > conf.maxSum) {
-            A = (Math.random() * 40 + 59) | 0;
+            A = Math.random() * 40 + 59 | 0;
         } else {
-            A = ((Math.random() * (C - 1)) + 1) | 0;
+            A = Math.random() * (C - 1) + 1 | 0;
         }
         B = C - A;
     } else if (operator === "-") {
