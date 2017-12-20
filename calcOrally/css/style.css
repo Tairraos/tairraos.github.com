@@ -1,16 +1,31 @@
-body{
-    padding:0;
-    margin:0;
-}
-ul.questions {
-    display: block;
-    width: 880px;
-    padding: 50px 0 0 0;
-    font-size: 20px;
+body {
+    padding: 0;
     margin: 0;
 }
 
-.questions li {
+.form {
+    text-align: center;
+}
+
+button {
+    display: block;
+    text-align: center;
+    margin: 10px auto;
+    width: 200px;
+    height: 35px;
+    font: 20px/25px Verdana Arial;
+    border-radius: 5px;
+}
+
+.questions {
+    display: block;
+    width: 880px;
+    padding: 30px 0 0 0;
+    font-size: 20px;
+    margin: 0 auto;
+}
+
+.question {
     display: inline-block;
     width: 198px;
     border: 1px solid #ccc;
@@ -20,7 +35,7 @@ ul.questions {
     padding: 10px;
 }
 
-.n{
+.n {
     font-size: 8px;
     display: inline-block;
     width: 12px;
@@ -31,6 +46,7 @@ ul.questions {
     top: -11px;
     left: -11px;
 }
+
 .A, .B {
     width: 40px;
     display: inline-block;
@@ -42,6 +58,13 @@ ul.questions {
     display: inline-block;
     text-align: center;
 }
-.PageNext{
+
+.PageNext {
     page-break-after: always;
+}
+
+.bottom {
+    width: 850px;
+    margin: 10px auto 0;
+    font: 12px/14px Verdana Arial;
 }

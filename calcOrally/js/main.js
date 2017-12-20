@@ -1,9 +1,7 @@
 var conf = {
-        questions: 100, //题目数
-        maxSum: 100, //加法最大和
-        minSum: 2, //加法最小和（被减数）
-        operators: ["+", "-"] //生成题目类型
-    }, quesSet = [], quesNode = $(".exam");
+    questions: 100, //题目数
+    operators: ["+", "-", "x", "÷"] //生成题目类型
+}, quesSet = [], quesNode = $(".exam");
 
 /**
  * gen a random number between 1 to n or n to m
@@ -12,13 +10,11 @@ var conf = {
  * @returns {number}
  */
 function getRandomNum(n, m) {
-    var range = sortNum(n, m);
-    return  Math.random() * 10000 % (range[0] - range[1]) + range[1] | 0;
+    return Math.random() * (m - n + 1) + n | 0;
 }
 
 /**
  * select a operators from given operators list
- * @param {array} operators
  * @returns {*}
  */
 function getRandomOperator() {
@@ -39,23 +35,28 @@ function sortNum(n, m) {
 function getQuestion() {
     var operator = getRandomOperator(),
         A, B, C;
-    if (operator === "+") {
-        C = Math.random() * (conf.maxSum - conf.minSum) + conf.minSum | 0;
-        if (C > conf.maxSum) {
-            A = Math.random() * 40 + 59 | 0;
-        } else {
-            A = Math.random() * (C - 1) + 1 | 0;
-        }
-        B = C - A;
-    } else if (operator === "-") {
-        A = getRandomNum();
-        B = getRandomNum();
 
+    if (operator === "+") {
+        A = getRandomNum(1, 90);
+        B = getRandomNum(1, 99 - A);
+    } else if (operator === "-") {
+        A = getRandomNum(2, 99);
+        B = getRandomNum(1, 99);
         if (A < B) {
             C = A;
             A = B;
             B = C;
         }
+        if (A === B) {
+            B = B - 1;
+        }
+    } else if (operator === "×") {
+        A = getRandomNum(1, 9);
+        B = getRandomNum(1, 9);
+    } else if (operator === "÷") {
+        B = getRandomNum(1, 9);
+        C = getRandomNum(1, 9);
+        A = B * C;
     }
     return [
         "<div class='question'>",
@@ -73,16 +74,21 @@ function insertPage() {
         quesSet.push(getQuestion(i));
     }
 
-    quesNode.append("<ul class=\"questions\">" + quesSet.join("") + "</ul><div class=\"PageNext\"></div>");
+    quesNode.append(
+        "<ul class=\"questions\">" + quesSet.join("") + "</ul>" +
+        "<div class=\"bottom\">本页训练运算符: " + conf.operators.join(" ") + "</div>" +
+        "<div class=\"PageNext\"></div>"
+    );
 }
 
-insertPage();
-insertPage();
-insertPage();
-insertPage();
-insertPage();
-insertPage();
-insertPage();
-insertPage();
-insertPage();
-insertPage();
+$(function () {
+    $(".form button").on("click", function () {
+        conf.operators = $(this).text().split(" ");
+        $(".form").remove();
+        insertPage();
+        insertPage();
+        insertPage();
+        insertPage();
+        insertPage();
+    });
+});
