@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         乐造：Webex UT比较工具
+// @name         乐造：Webex UT比较
 // @icon         http://tairraos.github.io/tamperMonkey/lemade.ico
 // @namespace    http://tampermonkey.net/
 // @version      0.2
@@ -9,6 +9,8 @@
 // @grant        none
 // @require      http://code.jquery.com/jquery-2.2.4.min.js
 // @updateURL    http://tairraos.github.io/tamperMonkey/WebexUTTool.js
+// @downloadURL  http://tairraos.github.io/tamperMonkey/WebexUTTool.js
+// @run-at       document-end
 // ==/UserScript==
 
 (function(b){var a=window.leSmartTool={baseURL:location.protocol+"//"+location.host+location.pathname.replace(/UT-Parallel\/.*/,"UT-Parallel/"),mode:"\u663e\u793a\u5168\u90e8",filePool:[],dataPool:{},sourceData:{},targetData:{},sourceVersion:0,targetVersion:0,$form:null,$span:null,$sourceVer:null,$targetVer:null,$button:null,$meta:null,$mode:null,$table:null,run:function(){a.getVersion();a.$form=b('<div id="coverageForm"></div>').on("keydown",function(b){13===b.keyCode&&a.$button.click()});a.$span=
