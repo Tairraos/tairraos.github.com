@@ -1,7 +1,7 @@
 var conf = {
-    questions: 100, //题目数
-    operators: ["+", "-", "x", "÷"] //生成题目类型
-}, quesSet = [], quesNode = $(".exam");
+        questions: 100, //题目数
+        operators: ["+", "-", "x", "÷"] //生成题目类型
+    }, quesSet = [], quesNode = $(".exam");
 
 /**
  * gen a random number between 1 to n or n to m
@@ -54,8 +54,8 @@ function getQuestion() {
         A = getRandomNum(1, 9);
         B = getRandomNum(1, 9);
     } else if (operator === "÷") {
-        B = getRandomNum(1, 9);
-        C = getRandomNum(1, 9);
+        B = getRandomNum(1, 25);
+        C = getRandomNum(1, 99 / B | 0);
         A = B * C;
     }
     return [
