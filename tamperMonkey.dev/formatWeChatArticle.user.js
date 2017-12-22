@@ -13,7 +13,7 @@
 // @downloadURL  https://tairraos.github.io/tamperMonkey.dev/formatWeChatArticle.user.js
 // ==/UserScript==
 
-(function () {
+(function ($) {
     //把所有lazy load的图片都load到
     $("img").each(function () {
         $(this).attr("src", $(this).attr("data-src")).removeAttr("data-src");

@@ -26,4 +26,4 @@
     };
 
     tools.run();
-}(jQuery, jQuery.noConflict()));
+}());
