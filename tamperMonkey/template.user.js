@@ -20,7 +20,7 @@
     };
 
     //马上运行
-    //tools.run();
+    tools.run();
 }(jQuery, jQuery.noConflict()));
 
 
