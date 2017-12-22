@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         乐造：Webex UT比较
-// @icon         http://tairraos.github.io/tamperMonkey/lemade.ico
+// @icon         https://tairraos.github.io/tamperMonkey/lemade.ico
 // @namespace    http://tampermonkey.net/
 // @version      0.2
 // @description  小乐开发专用，Webex UT比较工具
@@ -8,8 +8,8 @@
 // @include      http://*/job/Thinclient-JS-UT-EC-MASTER/
 // @grant        none
 // @require      http://code.jquery.com/jquery-2.2.4.min.js
-// @updateURL    http://tairraos.github.io/tamperMonkey/WebexUTTool.js
-// @downloadURL  http://tairraos.github.io/tamperMonkey/WebexUTTool.js
+// @updateURL    https://tairraos.github.io/tamperMonkey/WebexUTTool.js
+// @downloadURL  https://tairraos.github.io/tamperMonkey/WebexUTTool.js
 // @run-at       document-end
 // ==/UserScript==
 
