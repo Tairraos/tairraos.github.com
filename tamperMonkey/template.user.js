@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         乐造：乐造模板
-// @icon         http://localhost/lemade.ico
+// @icon         https://tairraos.github.io/tamperMonkey/lemade.ico
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  描述
@@ -8,6 +8,8 @@
 // @include      http://匹配模板.com/*
 // @grant        none
 // @require http://code.jquery.com/jquery-2.2.4.min.js
+// @updateURL    https://tairraos.github.io/tamperMonkey.dev/template.user.js
+// @downloadURL  https://tairraos.github.io/tamperMonkey.dev/template.user.js
 // ==/UserScript==
 
 (function ($) {

@@ -7,6 +7,8 @@
 // @author       Xiaole Tao
 // @include      *://localhost:55555/*
 // @grant        none
+// @updateURL    https://tairraos.github.io/tamperMonkey.dev/transferFile2Http.user.js
+// @downloadURL  https://tairraos.github.io/tamperMonkey.dev/transferFile2Http.user.js
 // ==/UserScript==
 
 (function () {
