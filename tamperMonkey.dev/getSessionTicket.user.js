@@ -2,7 +2,7 @@
 // @name         乐造：获取 Webex Session Ticket
 // @icon         http://localhost/lemade.ico
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      1.2
 // @description  小乐的工作用工具，获取 Webex Session Ticket
 // @author       Xiaole Tao
 // @include      *://*.qa.webex.com.cn/*
@@ -16,15 +16,29 @@
 
 (function ($) {
     window.leSmartTool = {
-        run: function(){
-            if (window.thinClientConfig && window.thinClientConfig.pbSettings) {
-                var textarea = $("<textarea style='width:800px;height:100px;'>" + window.thinClientConfig.pbSettings.sessionTicket + "</textarea>");
-                $(".screen_i2").prepend(textarea);
-                textarea.hover(function(){
+        run: function () {
+            var win, doc;
+            var tryFrame = $("frame[name=mainFrame]", top.document);
+            if (tryFrame.length) {
+                var mainFrame = $("frame[name=main]", tryFrame[0].contentDocument);
+                if (mainFrame.length) {
+                    win = mainFrame[0].contentWindow;
+                    doc = mainFrame[0].contentDocument;
+                } else {
+                    win = {};
+                    doc = {};
+                }
+            } else {
+                win = window;
+                doc = document;
+            }
+            if (win.thinClientConfig && win.thinClientConfig.pbSettings) {
+                var textarea = $("<textarea style='width:800px;height:100px;'>" + win.thinClientConfig.pbSettings.sessionTicket + "</textarea>");
+                $(".screen_i2", doc).prepend(textarea);
+                textarea.hover(function () {
                     $(this)[0].select();
                 });
             }
         }
     };
 }(jQuery, jQuery.noConflict()));
-

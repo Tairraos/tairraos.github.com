@@ -51,8 +51,8 @@ function getQuestion() {
             B = B - 1;
         }
     } else if (operator === "×") {
-        A = getRandomNum(1, 9);
-        B = getRandomNum(1, 9);
+        A = getRandomNum(7, 9);
+        B = getRandomNum(2, 9);
     } else if (operator === "÷") {
         B = getRandomNum(1, 25);
         C = getRandomNum(1, 99 / B | 0);
