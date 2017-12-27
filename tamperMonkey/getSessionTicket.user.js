@@ -2,7 +2,7 @@
 // @name         乐造：获取 Webex Session Ticket
 // @icon         https://tairraos.github.io/tamperMonkey/lemade.ico
 // @namespace    http://tampermonkey.net/
-// @version      1.3
+// @version      1.4
 // @description  小乐的工作用工具，获取 Webex Session Ticket
 // @author       Xiaole Tao
 // @include      *://*.qa.webex.com.cn/*
@@ -16,4 +16,41 @@
 // @downloadURL  https://tairraos.github.io/tamperMonkey/getSessionTicket.user.js
 // ==/UserScript==
 
-(function(c){var a,b;a=c("frame[name=mainFrame]",top.document);a.length?(b=c("frame[name=main]",a[0].contentDocument),b.length?(a=b[0].contentWindow,b=b[0].contentDocument):(a={},b={})):(a=window,b=document);a.thinClientConfig&&a.thinClientConfig.pbSettings&&(a=c("<textarea style='width:800px;height:100px;'>"+a.thinClientConfig.pbSettings.sessionTicket+"</textarea>"),c(".screen_i2",b).prepend(a),a.hover(function(){c(this)[0].select()}))})(jQuery,jQuery.noConflict());
+(function ($) {
+    var win, doc;
+    var tryFrame = $("frame[name=mainFrame]", top.document);
+    if (tryFrame.length) {
+        var mainFrame = $("frame[name=main]", tryFrame[0].contentDocument);
+        if (mainFrame.length) {
+            win = mainFrame[0].contentWindow;
+            doc = mainFrame[0].contentDocument;
+        } else {
+            win = {};
+            doc = {};
+        }
+    } else {
+        win = window;
+        doc = document;
+    }
+
+    if (win.thinClientConfig && win.thinClientConfig.pbSettings) {
+        var ticket = win.thinClientConfig.pbSettings.sessionTicket,
+            key = $("#ipt-pmr-meetingAccessCode").val(),
+            data = {
+                ticket: ticket,
+                key: key
+            };
+        if (opener) {
+            opener.window.postMessage(data, "*");
+            console.log(data);
+        } else {
+            var textarea = $("<textarea id=\"smartTicket\" style='width:800px;height:100px;'>" + win.thinClientConfig.pbSettings.sessionTicket + "</textarea>");
+            if (!$("#smartTicket", doc).length) {
+                $(".screen_i2", doc).prepend(textarea);
+                textarea.hover(function () {
+                    $(this)[0].select();
+                });
+            }
+        }
+    }
+}(jQuery, jQuery.noConflict()));

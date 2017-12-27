@@ -2,7 +2,7 @@
 // @name         乐造：获取 Webex Session Ticket
 // @icon         http://localhost/lemade.ico
 // @namespace    http://tampermonkey.net/
-// @version      1.3
+// @version      1.4
 // @description  小乐的工作用工具，获取 Webex Session Ticket
 // @author       Xiaole Tao
 // @include      *://*.qa.webex.com.cn/*
@@ -34,12 +34,26 @@
                 win = window;
                 doc = document;
             }
+
             if (win.thinClientConfig && win.thinClientConfig.pbSettings) {
-                var textarea = $("<textarea style='width:800px;height:100px;'>" + win.thinClientConfig.pbSettings.sessionTicket + "</textarea>");
-                $(".screen_i2", doc).prepend(textarea);
-                textarea.hover(function () {
-                    $(this)[0].select();
-                });
+                var ticket = win.thinClientConfig.pbSettings.sessionTicket,
+                    key = $("#ipt-pmr-meetingAccessCode").val(),
+                    data = {
+                        ticket: ticket,
+                        key: key
+                    };
+                if (opener) {
+                    opener.window.postMessage(data, "*");
+                    console.log(data);
+                } else {
+                    var textarea = $("<textarea id=\"smartTicket\" style='width:800px;height:100px;'>" + win.thinClientConfig.pbSettings.sessionTicket + "</textarea>");
+                    if (!$("#smartTicket", doc).length) {
+                        $(".screen_i2", doc).prepend(textarea);
+                        textarea.hover(function () {
+                            $(this)[0].select();
+                        });
+                    }
+                }
             }
         }
     };
