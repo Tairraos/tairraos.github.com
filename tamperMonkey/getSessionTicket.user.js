@@ -11,7 +11,7 @@
 // @include      *://alpha.webex.com/*
 // @match        http://tampermonkey.net/faq.php?version=4.5.5570&ext=gcal#Q600
 // @grant        none
-// @require http://code.jquery.com/jquery-2.2.4.min.js
+// @require      http://code.jquery.com/jquery-2.2.4.min.js
 // @updateURL    https://tairraos.github.io/tamperMonkey/getSessionTicket.user.js
 // @downloadURL  https://tairraos.github.io/tamperMonkey/getSessionTicket.user.js
 // ==/UserScript==
@@ -42,4 +42,4 @@
             });
         }
     }
-}(jQuery, jQuery.noConflict()));
+}(jQuery));
