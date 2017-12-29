@@ -2,7 +2,7 @@
 // @name         乐造：获取 Webex Session Ticket
 // @icon         http://localhost/lemade.ico
 // @namespace    http://tampermonkey.net/
-// @version      1.6
+// @version      1.7
 // @description  小乐的工作用工具，获取 Webex Session Ticket
 // @author       Xiaole Tao
 // @include      *://*.qa.webex.com.cn/*
@@ -11,7 +11,6 @@
 // @include      *://alpha.webex.com/*
 // @match        http://tampermonkey.net/faq.php?version=4.5.5570&ext=gcal#Q600
 // @grant        none
-// @require http://code.jquery.com/jquery-2.2.4.min.js
 // @updateURL    https://tairraos.github.io/tamperMonkey.dev/getSessionTicket.user.js
 // @downloadURL  https://tairraos.github.io/tamperMonkey.dev/getSessionTicket.user.js
 // ==/UserScript==
