@@ -2,58 +2,49 @@
 // @name         乐造：Cili001助手
 // @icon         http://localhost/lemade.ico
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  Cili001助手，将小乐关注的剧集醒目显示
 // @author       Xiaole Tao
 // @include      *://oabt*.com/*
 // @match        http://tampermonkey.net/faq.php?version=4.5.5570&ext=gcal#Q600
 // @grant        none
 // @require http://code.jquery.com/jquery-2.2.4.min.js
-// @updateURL    https://tairraos.github.io/tamperMonkey.dev/colorfyCili001.user.js
-// @downloadURL  https://tairraos.github.io/tamperMonkey.dev/colorfyCili001.user.js
 // ==/UserScript==
 
 (function ($) {
     var watchList = [
-            "反击",
-            "天蝎",
-            "打工姐妹花",
-            "末日孤舰",
-            "维京传奇",
-            "女子监狱",
-            "纸牌屋",
-            "真实的人类",
-            "童话镇",
-            "生活大爆炸",
-            "我们的生活",
-            "我们的一天",
-            "福尔摩斯",
-            "凶鬼恶灵",
-            "无耻家庭",
-            "行尸走肉",
-            "诉讼双雄",
-            "金装律师",
-            "神盾局特工",
-            "西部世界",
-            "黑镜",
-            "天堂执法者",
-            "夏威夷特勤组",
-            "逍遥法外",
-            "摩登家庭",
-            "透明家庭",
-            "权力的游戏",
-            "国土安全",
-            "傲骨之战",
-            "绝命律师",
-            "新福尔摩斯",
-            "吸血鬼日记",
-            "暴君",
-            "黑帆",
-            "黑吃黑",
-            "格林",
-            "小律师大作为",
-            "废柴联盟"
-        ], selectedPatten;
+        "反击",
+        "天蝎",
+        "打工姐妹花",
+        "末日孤舰",
+        "维京传奇",
+        "女子监狱",
+        "纸牌屋",
+        "真实的人类",
+        "童话镇",
+        "生活大爆炸",
+        "我们的生活",
+        "我们的一天",
+        "演绎法",
+        "凶鬼恶灵",
+        "无耻家庭",
+        "行尸走肉",
+        "诉讼双雄",
+        "金装律师",
+        "神盾局特工",
+        "西部世界",
+        "黑镜",
+        "天堂执法者",
+        "夏威夷特勤组",
+        "逍遥法外",
+        "摩登家庭",
+        "透明家庭",
+        "权力的游戏",
+        "国土安全",
+        "傲骨之战",
+        "绝命律师",
+        "新福尔摩斯"
+    ], selectedPatten;
 
     var tools = {
         getBox: function () {
@@ -86,12 +77,14 @@
             return $(selector, dom);
         },
 
-        doSelect: function (patten) {
+        doSelect: function (patten, btn) {
             var regMovieName = new RegExp(patten, "ig");
-            $("dd").css({display: "none"}).each(function () {
-                var link = $("a[href]", $(this)).eq(0).text();
-                if (patten !== "" && link.length && link.match(regMovieName)) {
-                    $(this).css({display: ""});
+            $(".addon button").css({background: "unset"});
+            $(".link-list>li").css({background: "unset"}).each(function () {
+                var name = $(".name", $(this)).text();
+                if (patten !== "" && name.match(regMovieName)) {
+                    $(this).css({background: "#eee0ff"});
+                    $(btn).css({background: "#eee0ff"});
                 }
             });
             selectedPatten = patten;
@@ -101,17 +94,10 @@
             var texts = "";
             if (patten) {
                 var regMovieName = new RegExp(patten, "ig");
-                $("dd").each(function () {
-                    var link = $("a[href]", $(this)).eq(0).text();
-                    if (link.length && link.match(regMovieName)) {
-                        texts += window.decodeURI($(this).attr("ed2k")) + "\n";
-                    }
-                });
-            } else {
-                $("dd").each(function () {
-                    var link = $("a[href]", $(this)).eq(0).text();
-                    if ($(this).hasClass("colored")) {
-                        texts += window.decodeURI($(this).attr("ed2k")) + "\n";
+                $(".link-list>li").each(function () {
+                    var name = $(".name", $(this)).text();
+                    if (patten !== "" && name.match(regMovieName)) {
+                        texts += window.decodeURI($(this).attr("data-ed2k")) + "\n";
                     }
                 });
             }
@@ -123,73 +109,65 @@
             });
         },
 
-        doColorfy: function (list) {
-            $("dd").each(function () {
-                var screenItem = $(this).find(".b").text();
-                for (var index in list) {
-                    if (screenItem.indexOf(list[index]) >= 0) {
-                        if ((/web-hr/i).test(screenItem)) {
-                            $(this).css({background: "#cfc"}).addClass("colored");
-                        } else {
-                            $(this).css({background: "#fcc"}).addClass("colored");
-                        }
-                    }
-                }
-            });
+        genMovieButtonList: function () {
+            return $(
+                "<div class='button-list'>" +
+                "<ul class='fav'>" +
+                watchList.map(function (item) {
+                    return "<li><a href='index?k=" + item + "'>" + item + "</a></li>";
+                }).join(" ") +
+                "</ul></div>");
         },
-
         run: function () {
-            var $selector = $("<div class=\"addon\"></div>").append(
-                "<button>-HR</button>",
-                "<button>-HDTV</button>",
-                "<button>rip</button>",
-                "<button>MKV</button>",
-                "<button>MP4</button>",
-                "<button>RMVB</button>",
-                "<input type=\"text\" />",
-                "<button>COPY LINK</button>",
-                "<button>Restore</button>");
+            var isHomePage = !!$(".psearch-top").length;
+            if (isHomePage) {
+                $('.psearch-bottom').prepend(tools.genMovieButtonList());
+            } else {
+                $('.ui-header').append(tools.genMovieButtonList());
+                $(".result-alert").remove();
+                var $selector = $("<div class=\"addon\"></div>").append(
+                    "<button>-HR</button>",
+                    "<button>-HDTV</button>",
+                    "<button>rip</button>",
+                    "<button>MKV</button>",
+                    "<button>MP4</button>",
+                    "<button>RMVB</button>",
+                    "<input type=\"text\" />",
+                    "<button>COPY</button>",
+                );
+                $(".nav-pills").empty().append($selector);
+
+                $("button", $selector).on("click", function (e) {
+                    var cmd = $(e.target).text();
+                    if (cmd === "COPY") {
+                        tools.doCopyLink(selectedPatten);
+                    } else {
+                        tools.doSelect(cmd, $(e.target));
+                    }
+                });
+                $("input", $selector).on("input", function (e) {
+                    var cmd = $(e.target).val();
+                    tools.doSelect(cmd);
+                });
+            }
 
             $("head").append([
                 "<style>",
-                ".addon {",
-                "    text-align: center;",
-                "}",
-                "",
-                ".addon button {",
-                "    width: 80px;",
-                "    height: 40px;",
-                "    margin: 0 10px;",
-                "}",
-                "",
-                ".addon input {",
-                "    width: 100px;",
-                "    height: 36px;",
-                "    font-size: 20px;",
-                "    margin: 0 10px;",
-                "    vertical-align: middle;",
-                "}",
+                ".page-search.page-fluid .psearch-top { height: 250px; }",
+                ".psearch-bottom .fav { width: 810px; margin: 10px auto 0 auto; }",
+                ".fav { text-align: center; }",
+                ".fav li, .addon button, .addon input { display: inline-block; width: 90px; border: 1px solid #ccc; text-align: center; border-radius: 5px; padding: 2px; margin: 2px; }",
+                ".ui-header .fav { text-align: left; }",
+                ".ui-header .fav li, .addon button { width: auto; font-size: 12px; padding: 1px 8px; }",
+                ".addon input { font-size: 12px; width: 60px; text-align: left; }",
+                ".page-search .ui-header .button-list { padding: 8px; }",
+                ".page-search .ui-header { height: 130px; }",
+                ".page-search .ui-content { margin-top: 130px; }",
+                ".page-search .ui-content .link-list-wrapper .result-desc { margin-top: 0;}",
+                ".page-search .ui-content .link-list-wrapper .link-list-title { margin: 0; }",
+                "#toolTextBox { font-size: 12px; white-space: nowrap; overflow: scroll; }",
                 "</style>"
             ].join("\n"));
-
-            $(".header-box").after($selector);
-            $("button", $selector).on("click", function (e) {
-                var cmd = $(e.target).text();
-                if (cmd === "COPY LINK") {
-                    tools.doCopyLink(selectedPatten);
-                } else if (cmd === "Restore") {
-                    tools.doSelect(".");
-                } else {
-                    tools.doSelect(cmd);
-                }
-            });
-            $("input", $selector).on("input", function (e) {
-                var cmd = $(e.target).val();
-                tools.doSelect(cmd);
-            });
-
-            $("#ad_banner_2").remove();
-            tools.doColorfy(watchList);
         }
     };
 

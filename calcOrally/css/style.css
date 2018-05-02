@@ -33,6 +33,7 @@ button {
     border-radius: 5px;
     margin: 0 -1px -1px 0;
     padding: 10px;
+    position: relative;
 }
 
 .n {
@@ -53,6 +54,12 @@ button {
     text-align: center;
 }
 
+.N {
+    width: 30px;
+    display: inline-block;
+    text-align: center;
+}
+
 .O {
     width: 20px;
     display: inline-block;
@@ -68,3 +75,49 @@ button {
     margin: 10px auto 0;
     font: 12px/14px Verdana Arial;
 }
+
+.question {
+    width: 88px;
+    height: 70px;
+    margin: 0 -1px -8px 0;
+    font-family: monospace;
+}
+
+.x {
+    position: absolute;
+    text-indent: -9999px;
+    background: black;
+    height: 1px;
+    left: 15px;
+    top: 55px;
+    width: 70px;
+}
+
+.f {
+    font-size: 16px;
+    position: absolute;
+    text-align: right;
+    left: 35px;
+    letter-spacing: 0.2em;
+    top: 10px;
+}
+
+.s {
+    font-size: 16px;
+    position: absolute;
+    text-align: right;
+    left: 35px;
+    letter-spacing: 0.2em;
+    top: 30px;
+}
+
+
+
+
+.o {
+    font-size: 16px;
+    top: 30px;
+    position: absolute;
+    left: 20px;
+}
+
