@@ -1,16 +1,13 @@
 // ==UserScript==
-// @name         乐造：Webex UT比较
+// @name         乐造：Webex UT比较工具
 // @icon         http://localhost/lemade.ico
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.2
 // @description  小乐开发专用，Webex UT比较工具
 // @author       Xiaole Tao
 // @include      http://*/job/Thinclient-JS-UT-EC-MASTER/
 // @grant        none
-// @require      http://code.jquery.com/jquery-2.2.4.min.js
-// @updateURL    https://tairraos.github.io/tamperMonkey.dev/WebexUTTool.user.js
-// @downloadURL  https://tairraos.github.io/tamperMonkey.dev/WebexUTTool.user.js
-// @run-at       document-end
+// @require http://code.jquery.com/jquery-2.2.4.min.js
 // ==/UserScript==
 
 (function ($) {
@@ -23,6 +20,7 @@
         targetData: {},
         sourceVersion: 0,
         targetVersion: 0,
+        coverageVersion: 0,
         $form: null, //查询表单
         $span: null,
         $sourceVer: null,
@@ -73,11 +71,18 @@
         getVersion: function () {
             var versionHistory = $("#buildHistory .build-row:not(.transitive)"), alt;
 
-            tools.sourceVersion = versionHistory.eq(0).text().replace(/[^#\d\s]/g, "").replace(/^#(\d+) .*$/, "$1");
-            for (var index = 1; index < versionHistory.length - 1; index++) {
+            for (var index = 0; index < versionHistory.length - 1; index++) {
                 alt = versionHistory.eq(index).find("img").attr("alt");
+                if (index === 0) {
+                    tools.sourceVersion = versionHistory.eq(0).text().replace(/[^#\d\s]/g, "").replace(/^#(\d+) .*$/, "$1");
+                    if (alt && alt.replace(/^(\w+) .*$/, "$1") === "Success") { //如果第一个版本是成功的，coverage在这个版本
+                        tools.coverageVersion = tools.sourceVersion;
+                    }
+                    continue;
+                }
                 if (alt && alt.replace(/^(\w+) .*$/, "$1") === "Success") {
                     tools.targetVersion = versionHistory.eq(index).text().replace(/[^#\d\s]/g, "").replace(/^#(\d+) .*$/, "$1");
+                    tools.coverageVersion = tools.coverageVersion || tools.targetVersion; //如果第一个版本不是成功的，coverage在下一个成功的版本
                     break;
                 }
             }
@@ -121,7 +126,7 @@
             tools.$table.prepend($("<tr></tr>").append($("<td colspan=\"5\">" + tools.title + "," + reportTime + " 报表方式：</td>").append(tools.$mode)));
 
             return $.each(filePool, function (i, name) {
-                var s = tools.sourceData[name], t = tools.targetData[name], deltaC, deltaL;
+                var s = tools.sourceData[name], t = tools.targetData[name], deltaC, deltaL, coverLink;
 
                 //如果文件只有其中一个版本有
                 if (!s) {
@@ -129,10 +134,11 @@
                 } else if (!t) {
                     t = {conditionalsRate: 0, linesRate: 0, conditionsText: "", linesText: ""};
                 }
+                coverLink = (s.link || t.link).replace(/\/\d\d\d\d\//, "/" + tools.coverageVersion + "/");
 
                 if (s.conditionalsRate === t.conditionalsRate && s.linesRate === t.linesRate) {
                     tools.$table.append("<tr class=\"same\" style=\"background:#ffffff\">" +
-                        "<td><a href=\"" + t.link + "\" target=\"_blank\">" + name + "</a></td>" +
+                        "<td><a href=\"" + coverLink + "\" target=\"_blank\">" + name + "</a></td>" +
                         "<td>" + s.conditionalsRate + "%</td>" +
                         "<td>" + s.conditionsText + "</td>" +
                         "<td>" + s.linesRate + "%</td>" +
@@ -143,7 +149,7 @@
                     deltaL = (t.linesRate - s.linesRate).toFixed(2); //行覆盖增减
                     tempColor = s.linesText === "" || t.linesText === "" ? "ffc3c3" : deltaC < 0 || deltaL < 0 ? "ffe3e3" : "e3ffe3"; //决定行颜色
                     tools.$table.append("<tr class=\"diff1\" style=\"background:#" + tempColor + "\">" +
-                        "<td rowspan=\"2\"><a href=\"" + s.link + "\" target=\"_blank\">" + name + "</a></td>" +
+                        "<td rowspan=\"2\"><a href=\"" + coverLink + "\" target=\"_blank\">" + name + "</a></td>" +
                         "<td>" + s.conditionalsRate + "%</td><td>" + s.conditionsText + "</td>" +
                         "<td>" + s.linesRate + "%</td>" +
                         "<td>" + s.linesText + "</td>" +

@@ -77,12 +77,11 @@
             return $(selector, dom);
         },
 
-        doSelect: function (patten, btn) {
-            var regMovieName = new RegExp(patten, "ig");
-            $(".addon button").css({background: "unset"});
+        doSelect: function (patten) {
+            var regPatten = new RegExp(patten, "ig");
             $(".link-list>li").css({background: "unset"}).each(function () {
                 var name = $(".name", $(this)).text();
-                if (patten !== "" && name.match(regMovieName)) {
+                if (patten !== "" && name.match(regPatten)) {
                     $(this).css({background: "#eee0ff"});
                     $(btn).css({background: "#eee0ff"});
                 }
@@ -90,7 +89,7 @@
             selectedPatten = patten;
         },
 
-        doCopyLink: function (patten) {
+        doCopy: function (patten) {
             var texts = "";
             if (patten) {
                 var regMovieName = new RegExp(patten, "ig");
@@ -140,7 +139,7 @@
                 $("button", $selector).on("click", function (e) {
                     var cmd = $(e.target).text();
                     if (cmd === "COPY") {
-                        tools.doCopyLink(selectedPatten);
+                        tools.doCopy(selectedPatten);
                     } else {
                         tools.doSelect(cmd, $(e.target));
                     }
