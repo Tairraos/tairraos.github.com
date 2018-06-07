@@ -2,7 +2,7 @@
 // @name         乐造：Cili001助手
 // @icon         http://localhost/lemade.ico
 // @namespace    http://tampermonkey.net/
-// @version      0.2
+// @version      0.3
 // @description  Cili001助手，将小乐关注的剧集醒目显示
 // @author       Xiaole Tao
 // @include      *://oabt*.com/*
@@ -24,7 +24,6 @@
         "童话镇",
         "生活大爆炸",
         "我们的生活",
-        "我们的一天",
         "演绎法",
         "凶鬼恶灵",
         "无耻家庭",
@@ -125,8 +124,8 @@
                 $('.ui-header').append(tools.genMovieButtonList());
                 $(".result-alert").remove();
                 var $selector = $("<div class=\"addon\"></div>").append(
-                    "<button>-HR</button>",
-                    "<button>-HDTV</button>",
+                    "<button>HR</button>",
+                    "<button>HDTV</button>",
                     "<button>rip</button>",
                     "<button>MKV</button>",
                     "<button>MP4</button>",

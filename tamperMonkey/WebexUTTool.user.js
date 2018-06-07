@@ -2,7 +2,7 @@
 // @name         乐造：Webex UT比较
 // @icon         https://tairraos.github.io/tamperMonkey/lemade.ico
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.4
 // @description  小乐开发专用，Webex UT比较工具
 // @author       Xiaole Tao
 // @include      http://*/job/Thinclient-JS-UT-EC-MASTER/
