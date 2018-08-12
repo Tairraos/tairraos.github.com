@@ -2,7 +2,7 @@
 // @name         乐造：Cili001助手
 // @icon         http://localhost/lemade.ico
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.4
 // @description  Cili001助手，将小乐关注的剧集醒目显示
 // @author       Xiaole Tao
 // @include      *://oabt*.com/*
@@ -13,37 +13,37 @@
 
 (function ($) {
     var watchList = [
-        "反击",
-        "天蝎",
-        "打工姐妹花",
-        "末日孤舰",
-        "维京传奇",
-        "女子监狱",
-        "纸牌屋",
-        "真实的人类",
-        "童话镇",
-        "生活大爆炸",
-        "我们的生活",
-        "演绎法",
-        "凶鬼恶灵",
-        "无耻家庭",
-        "行尸走肉",
-        "诉讼双雄",
-        "金装律师",
-        "神盾局特工",
-        "西部世界",
-        "黑镜",
-        "天堂执法者",
-        "夏威夷特勤组",
-        "逍遥法外",
-        "摩登家庭",
-        "透明家庭",
-        "权力的游戏",
-        "国土安全",
-        "傲骨之战",
-        "绝命律师",
-        "新福尔摩斯"
-    ], selectedPatten;
+            "反击",
+            "天蝎",
+            "打工姐妹花",
+            "末日孤舰",
+            "维京传奇",
+            "女子监狱",
+            "纸牌屋",
+            "真实的人类",
+            "童话镇",
+            "生活大爆炸",
+            "我们的生活",
+            "演绎法",
+            "凶鬼恶灵",
+            "无耻家庭",
+            "行尸走肉",
+            "诉讼双雄",
+            "金装律师",
+            "神盾局特工",
+            "西部世界",
+            "黑镜",
+            "天堂执法者",
+            "夏威夷特勤组",
+            "逍遥法外",
+            "摩登家庭",
+            "透明家庭",
+            "权力的游戏",
+            "国土安全",
+            "傲骨之战",
+            "绝命律师",
+            "新福尔摩斯"
+        ], selectedPatten;
 
     var tools = {
         getBox: function () {
@@ -76,7 +76,7 @@
             return $(selector, dom);
         },
 
-        doSelect: function (patten) {
+        doSelect: function (patten, btn) {
             var regPatten = new RegExp(patten, "ig");
             $(".link-list>li").css({background: "unset"}).each(function () {
                 var name = $(".name", $(this)).text();
