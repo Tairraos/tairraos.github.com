@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         乐造：乐造模板
-// @icon         https://tairraos.github.io/tamperMonkey/lemade.ico
+// @icon         http://localhost/lemade.ico
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  描述
@@ -20,7 +20,7 @@
     };
 
     //马上运行
-    tools.run();
+    //tools.run();
 }(jQuery, jQuery.noConflict()));
 
 
