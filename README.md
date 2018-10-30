@@ -9,8 +9,7 @@
   **rpn.js**    
   逆波兰表达式工具，可以把普通表达式转换为逆波兰表达式，还可以计算逆波兰表达式。支持+ - * / ^ % ! √ ( )。  
   开源Repo:  [https://github.com/Tairraos/rpn.js](https://github.com/Tairraos/rpn.js)  
-  
-  
+
   **local-web-opener**  
   VS Code 插件: 在右键菜单上加上使用本地web服务器打开html的项。    
   开源Repo: [https://github.com/Tairraos/vscode-local-web-opener](https://github.com/Tairraos/vscode-local-web-opener)  
