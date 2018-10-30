@@ -1,0 +1,373 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>4.4 实现迭代器协议 &mdash; python3-cookbook 3.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="4.5 反向迭代" href="p05_iterating_in_reverse.html" />
+    <link rel="prev" title="4.3 使用生成器创建新的迭代模式" href="p03_create_new_iteration_with_generators.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> python3-cookbook
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p01_data_structures_algorithms.html">第一章：数据结构和算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p02_strings_and_text.html">第二章：字符串和文本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p03_numbers_dates_times.html">第三章：数字日期和时间</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../chapters/p04_iterators_and_generators.html">第四章：迭代器与生成器</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="p01_manually_consuming_iterator.html">4.1 手动遍历迭代器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p02_delegating_iteration.html">4.2 代理迭代</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p03_create_new_iteration_with_generators.html">4.3 使用生成器创建新的迭代模式</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">4.4 实现迭代器协议</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">问题</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">解决方案</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">讨论</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="p05_iterating_in_reverse.html">4.5 反向迭代</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p06_define_generator_func_with_extra_state.html">4.6 带有外部状态的生成器函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p07_taking_slice_of_iterator.html">4.7 迭代器切片</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p08_skip_first_part_of_iterable.html">4.8 跳过可迭代对象的开始部分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p09_iterate_over_combination_or_permutation.html">4.9 排列组合的迭代</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p10_iterate_over_index_value_pairs_of_sequence.html">4.10 序列上索引值迭代</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p11_iterate_over_multiple_sequences_simultaneously.html">4.11 同时迭代多个序列</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p12_iterate_on_items_in_separate_containers.html">4.12 不同集合上元素的迭代</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p13_create_data_processing_pipelines.html">4.13 创建数据处理管道</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p14_flattening_nested_sequence.html">4.14 展开嵌套的序列</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p15_iterate_in_sorted_order_over_merged_sorted_iterables.html">4.15 顺序迭代合并后的排序迭代对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p16_replace_infinite_while_loops_with_iterator.html">4.16 迭代器代替while无限循环</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p05_files_and_io.html">第五章：文件与IO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p06_data_encoding_and_process.html">第六章：数据编码和处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p07_functions.html">第七章：函数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p08_classes_and_objects.html">第八章：类与对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p09_meta_programming.html">第九章：元编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p10_modules_and_packages.html">第十章：模块与包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p11_network_and_web_program.html">第十一章：网络与Web编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p12_concurrency.html">第十二章：并发编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p13_utility_script_and_system_manage.html">第十三章：脚本编程与系统管理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p14_test_debug_and_exceptions.html">第十四章：测试、调试和异常</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p15_c_extensions.html">第十五章：C语言扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p16_appendix.html">附录A</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aboutme.html">关于译者</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">python3-cookbook</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../chapters/p04_iterators_and_generators.html">第四章：迭代器与生成器</a> &raquo;</li>
+        
+      <li>4.4 实现迭代器协议</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/c04/p04_implement_iterator_protocol.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>4.4 实现迭代器协议<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>问题<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>你想构建一个能支持迭代操作的自定义对象，并希望找到一个能实现迭代协议的简单方法。</p>
+</div>
+<div class="section" id="id3">
+<h2>解决方案<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>目前为止，在一个对象上实现迭代最简单的方式是使用一个生成器函数。
+在4.2小节中，使用Node类来表示树形数据结构。你可能想实现一个以深度优先方式遍历树形节点的生成器。
+下面是代码示例：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Node</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_children</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;Node({!r})&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">depth_first</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="bp">self</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="k">yield from</span> <span class="n">c</span><span class="o">.</span><span class="n">depth_first</span><span class="p">()</span>
+
+<span class="c1"># Example</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">child1</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">child2</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">root</span><span class="o">.</span><span class="n">add_child</span><span class="p">(</span><span class="n">child1</span><span class="p">)</span>
+    <span class="n">root</span><span class="o">.</span><span class="n">add_child</span><span class="p">(</span><span class="n">child2</span><span class="p">)</span>
+    <span class="n">child1</span><span class="o">.</span><span class="n">add_child</span><span class="p">(</span><span class="n">Node</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+    <span class="n">child1</span><span class="o">.</span><span class="n">add_child</span><span class="p">(</span><span class="n">Node</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+    <span class="n">child2</span><span class="o">.</span><span class="n">add_child</span><span class="p">(</span><span class="n">Node</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">depth_first</span><span class="p">():</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span>
+    <span class="c1"># Outputs Node(0), Node(1), Node(3), Node(4), Node(2), Node(5)</span>
+</pre></div>
+</div>
+<p>在这段代码中，<code class="docutils literal notranslate"><span class="pre">depth_first()</span></code> 方法简单直观。
+它首先返回自己本身并迭代每一个子节点并
+通过调用子节点的 <code class="docutils literal notranslate"><span class="pre">depth_first()</span></code> 方法(使用 <code class="docutils literal notranslate"><span class="pre">yield</span> <span class="pre">from</span></code> 语句)返回对应元素。</p>
+</div>
+<div class="section" id="id4">
+<h2>讨论<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>Python的迭代协议要求一个 <code class="docutils literal notranslate"><span class="pre">__iter__()</span></code> 方法返回一个特殊的迭代器对象，
+这个迭代器对象实现了 <code class="docutils literal notranslate"><span class="pre">__next__()</span></code> 方法并通过 <code class="docutils literal notranslate"><span class="pre">StopIteration</span></code> 异常标识迭代的完成。
+但是，实现这些通常会比较繁琐。
+下面我们演示下这种方式，如何使用一个关联迭代器类重新实现 <code class="docutils literal notranslate"><span class="pre">depth_first()</span></code> 方法：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Node2</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_children</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;Node({!r})&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">depth_first</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">DepthFirstIterator</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">DepthFirstIterator</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Depth-first traversal</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_node</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_node</span> <span class="o">=</span> <span class="n">start_node</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_children_iter</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_child_iter</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Return myself if just started; create an iterator for children</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_children_iter</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_children_iter</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_node</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_node</span>
+        <span class="c1"># If processing a child, return its next item</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_child_iter</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">nextchild</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_child_iter</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">nextchild</span>
+            <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_child_iter</span> <span class="o">=</span> <span class="bp">None</span>
+                <span class="k">return</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="c1"># Advance to the next child and start its iteration</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_child_iter</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_children_iter</span><span class="p">)</span><span class="o">.</span><span class="n">depth_first</span><span class="p">()</span>
+            <span class="k">return</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">DepthFirstIterator</span></code> 类和上面使用生成器的版本工作原理类似，
+但是它写起来很繁琐，因为迭代器必须在迭代处理过程中维护大量的状态信息。
+坦白来讲，没人愿意写这么晦涩的代码。将你的迭代器定义为一个生成器后一切迎刃而解。</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="p05_iterating_in_reverse.html" class="btn btn-neutral float-right" title="4.5 反向迭代" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="p03_create_new_iteration_with_generators.html" class="btn btn-neutral" title="4.3 使用生成器创建新的迭代模式" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; <a href="../copyright.html">Copyright</a> 2017, 熊能.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

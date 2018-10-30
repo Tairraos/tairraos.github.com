@@ -1,0 +1,355 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>2.2 字符串开头或结尾匹配 &mdash; python3-cookbook 3.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="2.3 用Shell通配符匹配字符串" href="p03_match_strings_with_shell_wildcard.html" />
+    <link rel="prev" title="2.1 使用多个界定符分割字符串" href="p01_split_string_on_multiple_delimiters.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> python3-cookbook
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p01_data_structures_algorithms.html">第一章：数据结构和算法</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../chapters/p02_strings_and_text.html">第二章：字符串和文本</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="p01_split_string_on_multiple_delimiters.html">2.1 使用多个界定符分割字符串</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">2.2 字符串开头或结尾匹配</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">问题</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">解决方案</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">讨论</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="p03_match_strings_with_shell_wildcard.html">2.3 用Shell通配符匹配字符串</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p04_match_and_search_text.html">2.4 字符串匹配和搜索</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p05_search_and_replace_text.html">2.5 字符串搜索和替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p06_search_replace_case_insensitive.html">2.6 字符串忽略大小写的搜索替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p07_specify_regexp_for_shortest_match.html">2.7 最短匹配模式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p08_regexp_for_multiline_partterns.html">2.8 多行匹配模式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p09_normalize_unicode_text_to_regexp.html">2.9 将Unicode文本标准化</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p10_work_with_unicode_in_regexp.html">2.10 在正则式中使用Unicode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p11_strip_unwanted_characters.html">2.11 删除字符串中不需要的字符</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p12_sanitizing_clean_up_text.html">2.12 审查清理文本字符串</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p13_aligning_text_strings.html">2.13 字符串对齐</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p14_combine_and_concatenate_strings.html">2.14 合并拼接字符串</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p15_interpolating_variables_in_strings.html">2.15 字符串中插入变量</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p16_reformat_text_to_fixed_number_columns.html">2.16 以指定列宽格式化字符串</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p17_handle_html_xml_in_text.html">2.17 在字符串中处理html和xml</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p18_tokenizing_text.html">2.18 字符串令牌解析</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p19_writing_recursive_descent_parser.html">2.19 实现一个简单的递归下降分析器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p20_perform_text_operations_on_byte_string.html">2.20 字节字符串上的字符串操作</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p03_numbers_dates_times.html">第三章：数字日期和时间</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p04_iterators_and_generators.html">第四章：迭代器与生成器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p05_files_and_io.html">第五章：文件与IO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p06_data_encoding_and_process.html">第六章：数据编码和处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p07_functions.html">第七章：函数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p08_classes_and_objects.html">第八章：类与对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p09_meta_programming.html">第九章：元编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p10_modules_and_packages.html">第十章：模块与包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p11_network_and_web_program.html">第十一章：网络与Web编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p12_concurrency.html">第十二章：并发编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p13_utility_script_and_system_manage.html">第十三章：脚本编程与系统管理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p14_test_debug_and_exceptions.html">第十四章：测试、调试和异常</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p15_c_extensions.html">第十五章：C语言扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p16_appendix.html">附录A</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aboutme.html">关于译者</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">python3-cookbook</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../chapters/p02_strings_and_text.html">第二章：字符串和文本</a> &raquo;</li>
+        
+      <li>2.2 字符串开头或结尾匹配</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/c02/p02_match_text_at_start_end.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>2.2 字符串开头或结尾匹配<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>问题<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>你需要通过指定的文本模式去检查字符串的开头或者结尾，比如文件名后缀，URL Scheme等等。</p>
+</div>
+<div class="section" id="id3">
+<h2>解决方案<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>检查字符串开头或结尾的一个简单方法是使用 <code class="docutils literal notranslate"><span class="pre">str.startswith()</span></code> 或者是 <code class="docutils literal notranslate"><span class="pre">str.endswith()</span></code> 方法。比如：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;spam.txt&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">filename</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.txt&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">filename</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;file:&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://www.python.org&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;http:&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>如果你想检查多种匹配可能，只需要将所有的匹配项放入到一个元组中去，
+然后传给 <code class="docutils literal notranslate"><span class="pre">startswith()</span></code> 或者 <code class="docutils literal notranslate"><span class="pre">endswith()</span></code> 方法：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">filenames</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">filenames</span>
+<span class="go">[ &#39;Makefile&#39;, &#39;foo.c&#39;, &#39;bar.py&#39;, &#39;spam.c&#39;, &#39;spam.h&#39; ]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">filenames</span> <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">((</span><span class="s1">&#39;.c&#39;</span><span class="p">,</span> <span class="s1">&#39;.h&#39;</span><span class="p">))</span> <span class="p">]</span>
+<span class="go">[&#39;foo.c&#39;, &#39;spam.c&#39;, &#39;spam.h&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">any</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.py&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>下面是另一个例子：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlopen</span>
+
+<span class="k">def</span> <span class="nf">read_data</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s1">&#39;http:&#39;</span><span class="p">,</span> <span class="s1">&#39;https:&#39;</span><span class="p">,</span> <span class="s1">&#39;ftp:&#39;</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>奇怪的是，这个方法中必须要输入一个元组作为参数。
+如果你恰巧有一个 <code class="docutils literal notranslate"><span class="pre">list</span></code> 或者 <code class="docutils literal notranslate"><span class="pre">set</span></code> 类型的选择项，
+要确保传递参数前先调用 <code class="docutils literal notranslate"><span class="pre">tuple()</span></code> 将其转换为元组类型。比如：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; choices = [&#39;http:&#39;, &#39;ftp:&#39;]
+&gt;&gt;&gt; url = &#39;http://www.python.org&#39;
+&gt;&gt;&gt; url.startswith(choices)
+Traceback (most recent call last):
+File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+TypeError: startswith first arg must be str or a tuple of str, not list
+&gt;&gt;&gt; url.startswith(tuple(choices))
+True
+&gt;&gt;&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>讨论<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">startswith()</span></code> 和 <code class="docutils literal notranslate"><span class="pre">endswith()</span></code> 方法提供了一个非常方便的方式去做字符串开头和结尾的检查。
+类似的操作也可以使用切片来实现，但是代码看起来没有那么优雅。比如：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;spam.txt&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">filename</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span> <span class="o">==</span> <span class="s1">&#39;.txt&#39;</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://www.python.org&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;http:&#39;</span> <span class="ow">or</span> <span class="n">url</span><span class="p">[:</span><span class="mi">6</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;https:&#39;</span> <span class="ow">or</span> <span class="n">url</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ftp:&#39;</span>
+<span class="go">True</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>你可以能还想使用正则表达式去实现，比如：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">re</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://www.python.org&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;http:|https:|ftp:&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+<span class="go">&lt;_sre.SRE_Match object at 0x101253098&gt;</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>这种方式也行得通，但是对于简单的匹配实在是有点小材大用了，本节中的方法更加简单并且运行会更快些。</p>
+<p>最后提一下，当和其他操作比如普通数据聚合相结合的时候 <code class="docutils literal notranslate"><span class="pre">startswith()</span></code> 和 <code class="docutils literal notranslate"><span class="pre">endswith()</span></code> 方法是很不错的。
+比如，下面这个语句检查某个文件夹中是否存在指定的文件类型：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">((</span><span class="s1">&#39;.c&#39;</span><span class="p">,</span> <span class="s1">&#39;.h&#39;</span><span class="p">))</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">listdir</span><span class="p">(</span><span class="n">dirname</span><span class="p">)):</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="p03_match_strings_with_shell_wildcard.html" class="btn btn-neutral float-right" title="2.3 用Shell通配符匹配字符串" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="p01_split_string_on_multiple_delimiters.html" class="btn btn-neutral" title="2.1 使用多个界定符分割字符串" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; <a href="../copyright.html">Copyright</a> 2017, 熊能.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

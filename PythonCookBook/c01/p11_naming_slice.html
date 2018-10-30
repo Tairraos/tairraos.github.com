@@ -1,0 +1,336 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>1.11 命名切片 &mdash; python3-cookbook 3.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="1.12 序列中出现次数最多的元素" href="p12_determine_most_freqently_items_in_seq.html" />
+    <link rel="prev" title="1.10 删除序列相同元素并保持顺序" href="p10_remove_duplicates_from_seq_order.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> python3-cookbook
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">前言</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../chapters/p01_data_structures_algorithms.html">第一章：数据结构和算法</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="p01_unpack_sequence_into_separate_variables.html">1.1 解压序列赋值给多个变量</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p02_unpack_elements_from_iterables.html">1.2 解压可迭代对象赋值给多个变量</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p03_keep_last_n_items.html">1.3 保留最后 N 个元素</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p04_find_largest_or_smallest_n_items.html">1.4 查找最大或最小的 N 个元素</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p05_implement_a_priority_queue.html">1.5 实现一个优先级队列</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p06_map_keys_to_multiple_values_in_dict.html">1.6 字典中的键映射多个值</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p07_keep_dict_in_order.html">1.7 字典排序</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p08_calculating_with_dict.html">1.8 字典的运算</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p09_find_commonalities_in_dicts.html">1.9 查找两字典的相同点</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p10_remove_duplicates_from_seq_order.html">1.10 删除序列相同元素并保持顺序</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">1.11 命名切片</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">问题</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">解决方案</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">讨论</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="p12_determine_most_freqently_items_in_seq.html">1.12 序列中出现次数最多的元素</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p13_sort_list_of_dicts_by_key.html">1.13 通过某个关键字排序一个字典列表</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p14_sort_objects_without_compare_support.html">1.14 排序不支持原生比较的对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p15_group_records_based_on_field.html">1.15 通过某个字段将记录分组</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p16_filter_sequence_elements.html">1.16 过滤序列元素</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p17_extract_subset_of_dict.html">1.17 从字典中提取子集</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p18_map_names_to_sequence_elements.html">1.18 映射名称到序列元素</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p19_transform_and_reduce_data_same_time.html">1.19 转换并同时计算数据</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p20_combine_multiple_map_to_single_map.html">1.20 合并多个字典或映射</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p02_strings_and_text.html">第二章：字符串和文本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p03_numbers_dates_times.html">第三章：数字日期和时间</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p04_iterators_and_generators.html">第四章：迭代器与生成器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p05_files_and_io.html">第五章：文件与IO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p06_data_encoding_and_process.html">第六章：数据编码和处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p07_functions.html">第七章：函数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p08_classes_and_objects.html">第八章：类与对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p09_meta_programming.html">第九章：元编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p10_modules_and_packages.html">第十章：模块与包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p11_network_and_web_program.html">第十一章：网络与Web编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p12_concurrency.html">第十二章：并发编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p13_utility_script_and_system_manage.html">第十三章：脚本编程与系统管理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p14_test_debug_and_exceptions.html">第十四章：测试、调试和异常</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p15_c_extensions.html">第十五章：C语言扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p16_appendix.html">附录A</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aboutme.html">关于译者</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">python3-cookbook</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../chapters/p01_data_structures_algorithms.html">第一章：数据结构和算法</a> &raquo;</li>
+        
+      <li>1.11 命名切片</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/c01/p11_naming_slice.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>1.11 命名切片<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>问题<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>如果你的程序包含了大量无法直视的硬编码切片，并且你想清理一下代码。</p>
+</div>
+<div class="section" id="id3">
+<h2>解决方案<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>假定你要从一个记录（比如文件或其他类似格式）中的某些固定位置提取字段：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">######    0123456789012345678901234567890123456789012345678901234567890&#39;</span>
+<span class="n">record</span> <span class="o">=</span> <span class="s1">&#39;....................100 .......513.25 ..........&#39;</span>
+<span class="n">cost</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="mi">20</span><span class="p">:</span><span class="mi">23</span><span class="p">])</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="mi">31</span><span class="p">:</span><span class="mi">37</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>与其那样写，为什么不想这样命名切片呢：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">SHARES</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">23</span><span class="p">)</span>
+<span class="n">PRICE</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">31</span><span class="p">,</span> <span class="mi">37</span><span class="p">)</span>
+<span class="n">cost</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="n">SHARES</span><span class="p">])</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="n">PRICE</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>在这个版本中，你避免了使用大量难以理解的硬编码下标。这使得你的代码更加清晰可读。</p>
+</div>
+<div class="section" id="id4">
+<h2>讨论<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>一般来讲，代码中如果出现大量的硬编码下标会使得代码的可读性和可维护性大大降低。
+比如，如果你回过来看看一年前你写的代码，你会摸着脑袋想那时候自己到底想干嘛啊。
+这是一个很简单的解决方案，它让你更加清晰的表达代码的目的。</p>
+<p>内置的 <code class="docutils literal notranslate"><span class="pre">slice()</span></code> 函数创建了一个切片对象。所有使用切片的地方都可以使用切片对象。比如：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">items</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
+<span class="go">[2, 3]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">items</span><span class="p">[</span><span class="n">a</span><span class="p">]</span>
+<span class="go">[2, 3]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">items</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">items</span>
+<span class="go">[0, 1, 10, 11, 4, 5, 6]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">items</span><span class="p">[</span><span class="n">a</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">items</span>
+<span class="go">[0, 1, 4, 5, 6]</span>
+</pre></div>
+</div>
+<p>如果你有一个切片对象a，你可以分别调用它的 <code class="docutils literal notranslate"><span class="pre">a.start</span></code> , <code class="docutils literal notranslate"><span class="pre">a.stop</span></code> , <code class="docutils literal notranslate"><span class="pre">a.step</span></code> 属性来获取更多的信息。比如：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">start</span>
+<span class="go">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">stop</span>
+<span class="go">50</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">step</span>
+<span class="go">2</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>另外，你还可以通过调用切片的 <code class="docutils literal notranslate"><span class="pre">indices(size)</span></code> 方法将它映射到一个已知大小的序列上。
+这个方法返回一个三元组 <code class="docutils literal notranslate"><span class="pre">(start,</span> <span class="pre">stop,</span> <span class="pre">step)</span></code> ，所有的值都会被缩小，直到适合这个已知序列的边界为止。
+这样，使用的时就不会出现 <code class="docutils literal notranslate"><span class="pre">IndexError</span></code> 异常。比如：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;HelloWorld&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">indices</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+<span class="go">(5, 10, 2)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">*</span><span class="n">a</span><span class="o">.</span><span class="n">indices</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">))):</span>
+<span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="gp">...</span>
+<span class="go">W</span>
+<span class="go">r</span>
+<span class="go">d</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="p12_determine_most_freqently_items_in_seq.html" class="btn btn-neutral float-right" title="1.12 序列中出现次数最多的元素" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="p10_remove_duplicates_from_seq_order.html" class="btn btn-neutral" title="1.10 删除序列相同元素并保持顺序" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; <a href="../copyright.html">Copyright</a> 2017, 熊能.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

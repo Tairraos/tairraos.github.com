@@ -1,0 +1,348 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>11.9 简单的客户端认证 &mdash; python3-cookbook 3.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="11.10 在网络服务中加入SSL" href="p10_add_ssl_to_network_services.html" />
+    <link rel="prev" title="11.8 实现远程方法调用" href="p08_implementing_remote_procedure_calls.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> python3-cookbook
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p01_data_structures_algorithms.html">第一章：数据结构和算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p02_strings_and_text.html">第二章：字符串和文本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p03_numbers_dates_times.html">第三章：数字日期和时间</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p04_iterators_and_generators.html">第四章：迭代器与生成器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p05_files_and_io.html">第五章：文件与IO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p06_data_encoding_and_process.html">第六章：数据编码和处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p07_functions.html">第七章：函数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p08_classes_and_objects.html">第八章：类与对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p09_meta_programming.html">第九章：元编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p10_modules_and_packages.html">第十章：模块与包</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../chapters/p11_network_and_web_program.html">第十一章：网络与Web编程</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="p01_interact_with_http_services_as_client.html">11.1 作为客户端与HTTP服务交互</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p02_creating_tcp_server.html">11.2 创建TCP服务器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p03_creating_udp_server.html">11.3 创建UDP服务器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p04_generate_range_of_ip_addresses_from_cidr_address.html">11.4 通过CIDR地址生成对应的IP地址集</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p05_creating_simple_rest_based_interface.html">11.5 创建一个简单的REST接口</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p06_implement_simple_remote_procedure_call_with_xml_rpc.html">11.6 通过XML-RPC实现简单的远程调用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p07_communicate_simply_between_interpreters.html">11.7 在不同的Python解释器之间交互</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p08_implementing_remote_procedure_calls.html">11.8 实现远程方法调用</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">11.9 简单的客户端认证</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">问题</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">解决方案</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">讨论</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="p10_add_ssl_to_network_services.html">11.10 在网络服务中加入SSL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p11_pass_socket_file_descriptor_between_processes.html">11.11 进程间传递Socket文件描述符</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p12_understanding_event_driven_io.html">11.12 理解事件驱动的IO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p13_sending_receiving_large_arrays.html">11.13 发送与接收大型数组</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p12_concurrency.html">第十二章：并发编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p13_utility_script_and_system_manage.html">第十三章：脚本编程与系统管理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p14_test_debug_and_exceptions.html">第十四章：测试、调试和异常</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p15_c_extensions.html">第十五章：C语言扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p16_appendix.html">附录A</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aboutme.html">关于译者</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">python3-cookbook</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../chapters/p11_network_and_web_program.html">第十一章：网络与Web编程</a> &raquo;</li>
+        
+      <li>11.9 简单的客户端认证</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/c11/p09_authenticating_clients_simply.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>11.9 简单的客户端认证<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>问题<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>你想在分布式系统中实现一个简单的客户端连接认证功能，又不想像SSL那样的复杂。</p>
+</div>
+<div class="section" id="id3">
+<h2>解决方案<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>可以利用 <code class="docutils literal notranslate"><span class="pre">hmac</span></code> 模块实现一个连接握手，从而实现一个简单而高效的认证过程。下面是代码示例：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">hmac</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="k">def</span> <span class="nf">client_authenticate</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="n">secret_key</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Authenticate client to a remote service.</span>
+<span class="sd">    connection represents a network connection.</span>
+<span class="sd">    secret_key is a key known only to both client/server.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span>
+    <span class="nb">hash</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">secret_key</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+    <span class="n">digest</span> <span class="o">=</span> <span class="nb">hash</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+    <span class="n">connection</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">digest</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">server_authenticate</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="n">secret_key</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Request client authentication.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span>
+    <span class="n">connection</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+    <span class="nb">hash</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">secret_key</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+    <span class="n">digest</span> <span class="o">=</span> <span class="nb">hash</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">digest</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">hmac</span><span class="o">.</span><span class="n">compare_digest</span><span class="p">(</span><span class="n">digest</span><span class="p">,</span><span class="n">response</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>基本原理是当连接建立后，服务器给客户端发送一个随机的字节消息（这里例子中使用了 <code class="docutils literal notranslate"><span class="pre">os.urandom()</span></code> 返回值）。
+客户端和服务器同时利用hmac和一个只有双方知道的密钥来计算出一个加密哈希值。然后客户端将它计算出的摘要发送给服务器，
+服务器通过比较这个值和自己计算的是否一致来决定接受或拒绝连接。摘要的比较需要使用 <code class="docutils literal notranslate"><span class="pre">hmac.compare_digest()</span></code> 函数。
+使用这个函数可以避免遭到时间分析攻击，不要用简单的比较操作符（==）。
+为了使用这些函数，你需要将它集成到已有的网络或消息代码中。例如，对于sockets，服务器代码应该类似下面：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">socket</span> <span class="kn">import</span> <span class="n">socket</span><span class="p">,</span> <span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span>
+
+<span class="n">secret_key</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;peekaboo&#39;</span>
+<span class="k">def</span> <span class="nf">echo_handler</span><span class="p">(</span><span class="n">client_sock</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">server_authenticate</span><span class="p">(</span><span class="n">client_sock</span><span class="p">,</span> <span class="n">secret_key</span><span class="p">):</span>
+        <span class="n">client_sock</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span>
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">client_sock</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">8192</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">client_sock</span><span class="o">.</span><span class="n">sendall</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">echo_server</span><span class="p">(</span><span class="n">address</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">)</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">c</span><span class="p">,</span><span class="n">a</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+        <span class="n">echo_handler</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+
+<span class="n">echo_server</span><span class="p">((</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">18000</span><span class="p">))</span>
+
+<span class="n">Within</span> <span class="n">a</span> <span class="n">client</span><span class="p">,</span> <span class="n">you</span> <span class="n">would</span> <span class="n">do</span> <span class="n">this</span><span class="p">:</span>
+
+<span class="kn">from</span> <span class="nn">socket</span> <span class="kn">import</span> <span class="n">socket</span><span class="p">,</span> <span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span>
+
+<span class="n">secret_key</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;peekaboo&#39;</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">)</span>
+<span class="n">s</span><span class="o">.</span><span class="n">connect</span><span class="p">((</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="mi">18000</span><span class="p">))</span>
+<span class="n">client_authenticate</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">secret_key</span><span class="p">)</span>
+<span class="n">s</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;Hello World&#39;</span><span class="p">)</span>
+<span class="n">resp</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>讨论<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">hmac</span></code> 认证的一个常见使用场景是内部消息通信系统和进程间通信。
+例如，如果你编写的系统涉及到一个集群中多个处理器之间的通信，
+你可以使用本节方案来确保只有被允许的进程之间才能彼此通信。
+事实上，基于 <code class="docutils literal notranslate"><span class="pre">hmac</span></code> 的认证被 <code class="docutils literal notranslate"><span class="pre">multiprocessing</span></code> 模块使用来实现子进程直接的通信。</p>
+<p>还有一点需要强调的是连接认证和加密是两码事。
+认证成功之后的通信消息是以明文形式发送的，任何人只要想监听这个连接线路都能看到消息（尽管双方的密钥不会被传输）。</p>
+<p>hmac认证算法基于哈希函数如MD5和SHA-1，关于这个在IETF RFC 2104中有详细介绍。</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="p10_add_ssl_to_network_services.html" class="btn btn-neutral float-right" title="11.10 在网络服务中加入SSL" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="p08_implementing_remote_procedure_calls.html" class="btn btn-neutral" title="11.8 实现远程方法调用" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; <a href="../copyright.html">Copyright</a> 2017, 熊能.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

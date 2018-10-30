@@ -1,0 +1,352 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>13.7 复制或者移动文件和目录 &mdash; python3-cookbook 3.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="13.8 创建和解压归档文件" href="p08_creating_and_unpacking_archives.html" />
+    <link rel="prev" title="13.6 执行外部命令并获取它的输出" href="p06_executing_external_command_and_get_its_output.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> python3-cookbook
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p01_data_structures_algorithms.html">第一章：数据结构和算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p02_strings_and_text.html">第二章：字符串和文本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p03_numbers_dates_times.html">第三章：数字日期和时间</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p04_iterators_and_generators.html">第四章：迭代器与生成器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p05_files_and_io.html">第五章：文件与IO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p06_data_encoding_and_process.html">第六章：数据编码和处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p07_functions.html">第七章：函数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p08_classes_and_objects.html">第八章：类与对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p09_meta_programming.html">第九章：元编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p10_modules_and_packages.html">第十章：模块与包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p11_network_and_web_program.html">第十一章：网络与Web编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p12_concurrency.html">第十二章：并发编程</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../chapters/p13_utility_script_and_system_manage.html">第十三章：脚本编程与系统管理</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="p01_accept_input_via_redirect_pips_or_input_files.html">13.1 通过重定向/管道/文件接受输入</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p02_terminate_program_with_an_error_message.html">13.2 终止程序并给出错误信息</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p03_parsing_command_line_options.html">13.3 解析命令行选项</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p04_prompt_for_password_at_runtime.html">13.4 运行时弹出密码输入提示</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p05_getting_terminal_size.html">13.5 获取终端的大小</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p06_executing_external_command_and_get_its_output.html">13.6 执行外部命令并获取它的输出</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">13.7 复制或者移动文件和目录</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">问题</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">解决方案</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">讨论</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="p08_creating_and_unpacking_archives.html">13.8 创建和解压归档文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p09_find_files_by_name.html">13.9 通过文件名查找文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p10_read_configuration_files.html">13.10 读取配置文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p11_add_logging_to_simple_scripts.html">13.11 给简单脚本增加日志功能</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p12_add_logging_to_libraries.html">13.12 给函数库增加日志功能</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p13_making_stopwatch_timer.html">13.13 实现一个计时器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p14_putting_limits_on_memory_and_cpu_usage.html">13.14 限制内存和CPU的使用量</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p15_luanch_a_web_browser.html">13.15 启动一个WEB浏览器</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p14_test_debug_and_exceptions.html">第十四章：测试、调试和异常</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p15_c_extensions.html">第十五章：C语言扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p16_appendix.html">附录A</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aboutme.html">关于译者</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">python3-cookbook</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../chapters/p13_utility_script_and_system_manage.html">第十三章：脚本编程与系统管理</a> &raquo;</li>
+        
+      <li>13.7 复制或者移动文件和目录</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/c13/p07_copy_move_files_and_directories.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>13.7 复制或者移动文件和目录<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>问题<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>你想要复制或移动文件和目录，但是又不想调用shell命令。</p>
+</div>
+<div class="section" id="id3">
+<h2>解决方案<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">shutil</span></code> 模块有很多便捷的函数可以复制文件和目录。使用起来非常简单，比如：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">shutil</span>
+
+<span class="c1"># Copy src to dst. (cp src dst)</span>
+<span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span>
+
+<span class="c1"># Copy files, but preserve metadata (cp -p src dst)</span>
+<span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span>
+
+<span class="c1"># Copy directory tree (cp -R src dst)</span>
+<span class="n">shutil</span><span class="o">.</span><span class="n">copytree</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span>
+
+<span class="c1"># Move src to dst (mv src dst)</span>
+<span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>这些函数的参数都是字符串形式的文件或目录名。
+底层语义模拟了类似的Unix命令，如上面的注释部分。</p>
+<p>默认情况下，对于符号链接而已这些命令处理的是它指向的东西。
+例如，如果源文件是一个符号链接，那么目标文件将会是符号链接指向的文件。
+如果你只想复制符号链接本身，那么需要指定关键字参数 <code class="docutils literal notranslate"><span class="pre">follow_symlinks</span></code> ,如下：</p>
+<p>如果你想保留被复制目录中的符号链接，像这样做：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">shutil</span><span class="o">.</span><span class="n">copytree</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">,</span> <span class="n">symlinks</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">copytree()</span></code> 可以让你在复制过程中选择性的忽略某些文件或目录。
+你可以提供一个忽略函数，接受一个目录名和文件名列表作为输入，返回一个忽略的名称列表。例如：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">ignore_pyc_files</span><span class="p">(</span><span class="n">dirname</span><span class="p">,</span> <span class="n">filenames</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">name</span> <span class="ow">in</span> <span class="n">filenames</span> <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.pyc&#39;</span><span class="p">)]</span>
+
+<span class="n">shutil</span><span class="o">.</span><span class="n">copytree</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="n">ignore_pyc_files</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>由于忽略某种模式的文件名是很常见的，因此一个便捷的函数 <code class="docutils literal notranslate"><span class="pre">ignore_patterns()</span></code> 已经包含在里面了。例如：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">shutil</span><span class="o">.</span><span class="n">copytree</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="n">shutil</span><span class="o">.</span><span class="n">ignore_patterns</span><span class="p">(</span><span class="s1">&#39;*~&#39;</span><span class="p">,</span> <span class="s1">&#39;*.pyc&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>讨论<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>使用 <code class="docutils literal notranslate"><span class="pre">shutil</span></code> 复制文件和目录也忒简单了点吧。
+不过，对于文件元数据信息，<code class="docutils literal notranslate"><span class="pre">copy2()</span></code> 这样的函数只能尽自己最大能力来保留它。
+访问时间、创建时间和权限这些基本信息会被保留，
+但是对于所有者、ACLs、资源fork和其他更深层次的文件元信息就说不准了，
+这个还得依赖于底层操作系统类型和用户所拥有的访问权限。
+你通常不会去使用 <code class="docutils literal notranslate"><span class="pre">shutil.copytree()</span></code> 函数来执行系统备份。
+当处理文件名的时候，最好使用 <code class="docutils literal notranslate"><span class="pre">os.path</span></code> 中的函数来确保最大的可移植性（特别是同时要适用于Unix和Windows）。
+例如：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;/Users/guido/programs/spam.py&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os.path</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<span class="go">&#39;spam.py&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<span class="go">&#39;/Users/guido/programs&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<span class="go">(&#39;/Users/guido/programs&#39;, &#39;spam.py&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;/new/dir&#39;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+<span class="go">&#39;/new/dir/spam.py&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/guido/programs/spam.py&#39;</span><span class="p">)</span>
+<span class="go">&#39;/Users/guido/programs/spam.py&#39;</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>使用 <code class="docutils literal notranslate"><span class="pre">copytree()</span></code> 复制文件夹的一个棘手的问题是对于错误的处理。
+例如，在复制过程中，函数可能会碰到损坏的符号链接，因为权限无法访问文件的问题等等。
+为了解决这个问题，所有碰到的问题会被收集到一个列表中并打包为一个单独的异常，到了最后再抛出。
+下面是一个例子：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">shutil</span><span class="o">.</span><span class="n">copytree</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">shutil</span><span class="o">.</span><span class="n">Error</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">,</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+         <span class="c1"># src is source name</span>
+         <span class="c1"># dst is destination name</span>
+         <span class="c1"># msg is error message from exception</span>
+         <span class="k">print</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>如果你提供关键字参数 <code class="docutils literal notranslate"><span class="pre">ignore_dangling_symlinks=True</span></code> ，
+这时候 <code class="docutils literal notranslate"><span class="pre">copytree()</span></code> 会忽略掉无效符号链接。</p>
+<p>本节演示的这些函数都是最常见的。不过，<code class="docutils literal notranslate"><span class="pre">shutil</span></code> 还有更多的和复制数据相关的操作。
+它的文档很值得一看，参考 <a class="reference external" href="https://docs.python.org/3/library/shutil.html">Python documentation</a></p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="p08_creating_and_unpacking_archives.html" class="btn btn-neutral float-right" title="13.8 创建和解压归档文件" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="p06_executing_external_command_and_get_its_output.html" class="btn btn-neutral" title="13.6 执行外部命令并获取它的输出" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; <a href="../copyright.html">Copyright</a> 2017, 熊能.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

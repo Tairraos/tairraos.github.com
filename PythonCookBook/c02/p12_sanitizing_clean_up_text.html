@@ -1,0 +1,365 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>2.12 审查清理文本字符串 &mdash; python3-cookbook 3.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="2.13 字符串对齐" href="p13_aligning_text_strings.html" />
+    <link rel="prev" title="2.11 删除字符串中不需要的字符" href="p11_strip_unwanted_characters.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> python3-cookbook
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p01_data_structures_algorithms.html">第一章：数据结构和算法</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../chapters/p02_strings_and_text.html">第二章：字符串和文本</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="p01_split_string_on_multiple_delimiters.html">2.1 使用多个界定符分割字符串</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p02_match_text_at_start_end.html">2.2 字符串开头或结尾匹配</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p03_match_strings_with_shell_wildcard.html">2.3 用Shell通配符匹配字符串</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p04_match_and_search_text.html">2.4 字符串匹配和搜索</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p05_search_and_replace_text.html">2.5 字符串搜索和替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p06_search_replace_case_insensitive.html">2.6 字符串忽略大小写的搜索替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p07_specify_regexp_for_shortest_match.html">2.7 最短匹配模式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p08_regexp_for_multiline_partterns.html">2.8 多行匹配模式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p09_normalize_unicode_text_to_regexp.html">2.9 将Unicode文本标准化</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p10_work_with_unicode_in_regexp.html">2.10 在正则式中使用Unicode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p11_strip_unwanted_characters.html">2.11 删除字符串中不需要的字符</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">2.12 审查清理文本字符串</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">问题</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">解决方案</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">讨论</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="p13_aligning_text_strings.html">2.13 字符串对齐</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p14_combine_and_concatenate_strings.html">2.14 合并拼接字符串</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p15_interpolating_variables_in_strings.html">2.15 字符串中插入变量</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p16_reformat_text_to_fixed_number_columns.html">2.16 以指定列宽格式化字符串</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p17_handle_html_xml_in_text.html">2.17 在字符串中处理html和xml</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p18_tokenizing_text.html">2.18 字符串令牌解析</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p19_writing_recursive_descent_parser.html">2.19 实现一个简单的递归下降分析器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p20_perform_text_operations_on_byte_string.html">2.20 字节字符串上的字符串操作</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p03_numbers_dates_times.html">第三章：数字日期和时间</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p04_iterators_and_generators.html">第四章：迭代器与生成器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p05_files_and_io.html">第五章：文件与IO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p06_data_encoding_and_process.html">第六章：数据编码和处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p07_functions.html">第七章：函数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p08_classes_and_objects.html">第八章：类与对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p09_meta_programming.html">第九章：元编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p10_modules_and_packages.html">第十章：模块与包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p11_network_and_web_program.html">第十一章：网络与Web编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p12_concurrency.html">第十二章：并发编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p13_utility_script_and_system_manage.html">第十三章：脚本编程与系统管理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p14_test_debug_and_exceptions.html">第十四章：测试、调试和异常</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p15_c_extensions.html">第十五章：C语言扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p16_appendix.html">附录A</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aboutme.html">关于译者</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">python3-cookbook</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../chapters/p02_strings_and_text.html">第二章：字符串和文本</a> &raquo;</li>
+        
+      <li>2.12 审查清理文本字符串</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/c02/p12_sanitizing_clean_up_text.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>2.12 审查清理文本字符串<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>问题<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>一些无聊的幼稚黑客在你的网站页面表单中输入文本”pýtĥöñ”，然后你想将这些字符清理掉。</p>
+</div>
+<div class="section" id="id3">
+<h2>解决方案<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>文本清理问题会涉及到包括文本解析与数据处理等一系列问题。
+在非常简单的情形下，你可能会选择使用字符串函数(比如 <code class="docutils literal notranslate"><span class="pre">str.upper()</span></code> 和 <code class="docutils literal notranslate"><span class="pre">str.lower()</span></code> )将文本转为标准格式。
+使用 <code class="docutils literal notranslate"><span class="pre">str.replace()</span></code> 或者 <code class="docutils literal notranslate"><span class="pre">re.sub()</span></code> 的简单替换操作能删除或者改变指定的字符序列。
+你同样还可以使用2.9小节的 <code class="docutils literal notranslate"><span class="pre">unicodedata.normalize()</span></code> 函数将unicode文本标准化。</p>
+<p>然后，有时候你可能还想在清理操作上更进一步。比如，你可能想消除整个区间上的字符或者去除变音符。
+为了这样做，你可以使用经常会被忽视的 <code class="docutils literal notranslate"><span class="pre">str.translate()</span></code> 方法。
+为了演示，假设你现在有下面这个凌乱的字符串：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;pýtĥöñ</span><span class="se">\f</span><span class="s1">is</span><span class="se">\t</span><span class="s1">awesome</span><span class="se">\r\n</span><span class="s1">&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span>
+<span class="go">&#39;pýtĥöñ\x0cis\tawesome\r\n&#39;</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>第一步是清理空白字符。为了这样做，先创建一个小的转换表格然后使用 <code class="docutils literal notranslate"><span class="pre">translate()</span></code> 方法：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">remap</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span> <span class="p">:</span> <span class="s1">&#39; &#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\f</span><span class="s1">&#39;</span><span class="p">)</span> <span class="p">:</span> <span class="s1">&#39; &#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span><span class="p">)</span> <span class="p">:</span> <span class="bp">None</span> <span class="c1"># Deleted</span>
+<span class="gp">... </span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">remap</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">&#39;pýtĥöñ is awesome\n&#39;</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>正如你看的那样，空白字符 <code class="docutils literal notranslate"><span class="pre">\t</span></code> 和 <code class="docutils literal notranslate"><span class="pre">\f</span></code> 已经被重新映射到一个空格。回车字符r直接被删除。</p>
+<p>你可以以这个表格为基础进一步构建更大的表格。比如，让我们删除所有的和音符：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">unicodedata</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cmb_chrs</span> <span class="o">=</span> <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">maxunicode</span><span class="p">)</span>
+<span class="gp">... </span>                        <span class="k">if</span> <span class="n">unicodedata</span><span class="o">.</span><span class="n">combining</span><span class="p">(</span><span class="nb">chr</span><span class="p">(</span><span class="n">c</span><span class="p">)))</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">unicodedata</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s1">&#39;NFD&#39;</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span>
+<span class="go">&#39;pýtĥöñ is awesome\n&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">cmb_chrs</span><span class="p">)</span>
+<span class="go">&#39;python is awesome\n&#39;</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>上面例子中，通过使用 <code class="docutils literal notranslate"><span class="pre">dict.fromkeys()</span></code> 方法构造一个字典，每个Unicode和音符作为键，对应的值全部为 <code class="docutils literal notranslate"><span class="pre">None</span></code> 。</p>
+<p>然后使用 <code class="docutils literal notranslate"><span class="pre">unicodedata.normalize()</span></code> 将原始输入标准化为分解形式字符。
+然后再调用 <code class="docutils literal notranslate"><span class="pre">translate</span></code> 函数删除所有重音符。
+同样的技术也可以被用来删除其他类型的字符(比如控制字符等)。</p>
+<p>作为另一个例子，这里构造一个将所有Unicode数字字符映射到对应的ASCII字符上的表格：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">digitmap</span> <span class="o">=</span> <span class="p">{</span> <span class="n">c</span><span class="p">:</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">unicodedata</span><span class="o">.</span><span class="n">digit</span><span class="p">(</span><span class="nb">chr</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
+<span class="gp">... </span>        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">maxunicode</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="k">if</span> <span class="n">unicodedata</span><span class="o">.</span><span class="n">category</span><span class="p">(</span><span class="nb">chr</span><span class="p">(</span><span class="n">c</span><span class="p">))</span> <span class="o">==</span> <span class="s1">&#39;Nd&#39;</span> <span class="p">}</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">digitmap</span><span class="p">)</span>
+<span class="go">460</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Arabic digits</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\u0661\u0662\u0663</span><span class="s1">&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">digitmap</span><span class="p">)</span>
+<span class="go">&#39;123&#39;</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>另一种清理文本的技术涉及到I/O解码与编码函数。这里的思路是先对文本做一些初步的清理，
+然后再结合 <code class="docutils literal notranslate"><span class="pre">encode()</span></code> 或者 <code class="docutils literal notranslate"><span class="pre">decode()</span></code> 操作来清除或修改它。比如：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">&#39;pýtĥöñ is awesome\n&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">unicodedata</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s1">&#39;NFD&#39;</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">,</span> <span class="s1">&#39;ignore&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">)</span>
+<span class="go">&#39;python is awesome\n&#39;</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>这里的标准化操作将原来的文本分解为单独的和音符。接下来的ASCII编码/解码只是简单的一下子丢弃掉那些字符。
+当然，这种方法仅仅只在最后的目标就是获取到文本对应ACSII表示的时候生效。</p>
+</div>
+<div class="section" id="id4">
+<h2>讨论<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>文本字符清理一个最主要的问题应该是运行的性能。一般来讲，代码越简单运行越快。
+对于简单的替换操作， <code class="docutils literal notranslate"><span class="pre">str.replace()</span></code> 方法通常是最快的，甚至在你需要多次调用的时候。
+比如，为了清理空白字符，你可以这样做：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">clean_spaces</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">s</span>
+</pre></div>
+</div>
+<p>如果你去测试的话，你就会发现这种方式会比使用 <code class="docutils literal notranslate"><span class="pre">translate()</span></code> 或者正则表达式要快很多。</p>
+<p>另一方面，如果你需要执行任何复杂字符对字符的重新映射或者删除操作的话， <code class="docutils literal notranslate"><span class="pre">tanslate()</span></code> 方法会非常的快。</p>
+<p>从大的方面来讲，对于你的应用程序来说性能是你不得不去自己研究的东西。
+不幸的是，我们不可能给你建议一个特定的技术，使它能够适应所有的情况。
+因此实际情况中需要你自己去尝试不同的方法并评估它。</p>
+<p>尽管这一节集中讨论的是文本，但是类似的技术也可以适用于字节，包括简单的替换，转换和正则表达式。</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="p13_aligning_text_strings.html" class="btn btn-neutral float-right" title="2.13 字符串对齐" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="p11_strip_unwanted_characters.html" class="btn btn-neutral" title="2.11 删除字符串中不需要的字符" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; <a href="../copyright.html">Copyright</a> 2017, 熊能.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

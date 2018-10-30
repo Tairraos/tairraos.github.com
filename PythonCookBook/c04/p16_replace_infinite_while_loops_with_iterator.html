@@ -1,0 +1,314 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>4.16 迭代器代替while无限循环 &mdash; python3-cookbook 3.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="第五章：文件与IO" href="../chapters/p05_files_and_io.html" />
+    <link rel="prev" title="4.15 顺序迭代合并后的排序迭代对象" href="p15_iterate_in_sorted_order_over_merged_sorted_iterables.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> python3-cookbook
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p01_data_structures_algorithms.html">第一章：数据结构和算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p02_strings_and_text.html">第二章：字符串和文本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p03_numbers_dates_times.html">第三章：数字日期和时间</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../chapters/p04_iterators_and_generators.html">第四章：迭代器与生成器</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="p01_manually_consuming_iterator.html">4.1 手动遍历迭代器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p02_delegating_iteration.html">4.2 代理迭代</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p03_create_new_iteration_with_generators.html">4.3 使用生成器创建新的迭代模式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p04_implement_iterator_protocol.html">4.4 实现迭代器协议</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p05_iterating_in_reverse.html">4.5 反向迭代</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p06_define_generator_func_with_extra_state.html">4.6 带有外部状态的生成器函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p07_taking_slice_of_iterator.html">4.7 迭代器切片</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p08_skip_first_part_of_iterable.html">4.8 跳过可迭代对象的开始部分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p09_iterate_over_combination_or_permutation.html">4.9 排列组合的迭代</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p10_iterate_over_index_value_pairs_of_sequence.html">4.10 序列上索引值迭代</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p11_iterate_over_multiple_sequences_simultaneously.html">4.11 同时迭代多个序列</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p12_iterate_on_items_in_separate_containers.html">4.12 不同集合上元素的迭代</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p13_create_data_processing_pipelines.html">4.13 创建数据处理管道</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p14_flattening_nested_sequence.html">4.14 展开嵌套的序列</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p15_iterate_in_sorted_order_over_merged_sorted_iterables.html">4.15 顺序迭代合并后的排序迭代对象</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">4.16 迭代器代替while无限循环</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">问题</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">解决方案</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">讨论</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p05_files_and_io.html">第五章：文件与IO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p06_data_encoding_and_process.html">第六章：数据编码和处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p07_functions.html">第七章：函数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p08_classes_and_objects.html">第八章：类与对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p09_meta_programming.html">第九章：元编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p10_modules_and_packages.html">第十章：模块与包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p11_network_and_web_program.html">第十一章：网络与Web编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p12_concurrency.html">第十二章：并发编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p13_utility_script_and_system_manage.html">第十三章：脚本编程与系统管理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p14_test_debug_and_exceptions.html">第十四章：测试、调试和异常</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p15_c_extensions.html">第十五章：C语言扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p16_appendix.html">附录A</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aboutme.html">关于译者</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">python3-cookbook</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../chapters/p04_iterators_and_generators.html">第四章：迭代器与生成器</a> &raquo;</li>
+        
+      <li>4.16 迭代器代替while无限循环</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/c04/p16_replace_infinite_while_loops_with_iterator.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="while">
+<h1>4.16 迭代器代替while无限循环<a class="headerlink" href="#while" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>问题<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>你在代码中使用 <code class="docutils literal notranslate"><span class="pre">while</span></code> 循环来迭代处理数据，因为它需要调用某个函数或者和一般迭代模式不同的测试条件。
+能不能用迭代器来重写这个循环呢？</p>
+</div>
+<div class="section" id="id2">
+<h2>解决方案<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>一个常见的IO操作程序可能会想下面这样：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">CHUNKSIZE</span> <span class="o">=</span> <span class="mi">8192</span>
+
+<span class="k">def</span> <span class="nf">reader</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="n">CHUNKSIZE</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">data</span> <span class="o">==</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">process_data</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>这种代码通常可以使用 <code class="docutils literal notranslate"><span class="pre">iter()</span></code> 来代替，如下所示：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">reader2</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="nb">iter</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="n">CHUNKSIZE</span><span class="p">),</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="k">pass</span>
+        <span class="c1"># process_data(data)</span>
+</pre></div>
+</div>
+<p>如果你怀疑它到底能不能正常工作，可以试验下一个简单的例子。比如：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;/etc/passwd&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="nb">iter</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">n</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">nobody:*:-2:-2:Unprivileged User:/var/empty:/usr/bin/false</span>
+<span class="go">root:*:0:0:System Administrator:/var/root:/bin/sh</span>
+<span class="go">daemon:*:1:1:System Services:/var/root:/usr/bin/false</span>
+<span class="go">_uucp:*:4:4:Unix to Unix Copy Protocol:/var/spool/uucp:/usr/sbin/uucico</span>
+<span class="gp">...</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>讨论<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">iter</span></code> 函数一个鲜为人知的特性是它接受一个可选的 <code class="docutils literal notranslate"><span class="pre">callable</span></code> 对象和一个标记(结尾)值作为输入参数。
+当以这种方式使用的时候，它会创建一个迭代器， 这个迭代器会不断调用 <code class="docutils literal notranslate"><span class="pre">callable</span></code> 对象直到返回值和标记值相等为止。</p>
+<p>这种特殊的方法对于一些特定的会被重复调用的函数很有效果，比如涉及到I/O调用的函数。
+举例来讲，如果你想从套接字或文件中以数据块的方式读取数据，通常你得要不断重复的执行 <code class="docutils literal notranslate"><span class="pre">read()</span></code> 或 <code class="docutils literal notranslate"><span class="pre">recv()</span></code> ，
+并在后面紧跟一个文件结尾测试来决定是否终止。这节中的方案使用一个简单的 <code class="docutils literal notranslate"><span class="pre">iter()</span></code> 调用就可以将两者结合起来了。
+其中 <code class="docutils literal notranslate"><span class="pre">lambda</span></code> 函数参数是为了创建一个无参的 <code class="docutils literal notranslate"><span class="pre">callable</span></code> 对象，并为 <code class="docutils literal notranslate"><span class="pre">recv</span></code> 或 <code class="docutils literal notranslate"><span class="pre">read()</span></code> 方法提供了 <code class="docutils literal notranslate"><span class="pre">size</span></code> 参数。</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../chapters/p05_files_and_io.html" class="btn btn-neutral float-right" title="第五章：文件与IO" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="p15_iterate_in_sorted_order_over_merged_sorted_iterables.html" class="btn btn-neutral" title="4.15 顺序迭代合并后的排序迭代对象" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; <a href="../copyright.html">Copyright</a> 2017, 熊能.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

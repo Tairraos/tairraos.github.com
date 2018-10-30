@@ -1,0 +1,331 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>1.19 转换并同时计算数据 &mdash; python3-cookbook 3.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="1.20 合并多个字典或映射" href="p20_combine_multiple_map_to_single_map.html" />
+    <link rel="prev" title="1.18 映射名称到序列元素" href="p18_map_names_to_sequence_elements.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> python3-cookbook
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">前言</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../chapters/p01_data_structures_algorithms.html">第一章：数据结构和算法</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="p01_unpack_sequence_into_separate_variables.html">1.1 解压序列赋值给多个变量</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p02_unpack_elements_from_iterables.html">1.2 解压可迭代对象赋值给多个变量</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p03_keep_last_n_items.html">1.3 保留最后 N 个元素</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p04_find_largest_or_smallest_n_items.html">1.4 查找最大或最小的 N 个元素</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p05_implement_a_priority_queue.html">1.5 实现一个优先级队列</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p06_map_keys_to_multiple_values_in_dict.html">1.6 字典中的键映射多个值</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p07_keep_dict_in_order.html">1.7 字典排序</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p08_calculating_with_dict.html">1.8 字典的运算</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p09_find_commonalities_in_dicts.html">1.9 查找两字典的相同点</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p10_remove_duplicates_from_seq_order.html">1.10 删除序列相同元素并保持顺序</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p11_naming_slice.html">1.11 命名切片</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p12_determine_most_freqently_items_in_seq.html">1.12 序列中出现次数最多的元素</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p13_sort_list_of_dicts_by_key.html">1.13 通过某个关键字排序一个字典列表</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p14_sort_objects_without_compare_support.html">1.14 排序不支持原生比较的对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p15_group_records_based_on_field.html">1.15 通过某个字段将记录分组</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p16_filter_sequence_elements.html">1.16 过滤序列元素</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p17_extract_subset_of_dict.html">1.17 从字典中提取子集</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p18_map_names_to_sequence_elements.html">1.18 映射名称到序列元素</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">1.19 转换并同时计算数据</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">问题</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">解决方案</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">讨论</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="p20_combine_multiple_map_to_single_map.html">1.20 合并多个字典或映射</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p02_strings_and_text.html">第二章：字符串和文本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p03_numbers_dates_times.html">第三章：数字日期和时间</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p04_iterators_and_generators.html">第四章：迭代器与生成器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p05_files_and_io.html">第五章：文件与IO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p06_data_encoding_and_process.html">第六章：数据编码和处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p07_functions.html">第七章：函数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p08_classes_and_objects.html">第八章：类与对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p09_meta_programming.html">第九章：元编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p10_modules_and_packages.html">第十章：模块与包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p11_network_and_web_program.html">第十一章：网络与Web编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p12_concurrency.html">第十二章：并发编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p13_utility_script_and_system_manage.html">第十三章：脚本编程与系统管理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p14_test_debug_and_exceptions.html">第十四章：测试、调试和异常</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p15_c_extensions.html">第十五章：C语言扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p16_appendix.html">附录A</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aboutme.html">关于译者</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">python3-cookbook</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../chapters/p01_data_structures_algorithms.html">第一章：数据结构和算法</a> &raquo;</li>
+        
+      <li>1.19 转换并同时计算数据</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/c01/p19_transform_and_reduce_data_same_time.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>1.19 转换并同时计算数据<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>问题<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>你需要在数据序列上执行聚集函数（比如 <code class="docutils literal notranslate"><span class="pre">sum()</span></code> , <code class="docutils literal notranslate"><span class="pre">min()</span></code> , <code class="docutils literal notranslate"><span class="pre">max()</span></code> ），
+但是首先你需要先转换或者过滤数据</p>
+</div>
+<div class="section" id="id3">
+<h2>解决方案<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>一个非常优雅的方式去结合数据计算与转换就是使用一个生成器表达式参数。
+比如，如果你想计算平方和，可以像下面这样做：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nums</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">s</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nums</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>下面是更多的例子：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Determine if any .py files exist in a directory</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">files</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;dirname&#39;</span><span class="p">)</span>
+<span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.py&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">files</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;There be python!&#39;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Sorry, no python.&#39;</span><span class="p">)</span>
+<span class="c1"># Output a tuple as CSV</span>
+<span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;ACME&#39;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mf">123.45</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">s</span><span class="p">))</span>
+<span class="c1"># Data reduction across fields of a data structure</span>
+<span class="n">portfolio</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;GOOG&#39;</span><span class="p">,</span> <span class="s1">&#39;shares&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="p">},</span>
+    <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;YHOO&#39;</span><span class="p">,</span> <span class="s1">&#39;shares&#39;</span><span class="p">:</span> <span class="mi">75</span><span class="p">},</span>
+    <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;AOL&#39;</span><span class="p">,</span> <span class="s1">&#39;shares&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">},</span>
+    <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;SCOX&#39;</span><span class="p">,</span> <span class="s1">&#39;shares&#39;</span><span class="p">:</span> <span class="mi">65</span><span class="p">}</span>
+<span class="p">]</span>
+<span class="n">min_shares</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s1">&#39;shares&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">portfolio</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>讨论<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>上面的示例向你演示了当生成器表达式作为一个单独参数传递给函数时候的巧妙语法（你并不需要多加一个括号）。
+比如，下面这些语句是等效的：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">((</span><span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nums</span><span class="p">))</span> <span class="c1"># 显示的传递一个生成器表达式对象</span>
+<span class="n">s</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nums</span><span class="p">)</span> <span class="c1"># 更加优雅的实现方式，省略了括号</span>
+</pre></div>
+</div>
+<p>使用一个生成器表达式作为参数会比先创建一个临时列表更加高效和优雅。
+比如，如果你不使用生成器表达式的话，你可能会考虑使用下面的实现方式：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nums</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">s</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nums</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>这种方式同样可以达到想要的效果，但是它会多一个步骤，先创建一个额外的列表。
+对于小型列表可能没什么关系，但是如果元素数量非常大的时候，
+它会创建一个巨大的仅仅被使用一次就被丢弃的临时数据结构。而生成器方案会以迭代的方式转换数据，因此更省内存。</p>
+<p>在使用一些聚集函数比如 <code class="docutils literal notranslate"><span class="pre">min()</span></code> 和 <code class="docutils literal notranslate"><span class="pre">max()</span></code> 的时候你可能更加倾向于使用生成器版本，
+它们接受的一个 key 关键字参数或许对你很有帮助。
+比如，在上面的证券例子中，你可能会考虑下面的实现版本：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Original: Returns 20</span>
+<span class="n">min_shares</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s1">&#39;shares&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">portfolio</span><span class="p">)</span>
+<span class="c1"># Alternative: Returns {&#39;name&#39;: &#39;AOL&#39;, &#39;shares&#39;: 20}</span>
+<span class="n">min_shares</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">portfolio</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="p">[</span><span class="s1">&#39;shares&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="p20_combine_multiple_map_to_single_map.html" class="btn btn-neutral float-right" title="1.20 合并多个字典或映射" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="p18_map_names_to_sequence_elements.html" class="btn btn-neutral" title="1.18 映射名称到序列元素" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; <a href="../copyright.html">Copyright</a> 2017, 熊能.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,477 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>8.7 调用父类方法 &mdash; python3-cookbook 3.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="8.8 子类中扩展property" href="p08_extending_property_in_subclass.html" />
+    <link rel="prev" title="8.6 创建可管理的属性" href="p06_create_managed_attributes.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> python3-cookbook
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p01_data_structures_algorithms.html">第一章：数据结构和算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p02_strings_and_text.html">第二章：字符串和文本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p03_numbers_dates_times.html">第三章：数字日期和时间</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p04_iterators_and_generators.html">第四章：迭代器与生成器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p05_files_and_io.html">第五章：文件与IO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p06_data_encoding_and_process.html">第六章：数据编码和处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p07_functions.html">第七章：函数</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../chapters/p08_classes_and_objects.html">第八章：类与对象</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="p01_change_string_representation_of_instances.html">8.1 改变对象的字符串显示</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p02_customizing_string_formatting.html">8.2 自定义字符串的格式化</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p03_make_objects_support_context_management_protocol.html">8.3 让对象支持上下文管理协议</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p04_save_memory_when_create_large_number_instances.html">8.4 创建大量对象时节省内存方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p05_encapsulating_names_in_class.html">8.5 在类中封装属性名</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p06_create_managed_attributes.html">8.6 创建可管理的属性</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">8.7 调用父类方法</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">问题</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">解决方案</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">讨论</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="p08_extending_property_in_subclass.html">8.8 子类中扩展property</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p09_create_new_kind_of_class_or_instance_attribute.html">8.9 创建新的类或实例属性</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p10_using_lazily_computed_properties.html">8.10 使用延迟计算属性</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p11_simplify_initialization_of_data_structure.html">8.11 简化数据结构的初始化</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p12_define_interface_or_abstract_base_class.html">8.12 定义接口或者抽象基类</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p13_implementing_data_model_or_type_system.html">8.13 实现数据模型的类型约束</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p14_implementing_custom_containers.html">8.14 实现自定义容器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p15_delegating_attribute_access.html">8.15 属性的代理访问</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p16_define_more_than_one_constructor_in_class.html">8.16 在类中定义多个构造器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p17_create_instance_without_invoking_init_method.html">8.17 创建不调用init方法的实例</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p18_extending_classes_with_mixins.html">8.18 利用Mixins扩展类功能</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p19_implements_stateful_objects_or_state_machines.html">8.19 实现状态对象或者状态机</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p20_call_method_on_object_by_string_name.html">8.20 通过字符串调用对象方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p21_implementing_visitor_pattern.html">8.21 实现访问者模式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p22_implementing_visitor_pattern_without_recursion.html">8.22 不用递归实现访问者模式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p23_managing_memory_in_cyclic_data_structures.html">8.23 循环引用数据结构的内存管理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p24_making_classes_support_comparison_operations.html">8.24 让类支持比较操作</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p25_creating_cached_instances.html">8.25 创建缓存实例</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p09_meta_programming.html">第九章：元编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p10_modules_and_packages.html">第十章：模块与包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p11_network_and_web_program.html">第十一章：网络与Web编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p12_concurrency.html">第十二章：并发编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p13_utility_script_and_system_manage.html">第十三章：脚本编程与系统管理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p14_test_debug_and_exceptions.html">第十四章：测试、调试和异常</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p15_c_extensions.html">第十五章：C语言扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p16_appendix.html">附录A</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aboutme.html">关于译者</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">python3-cookbook</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../chapters/p08_classes_and_objects.html">第八章：类与对象</a> &raquo;</li>
+        
+      <li>8.7 调用父类方法</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/c08/p07_calling_method_on_parent_class.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>8.7 调用父类方法<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>问题<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>你想在子类中调用父类的某个已经被覆盖的方法。</p>
+</div>
+<div class="section" id="id3">
+<h2>解决方案<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>为了调用父类(超类)的一个方法，可以使用 <code class="docutils literal notranslate"><span class="pre">super()</span></code> 函数，比如：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">A</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">spam</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;A.spam&#39;</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">B</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">spam</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;B.spam&#39;</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">spam</span><span class="p">()</span>  <span class="c1"># Call parent spam()</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">super()</span></code> 函数的一个常见用法是在 <code class="docutils literal notranslate"><span class="pre">__init__()</span></code> 方法中确保父类被正确的初始化了：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">A</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">class</span> <span class="nc">B</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">super()</span></code> 的另外一个常见用法出现在覆盖Python特殊方法的代码中，比如：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Proxy</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span> <span class="o">=</span> <span class="n">obj</span>
+
+    <span class="c1"># Delegate attribute lookup to internal obj</span>
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+
+    <span class="c1"># Delegate attribute assignment</span>
+    <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">):</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="c1"># Call original __setattr__</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>在上面代码中，<code class="docutils literal notranslate"><span class="pre">__setattr__()</span></code> 的实现包含一个名字检查。
+如果某个属性名以下划线(_)开头，就通过 <code class="docutils literal notranslate"><span class="pre">super()</span></code> 调用原始的 <code class="docutils literal notranslate"><span class="pre">__setattr__()</span></code> ，
+否则的话就委派给内部的代理对象 <code class="docutils literal notranslate"><span class="pre">self._obj</span></code> 去处理。
+这看上去有点意思，因为就算没有显式的指明某个类的父类， <code class="docutils literal notranslate"><span class="pre">super()</span></code> 仍然可以有效的工作。</p>
+</div>
+<div class="section" id="id4">
+<h2>讨论<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>实际上，大家对于在Python中如何正确使用 <code class="docutils literal notranslate"><span class="pre">super()</span></code> 函数普遍知之甚少。
+你有时候会看到像下面这样直接调用父类的一个方法：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Base</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Base.__init__&#39;</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">A</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">Base</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;A.__init__&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>尽管对于大部分代码而言这么做没什么问题，但是在更复杂的涉及到多继承的代码中就有可能导致很奇怪的问题发生。
+比如，考虑如下的情况：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Base</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Base.__init__&#39;</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">A</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">Base</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;A.__init__&#39;</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">B</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">Base</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;B.__init__&#39;</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">C</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">A</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">B</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;C.__init__&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>如果你运行这段代码就会发现 <code class="docutils literal notranslate"><span class="pre">Base.__init__()</span></code> 被调用两次，如下所示：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">C</span><span class="p">()</span>
+<span class="go">Base.__init__</span>
+<span class="go">A.__init__</span>
+<span class="go">Base.__init__</span>
+<span class="go">B.__init__</span>
+<span class="go">C.__init__</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>可能两次调用 <code class="docutils literal notranslate"><span class="pre">Base.__init__()</span></code> 没什么坏处，但有时候却不是。
+另一方面，假设你在代码中换成使用 <code class="docutils literal notranslate"><span class="pre">super()</span></code> ，结果就很完美了：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Base</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Base.__init__&#39;</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">A</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;A.__init__&#39;</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">B</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;B.__init__&#39;</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">C</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>  <span class="c1"># Only one call to super() here</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;C.__init__&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>运行这个新版本后，你会发现每个 <code class="docutils literal notranslate"><span class="pre">__init__()</span></code> 方法只会被调用一次了：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">C</span><span class="p">()</span>
+<span class="go">Base.__init__</span>
+<span class="go">B.__init__</span>
+<span class="go">A.__init__</span>
+<span class="go">C.__init__</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>为了弄清它的原理，我们需要花点时间解释下Python是如何实现继承的。
+对于你定义的每一个类，Python会计算出一个所谓的方法解析顺序(MRO)列表。
+这个MRO列表就是一个简单的所有基类的线性顺序表。例如：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">C</span><span class="o">.</span><span class="vm">__mro__</span>
+<span class="go">(&lt;class &#39;__main__.C&#39;&gt;, &lt;class &#39;__main__.A&#39;&gt;, &lt;class &#39;__main__.B&#39;&gt;,</span>
+<span class="go">&lt;class &#39;__main__.Base&#39;&gt;, &lt;class &#39;object&#39;&gt;)</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>为了实现继承，Python会在MRO列表上从左到右开始查找基类，直到找到第一个匹配这个属性的类为止。</p>
+<p>而这个MRO列表的构造是通过一个C3线性化算法来实现的。
+我们不去深究这个算法的数学原理，它实际上就是合并所有父类的MRO列表并遵循如下三条准则：</p>
+<ul class="simple">
+<li>子类会先于父类被检查</li>
+<li>多个父类会根据它们在列表中的顺序被检查</li>
+<li>如果对下一个类存在两个合法的选择，选择第一个父类</li>
+</ul>
+<p>老实说，你所要知道的就是MRO列表中的类顺序会让你定义的任意类层级关系变得有意义。</p>
+<p>当你使用 <code class="docutils literal notranslate"><span class="pre">super()</span></code> 函数时，Python会在MRO列表上继续搜索下一个类。
+只要每个重定义的方法统一使用 <code class="docutils literal notranslate"><span class="pre">super()</span></code> 并只调用它一次，
+那么控制流最终会遍历完整个MRO列表，每个方法也只会被调用一次。
+这也是为什么在第二个例子中你不会调用两次 <code class="docutils literal notranslate"><span class="pre">Base.__init__()</span></code> 的原因。</p>
+<p><code class="docutils literal notranslate"><span class="pre">super()</span></code> 有个令人吃惊的地方是它并不一定去查找某个类在MRO中下一个直接父类，
+你甚至可以在一个没有直接父类的类中使用它。例如，考虑如下这个类：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">A</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">spam</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;A.spam&#39;</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">spam</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>如果你试着直接使用这个类就会出错：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">A</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">spam</span><span class="p">()</span>
+<span class="go">A.spam</span>
+<span class="gt">Traceback (most recent call last):</span>
+    <span class="n">File</span> <span class="s2">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+    <span class="n">File</span> <span class="s2">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">4</span><span class="p">,</span> <span class="ow">in</span> <span class="n">spam</span>
+<span class="gr">AttributeError</span>: <span class="n">&#39;super&#39; object has no attribute &#39;spam&#39;</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>但是，如果你使用多继承的话看看会发生什么：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">B</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">spam</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;B.spam&#39;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">C</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">pass</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">C</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">spam</span><span class="p">()</span>
+<span class="go">A.spam</span>
+<span class="go">B.spam</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>你可以看到在类A中使用 <code class="docutils literal notranslate"><span class="pre">super().spam()</span></code> 实际上调用的是跟类A毫无关系的类B中的 <code class="docutils literal notranslate"><span class="pre">spam()</span></code> 方法。
+这个用类C的MRO列表就可以完全解释清楚了：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">C</span><span class="o">.</span><span class="vm">__mro__</span>
+<span class="go">(&lt;class &#39;__main__.C&#39;&gt;, &lt;class &#39;__main__.A&#39;&gt;, &lt;class &#39;__main__.B&#39;&gt;,</span>
+<span class="go">&lt;class &#39;object&#39;&gt;)</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>在定义混入类的时候这样使用 <code class="docutils literal notranslate"><span class="pre">super()</span></code> 是很普遍的。可以参考8.13和8.18小节。</p>
+<p>然而，由于 <code class="docutils literal notranslate"><span class="pre">super()</span></code> 可能会调用不是你想要的方法，你应该遵循一些通用原则。
+首先，确保在继承体系中所有相同名字的方法拥有可兼容的参数签名(比如相同的参数个数和参数名称)。
+这样可以确保 <code class="docutils literal notranslate"><span class="pre">super()</span></code> 调用一个非直接父类方法时不会出错。
+其次，最好确保最顶层的类提供了这个方法的实现，这样的话在MRO上面的查找链肯定可以找到某个确定的方法。</p>
+<p>在Python社区中对于 <code class="docutils literal notranslate"><span class="pre">super()</span></code> 的使用有时候会引来一些争议。
+尽管如此，如果一切顺利的话，你应该在你最新代码中使用它。
+Raymond Hettinger为此写了一篇非常好的文章
+<a class="reference external" href="http://rhettinger.wordpress.com/2011/05/26/super-considered-super">“Python’s super() Considered Super!”</a> ，
+通过大量的例子向我们解释了为什么 <code class="docutils literal notranslate"><span class="pre">super()</span></code> 是极好的。</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="p08_extending_property_in_subclass.html" class="btn btn-neutral float-right" title="8.8 子类中扩展property" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="p06_create_managed_attributes.html" class="btn btn-neutral" title="8.6 创建可管理的属性" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; <a href="../copyright.html">Copyright</a> 2017, 熊能.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

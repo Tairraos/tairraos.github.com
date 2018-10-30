@@ -1,0 +1,342 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>15.12 将函数指针转换为可调用对象 &mdash; python3-cookbook 3.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="15.13 传递NULL结尾的字符串给C函数库" href="p13_pass_null_terminated_string_to_c_libraries.html" />
+    <link rel="prev" title="15.11 用Cython写高性能的数组操作" href="p11_use_cython_to_write_high_performance_array_operation.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> python3-cookbook
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p01_data_structures_algorithms.html">第一章：数据结构和算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p02_strings_and_text.html">第二章：字符串和文本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p03_numbers_dates_times.html">第三章：数字日期和时间</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p04_iterators_and_generators.html">第四章：迭代器与生成器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p05_files_and_io.html">第五章：文件与IO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p06_data_encoding_and_process.html">第六章：数据编码和处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p07_functions.html">第七章：函数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p08_classes_and_objects.html">第八章：类与对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p09_meta_programming.html">第九章：元编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p10_modules_and_packages.html">第十章：模块与包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p11_network_and_web_program.html">第十一章：网络与Web编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p12_concurrency.html">第十二章：并发编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p13_utility_script_and_system_manage.html">第十三章：脚本编程与系统管理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p14_test_debug_and_exceptions.html">第十四章：测试、调试和异常</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../chapters/p15_c_extensions.html">第十五章：C语言扩展</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="p01_access_ccode_using_ctypes.html">15.1 使用ctypes访问C代码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p02_write_simple_c_extension_module.html">15.2 简单的C扩展模块</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p03_write_extension_function_operate_on_arrays.html">15.3 编写扩展函数操作数组</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p04_manage_opaque_pointers_in_c_extension_modules.html">15.4 在C扩展模块中操作隐形指针</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p05_define_and_export_c_api_from_extension_modules.html">15.5 从扩展模块中定义和导出C的API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p06_calling_python_from_c.html">15.6 从C语言中调用Python代码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p07_release_the_gil_in_c_extensions.html">15.7 从C扩展中释放全局锁</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p08_mix_threads_from_c_and_python.html">15.8 C和Python中的线程混用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p09_wrap_c_code_with_swig.html">15.9 用WSIG包装C代码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p10_wrap_existing_c_code_with_cython.html">15.10 用Cython包装C代码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p11_use_cython_to_write_high_performance_array_operation.html">15.11 用Cython写高性能的数组操作</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">15.12 将函数指针转换为可调用对象</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">问题</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">解决方案</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">讨论</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="p13_pass_null_terminated_string_to_c_libraries.html">15.13 传递NULL结尾的字符串给C函数库</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p14_pass_unicode_strings_to_c_libraries.html">15.14 传递Unicode字符串给C函数库</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p15_converting_c_string_to_python.html">15.15 C字符串转换为Python字符串</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p16_work_with_c_strings_of_dubious_encoding.html">15.16 不确定编码格式的C字符串</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p17_pass_filenames_to_c_extensions.html">15.17 传递文件名给C扩展</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p18_pass_open_files_to_c_extensions.html">15.18 传递已打开的文件给C扩展</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p19_read_file_like_objects_from_c.html">15.19 从C语言中读取类文件对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p20_consuming_an_iterable_from_c.html">15.20 处理C语言中的可迭代对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p21_diagnosing_segmentation_faults.html">15.21 诊断分段错误</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p16_appendix.html">附录A</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aboutme.html">关于译者</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">python3-cookbook</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../chapters/p15_c_extensions.html">第十五章：C语言扩展</a> &raquo;</li>
+        
+      <li>15.12 将函数指针转换为可调用对象</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/c15/p12_turning_function_pointer_into_callable.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>15.12 将函数指针转换为可调用对象<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>问题<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>你已经获得了一个被编译函数的内存地址，想将它转换成一个Python可调用对象，
+这样的话你就可以将它作为一个扩展函数使用了。</p>
+</div>
+<div class="section" id="id3">
+<h2>解决方案<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">ctypes</span></code> 模块可被用来创建包装任意内存地址的Python可调用对象。
+下面的例子演示了怎样获取C函数的原始、底层地址，以及如何将其转换为一个可调用对象：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">ctypes</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lib</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cdll</span><span class="o">.</span><span class="n">LoadLibrary</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get the address of sin() from the C math library</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">addr</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">sin</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">addr</span>
+<span class="go">140735505915760</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Turn the address into a callable function</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">functype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">CFUNCTYPE</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">func</span> <span class="o">=</span> <span class="n">functype</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">func</span>
+<span class="go">&lt;CFunctionType object at 0x1006816d0&gt;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Call the resulting function</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">func</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">0.9092974268256817</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">func</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">0.0</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>讨论<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>要构建一个可调用对象，你首先需要创建一个 <code class="docutils literal notranslate"><span class="pre">CFUNCTYPE</span></code> 实例。
+<code class="docutils literal notranslate"><span class="pre">CFUNCTYPE()</span></code> 的第一个参数是返回类型。
+接下来的参数是参数类型。一旦你定义了函数类型，你就能将它包装在一个整型内存地址上来创建一个可调用对象了。
+生成的对象被当做普通的可通过 <code class="docutils literal notranslate"><span class="pre">ctypes</span></code> 访问的函数来使用。</p>
+<p>本节看上去可能有点神秘，偏底层一点。
+但是，但是它被广泛使用于各种高级代码生成技术比如即时编译，在LLVM函数库中可以看到。</p>
+<p>例如，下面是一个使用 <code class="docutils literal notranslate"><span class="pre">llvmpy</span></code> 扩展的简单例子，用来构建一个小的聚集函数，获取它的函数指针，
+并将其转换为一个Python可调用对象。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">llvm.core</span> <span class="k">import</span> <span class="n">Module</span><span class="p">,</span> <span class="n">Function</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Builder</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span> <span class="o">=</span> <span class="n">Module</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;example&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">Function</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span><span class="n">Type</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">Type</span><span class="o">.</span><span class="n">double</span><span class="p">(),</span> \
+<span class="go">                     [Type.double(), Type.double()], False), &#39;foo&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">block</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">append_basic_block</span><span class="p">(</span><span class="s1">&#39;entry&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">builder</span> <span class="o">=</span> <span class="n">Builder</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x2</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">fmul</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">f</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y2</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">fmul</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">f</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">fadd</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span><span class="n">y2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">builder</span><span class="o">.</span><span class="n">ret</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<span class="go">&lt;llvm.core.Instruction object at 0x10078e990&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">llvm.ee</span> <span class="k">import</span> <span class="n">ExecutionEngine</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">engine</span> <span class="o">=</span> <span class="n">ExecutionEngine</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">mod</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ptr</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">get_pointer_to_function</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ptr</span>
+<span class="go">4325863440</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">foo</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">CFUNCTYPE</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">)(</span><span class="n">ptr</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Call the resulting function</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">foo</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">13.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">foo</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="go">41.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">foo</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">5.0</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>并不是说在这个层面犯了任何错误就会导致Python解释器挂掉。
+要记得的是你是在直接跟机器级别的内存地址和本地机器码打交道，而不是Python函数。</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="p13_pass_null_terminated_string_to_c_libraries.html" class="btn btn-neutral float-right" title="15.13 传递NULL结尾的字符串给C函数库" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="p11_use_cython_to_write_high_performance_array_operation.html" class="btn btn-neutral" title="15.11 用Cython写高性能的数组操作" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; <a href="../copyright.html">Copyright</a> 2017, 熊能.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

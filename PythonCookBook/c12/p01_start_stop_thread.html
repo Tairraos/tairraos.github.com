@@ -1,0 +1,377 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>12.1 启动与停止线程 &mdash; python3-cookbook 3.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="12.2 判断线程是否已经启动" href="p02_determining_if_thread_has_started.html" />
+    <link rel="prev" title="第十二章：并发编程" href="../chapters/p12_concurrency.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> python3-cookbook
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p01_data_structures_algorithms.html">第一章：数据结构和算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p02_strings_and_text.html">第二章：字符串和文本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p03_numbers_dates_times.html">第三章：数字日期和时间</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p04_iterators_and_generators.html">第四章：迭代器与生成器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p05_files_and_io.html">第五章：文件与IO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p06_data_encoding_and_process.html">第六章：数据编码和处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p07_functions.html">第七章：函数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p08_classes_and_objects.html">第八章：类与对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p09_meta_programming.html">第九章：元编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p10_modules_and_packages.html">第十章：模块与包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p11_network_and_web_program.html">第十一章：网络与Web编程</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../chapters/p12_concurrency.html">第十二章：并发编程</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">12.1 启动与停止线程</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">问题</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">解决方案</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">讨论</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="p02_determining_if_thread_has_started.html">12.2 判断线程是否已经启动</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p03_communicating_between_threads.html">12.3 线程间通信</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p04_locking_critical_sections.html">12.4 给关键部分加锁</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p05_locking_with_deadlock_avoidance.html">12.5 防止死锁的加锁机制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p06_storing_thread_specific_state.html">12.6 保存线程的状态信息</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p07_creating_thread_pool.html">12.7 创建一个线程池</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p08_perform_simple_parallel_programming.html">12.8 简单的并行编程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p09_dealing_with_gil_stop_worring_about_it.html">12.9 Python的全局锁问题</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p10_defining_an_actor_task.html">12.10 定义一个Actor任务</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p11_implement_publish_subscribe_messaging.html">12.11 实现消息发布/订阅模型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p12_using_generators_as_alternative_to_threads.html">12.12 使用生成器代替线程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p13_polling_multiple_thread_queues.html">12.13 多个线程队列轮询</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p14_launching_daemon_process_on_unix.html">12.14 在Unix系统上面启动守护进程</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p13_utility_script_and_system_manage.html">第十三章：脚本编程与系统管理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p14_test_debug_and_exceptions.html">第十四章：测试、调试和异常</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p15_c_extensions.html">第十五章：C语言扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p16_appendix.html">附录A</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aboutme.html">关于译者</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">python3-cookbook</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../chapters/p12_concurrency.html">第十二章：并发编程</a> &raquo;</li>
+        
+      <li>12.1 启动与停止线程</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/c12/p01_start_stop_thread.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>12.1 启动与停止线程<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>问题<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>你要为需要并发执行的代码创建/销毁线程</p>
+</div>
+<div class="section" id="id3">
+<h2>解决方案<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">threading</span></code> 库可以在单独的线程中执行任何的在 Python 中可以调用的对象。你可以创建一个 <code class="docutils literal notranslate"><span class="pre">Thread</span></code> 对象并将你要执行的对象以 target 参数的形式提供给该对象。
+下面是一个简单的例子：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Code to execute in an independent thread</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="k">def</span> <span class="nf">countdown</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">while</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;T-minus&#39;</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+        <span class="n">n</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># Create and launch a thread</span>
+<span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">Thread</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">countdown</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,))</span>
+<span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>当你创建好一个线程对象后，该对象并不会立即执行，除非你调用它的 <code class="docutils literal notranslate"><span class="pre">start()</span></code> 方法（当你调用 <code class="docutils literal notranslate"><span class="pre">start()</span></code> 方法时，它会调用你传递进来的函数，并把你传递进来的参数传递给该函数）。Python中的线程会在一个单独的系统级线程中执行（比如说一个 POSIX 线程或者一个 Windows 线程），这些线程将由操作系统来全权管理。线程一旦启动，将独立执行直到目标函数返回。你可以查询一个线程对象的状态，看它是否还在执行：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">is_alive</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Still running&#39;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Completed&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>你也可以将一个线程加入到当前线程，并等待它终止：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Python解释器直到所有线程都终止前仍保持运行。对于需要长时间运行的线程或者需要一直运行的后台任务，你应当考虑使用后台线程。
+例如：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">countdown</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,),</span> <span class="n">daemon</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>后台线程无法等待，不过，这些线程会在主线程终止时自动销毁。
+除了如上所示的两个操作，并没有太多可以对线程做的事情。你无法结束一个线程，无法给它发送信号，无法调整它的调度，也无法执行其他高级操作。如果需要这些特性，你需要自己添加。比如说，如果你需要终止线程，那么这个线程必须通过编程在某个特定点轮询来退出。你可以像下边这样把线程放入一个类中：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CountdownTask</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_running</span> <span class="o">=</span> <span class="bp">True</span>
+
+    <span class="k">def</span> <span class="nf">terminate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_running</span> <span class="o">=</span> <span class="bp">False</span>
+
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">_running</span> <span class="ow">and</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s1">&#39;T-minus&#39;</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+            <span class="n">n</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">CountdownTask</span><span class="p">()</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">run</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,))</span>
+<span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="n">c</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span> <span class="c1"># Signal termination</span>
+<span class="n">t</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>      <span class="c1"># Wait for actual termination (if needed)</span>
+</pre></div>
+</div>
+<p>如果线程执行一些像I/O这样的阻塞操作，那么通过轮询来终止线程将使得线程之间的协调变得非常棘手。比如，如果一个线程一直阻塞在一个I/O操作上，它就永远无法返回，也就无法检查自己是否已经被结束了。要正确处理这些问题，你需要利用超时循环来小心操作线程。
+例子如下：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">IOTask</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">terminate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_running</span> <span class="o">=</span> <span class="bp">False</span>
+
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sock</span><span class="p">):</span>
+        <span class="c1"># sock is a socket</span>
+        <span class="n">sock</span><span class="o">.</span><span class="n">settimeout</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>        <span class="c1"># Set timeout period</span>
+        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">_running</span><span class="p">:</span>
+            <span class="c1"># Perform a blocking I/O operation w/ timeout</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">8192</span><span class="p">)</span>
+                <span class="k">break</span>
+            <span class="k">except</span> <span class="n">socket</span><span class="o">.</span><span class="n">timeout</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="c1"># Continued processing</span>
+            <span class="o">...</span>
+        <span class="c1"># Terminated</span>
+        <span class="k">return</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>讨论<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>由于全局解释锁（GIL）的原因，Python 的线程被限制到同一时刻只允许一个线程执行这样一个执行模型。所以，Python 的线程更适用于处理I/O和其他需要并发执行的阻塞操作（比如等待I/O、等待从数据库获取数据等等），而不是需要多处理器并行的计算密集型任务。</p>
+<p>有时你会看到下边这种通过继承 <code class="docutils literal notranslate"><span class="pre">Thread</span></code> 类来实现的线程：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">Thread</span>
+
+<span class="k">class</span> <span class="nc">CountdownThread</span><span class="p">(</span><span class="n">Thread</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">n</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+
+            <span class="k">print</span><span class="p">(</span><span class="s1">&#39;T-minus&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">CountdownThread</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>尽管这样也可以工作，但这使得你的代码依赖于 <code class="docutils literal notranslate"><span class="pre">threading</span></code> 库，所以你的这些代码只能在线程上下文中使用。上文所写的那些代码、函数都是与 <code class="docutils literal notranslate"><span class="pre">threading</span></code> 库无关的，这样就使得这些代码可以被用在其他的上下文中，可能与线程有关，也可能与线程无关。比如，你可以通过 <code class="docutils literal notranslate"><span class="pre">multiprocessing</span></code> 模块在一个单独的进程中执行你的代码：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">CountdownTask</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">run</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>再次重申，这段代码仅适用于 CountdownTask 类是以独立于实际的并发手段（多线程、多进程等等）实现的情况。</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="p02_determining_if_thread_has_started.html" class="btn btn-neutral float-right" title="12.2 判断线程是否已经启动" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../chapters/p12_concurrency.html" class="btn btn-neutral" title="第十二章：并发编程" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; <a href="../copyright.html">Copyright</a> 2017, 熊能.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

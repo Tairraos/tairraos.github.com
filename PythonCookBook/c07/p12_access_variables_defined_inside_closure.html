@@ -1,0 +1,391 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>7.12 访问闭包中定义的变量 &mdash; python3-cookbook 3.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="第八章：类与对象" href="../chapters/p08_classes_and_objects.html" />
+    <link rel="prev" title="7.11 内联回调函数" href="p11_inline_callback_functions.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> python3-cookbook
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p01_data_structures_algorithms.html">第一章：数据结构和算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p02_strings_and_text.html">第二章：字符串和文本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p03_numbers_dates_times.html">第三章：数字日期和时间</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p04_iterators_and_generators.html">第四章：迭代器与生成器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p05_files_and_io.html">第五章：文件与IO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p06_data_encoding_and_process.html">第六章：数据编码和处理</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../chapters/p07_functions.html">第七章：函数</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="p01_functions_that_accept_any_number_arguments.html">7.1 可接受任意数量参数的函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p02_functions_that_only_accept_keyword_arguments.html">7.2 只接受关键字参数的函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p03_attach_informatinal_matadata_to_function_arguments.html">7.3 给函数参数增加元信息</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p04_return_multiple_values_from_function.html">7.4 返回多个值的函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p05_define_functions_with_default_arguments.html">7.5 定义有默认参数的函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p06_define_anonymous_or_inline_functions.html">7.6 定义匿名或内联函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p07_capturing_variables_in_anonymous_functions.html">7.7 匿名函数捕获变量值</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p08_make_callable_with_fewer_arguments.html">7.8 减少可调用对象的参数个数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p09_replace_single_method_classes_with_functions.html">7.9 将单方法的类转换为函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p10_carry_extra_state_with_callback_functions.html">7.10 带额外状态信息的回调函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p11_inline_callback_functions.html">7.11 内联回调函数</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">7.12 访问闭包中定义的变量</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">问题</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">解决方案</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">讨论</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p08_classes_and_objects.html">第八章：类与对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p09_meta_programming.html">第九章：元编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p10_modules_and_packages.html">第十章：模块与包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p11_network_and_web_program.html">第十一章：网络与Web编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p12_concurrency.html">第十二章：并发编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p13_utility_script_and_system_manage.html">第十三章：脚本编程与系统管理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p14_test_debug_and_exceptions.html">第十四章：测试、调试和异常</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p15_c_extensions.html">第十五章：C语言扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p16_appendix.html">附录A</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aboutme.html">关于译者</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">python3-cookbook</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../chapters/p07_functions.html">第七章：函数</a> &raquo;</li>
+        
+      <li>7.12 访问闭包中定义的变量</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/c07/p12_access_variables_defined_inside_closure.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>7.12 访问闭包中定义的变量<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>问题<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>你想要扩展函数中的某个闭包，允许它能访问和修改函数的内部变量。</p>
+</div>
+<div class="section" id="id3">
+<h2>解决方案<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>通常来讲，闭包的内部变量对于外界来讲是完全隐藏的。
+但是，你可以通过编写访问函数并将其作为函数属性绑定到闭包上来实现这个目的。例如：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sample</span><span class="p">():</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c1"># Closure function</span>
+    <span class="k">def</span> <span class="nf">func</span><span class="p">():</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;n=&#39;</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+
+    <span class="c1"># Accessor methods for n</span>
+    <span class="k">def</span> <span class="nf">get_n</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">n</span>
+
+    <span class="k">def</span> <span class="nf">set_n</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="n">nonlocal</span> <span class="n">n</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="c1"># Attach as function attributes</span>
+    <span class="n">func</span><span class="o">.</span><span class="n">get_n</span> <span class="o">=</span> <span class="n">get_n</span>
+    <span class="n">func</span><span class="o">.</span><span class="n">set_n</span> <span class="o">=</span> <span class="n">set_n</span>
+    <span class="k">return</span> <span class="n">func</span>
+</pre></div>
+</div>
+<p>下面是使用的例子:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">sample</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">()</span>
+<span class="go">n= 0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">set_n</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">()</span>
+<span class="go">n= 10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">get_n</span><span class="p">()</span>
+<span class="go">10</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>讨论<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>为了说明清楚它如何工作的，有两点需要解释一下。首先，<code class="docutils literal notranslate"><span class="pre">nonlocal</span></code> 声明可以让我们编写函数来修改内部变量的值。
+其次，函数属性允许我们用一种很简单的方式将访问方法绑定到闭包函数上，这个跟实例方法很像(尽管并没有定义任何类)。</p>
+<p>还可以进一步的扩展，让闭包模拟类的实例。你要做的仅仅是复制上面的内部函数到一个字典实例中并返回它即可。例如：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">class</span> <span class="nc">ClosureInstance</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">locals</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">locals</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="nb">locals</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">_getframe</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">f_locals</span>
+
+        <span class="c1"># Update instance dictionary with callables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">((</span><span class="n">key</span><span class="p">,</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">locals</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                            <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="p">)</span>
+    <span class="c1"># Redirect special methods</span>
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;__len__&#39;</span><span class="p">]()</span>
+
+<span class="c1"># Example use</span>
+<span class="k">def</span> <span class="nf">Stack</span><span class="p">():</span>
+    <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">def</span> <span class="nf">push</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+        <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">pop</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">items</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">():</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ClosureInstance</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>下面是一个交互式会话来演示它是如何工作的：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Stack</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span>
+<span class="go">&lt;__main__.ClosureInstance object at 0x10069ed10&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="s1">&#39;Hello&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+<span class="go">&#39;Hello&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+<span class="go">20</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+<span class="go">10</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>有趣的是，这个代码运行起来会比一个普通的类定义要快很多。你可能会像下面这样测试它跟一个类的性能对比：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Stack2</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">push</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">pop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>如果这样做，你会得到类似如下的结果：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">timeit</span> <span class="kn">import</span> <span class="n">timeit</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Test involving closures</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Stack</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timeit</span><span class="p">(</span><span class="s1">&#39;s.push(1);s.pop()&#39;</span><span class="p">,</span> <span class="s1">&#39;from __main__ import s&#39;</span><span class="p">)</span>
+<span class="go">0.9874754269840196</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Test involving a class</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Stack2</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timeit</span><span class="p">(</span><span class="s1">&#39;s.push(1);s.pop()&#39;</span><span class="p">,</span> <span class="s1">&#39;from __main__ import s&#39;</span><span class="p">)</span>
+<span class="go">1.0707052160287276</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>结果显示，闭包的方案运行起来要快大概8%，大部分原因是因为对实例变量的简化访问，
+闭包更快是因为不会涉及到额外的self变量。</p>
+<p>Raymond Hettinger对于这个问题设计出了更加难以理解的改进方案。不过，你得考虑下是否真的需要在你代码中这样做，
+而且它只是真实类的一个奇怪的替换而已，例如，类的主要特性如继承、属性、描述器或类方法都是不能用的。
+并且你要做一些其他的工作才能让一些特殊方法生效(比如上面 <code class="docutils literal notranslate"><span class="pre">ClosureInstance</span></code> 中重写过的 <code class="docutils literal notranslate"><span class="pre">__len__()</span></code> 实现。)</p>
+<p>最后，你可能还会让其他阅读你代码的人感到疑惑，为什么它看起来不像一个普通的类定义呢？
+(当然，他们也想知道为什么它运行起来会更快)。尽管如此，这对于怎样访问闭包的内部变量也不失为一个有趣的例子。</p>
+<p>总体上讲，在配置的时候给闭包添加方法会有更多的实用功能，
+比如你需要重置内部状态、刷新缓冲区、清除缓存或其他的反馈机制的时候。</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../chapters/p08_classes_and_objects.html" class="btn btn-neutral float-right" title="第八章：类与对象" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="p11_inline_callback_functions.html" class="btn btn-neutral" title="7.11 内联回调函数" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; <a href="../copyright.html">Copyright</a> 2017, 熊能.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

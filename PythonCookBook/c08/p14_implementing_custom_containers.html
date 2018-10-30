@@ -1,0 +1,411 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>8.14 实现自定义容器 &mdash; python3-cookbook 3.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="8.15 属性的代理访问" href="p15_delegating_attribute_access.html" />
+    <link rel="prev" title="8.13 实现数据模型的类型约束" href="p13_implementing_data_model_or_type_system.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> python3-cookbook
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p01_data_structures_algorithms.html">第一章：数据结构和算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p02_strings_and_text.html">第二章：字符串和文本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p03_numbers_dates_times.html">第三章：数字日期和时间</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p04_iterators_and_generators.html">第四章：迭代器与生成器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p05_files_and_io.html">第五章：文件与IO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p06_data_encoding_and_process.html">第六章：数据编码和处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p07_functions.html">第七章：函数</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../chapters/p08_classes_and_objects.html">第八章：类与对象</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="p01_change_string_representation_of_instances.html">8.1 改变对象的字符串显示</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p02_customizing_string_formatting.html">8.2 自定义字符串的格式化</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p03_make_objects_support_context_management_protocol.html">8.3 让对象支持上下文管理协议</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p04_save_memory_when_create_large_number_instances.html">8.4 创建大量对象时节省内存方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p05_encapsulating_names_in_class.html">8.5 在类中封装属性名</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p06_create_managed_attributes.html">8.6 创建可管理的属性</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p07_calling_method_on_parent_class.html">8.7 调用父类方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p08_extending_property_in_subclass.html">8.8 子类中扩展property</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p09_create_new_kind_of_class_or_instance_attribute.html">8.9 创建新的类或实例属性</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p10_using_lazily_computed_properties.html">8.10 使用延迟计算属性</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p11_simplify_initialization_of_data_structure.html">8.11 简化数据结构的初始化</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p12_define_interface_or_abstract_base_class.html">8.12 定义接口或者抽象基类</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p13_implementing_data_model_or_type_system.html">8.13 实现数据模型的类型约束</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">8.14 实现自定义容器</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">问题</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">解决方案</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">讨论</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="p15_delegating_attribute_access.html">8.15 属性的代理访问</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p16_define_more_than_one_constructor_in_class.html">8.16 在类中定义多个构造器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p17_create_instance_without_invoking_init_method.html">8.17 创建不调用init方法的实例</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p18_extending_classes_with_mixins.html">8.18 利用Mixins扩展类功能</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p19_implements_stateful_objects_or_state_machines.html">8.19 实现状态对象或者状态机</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p20_call_method_on_object_by_string_name.html">8.20 通过字符串调用对象方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p21_implementing_visitor_pattern.html">8.21 实现访问者模式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p22_implementing_visitor_pattern_without_recursion.html">8.22 不用递归实现访问者模式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p23_managing_memory_in_cyclic_data_structures.html">8.23 循环引用数据结构的内存管理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p24_making_classes_support_comparison_operations.html">8.24 让类支持比较操作</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p25_creating_cached_instances.html">8.25 创建缓存实例</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p09_meta_programming.html">第九章：元编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p10_modules_and_packages.html">第十章：模块与包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p11_network_and_web_program.html">第十一章：网络与Web编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p12_concurrency.html">第十二章：并发编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p13_utility_script_and_system_manage.html">第十三章：脚本编程与系统管理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p14_test_debug_and_exceptions.html">第十四章：测试、调试和异常</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p15_c_extensions.html">第十五章：C语言扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p16_appendix.html">附录A</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aboutme.html">关于译者</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">python3-cookbook</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../chapters/p08_classes_and_objects.html">第八章：类与对象</a> &raquo;</li>
+        
+      <li>8.14 实现自定义容器</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/c08/p14_implementing_custom_containers.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>8.14 实现自定义容器<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>问题<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>你想实现一个自定义的类来模拟内置的容器类功能，比如列表和字典。但是你不确定到底要实现哪些方法。</p>
+</div>
+<div class="section" id="id3">
+<h2>解决方案<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">collections</span></code> 定义了很多抽象基类，当你想自定义容器类的时候它们会非常有用。
+比如你想让你的类支持迭代，那就让你的类继承 <code class="docutils literal notranslate"><span class="pre">collections.Iterable</span></code> 即可：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">collections</span>
+<span class="k">class</span> <span class="nc">A</span><span class="p">(</span><span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>不过你需要实现 <code class="docutils literal notranslate"><span class="pre">collections.Iterable</span></code> 所有的抽象方法，否则会报错:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">A</span><span class="p">()</span>
+<span class="gt">Traceback (most recent call last):</span>
+    <span class="n">File</span> <span class="s2">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="gr">TypeError</span>: <span class="n">Can&#39;t instantiate abstract class A with abstract methods __iter__</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>你只要实现 <code class="docutils literal notranslate"><span class="pre">__iter__()</span></code> 方法就不会报错了(参考4.2和4.7小节)。</p>
+<p>你可以先试着去实例化一个对象，在错误提示中可以找到需要实现哪些方法：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">collections</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">collections</span><span class="o">.</span><span class="n">Sequence</span><span class="p">()</span>
+<span class="gt">Traceback (most recent call last):</span>
+    <span class="n">File</span> <span class="s2">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="gr">TypeError</span>: <span class="n">Can&#39;t instantiate abstract class Sequence with abstract methods \</span>
+<span class="go">__getitem__, __len__</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>下面是一个简单的示例，继承自上面Sequence抽象类，并且实现元素按照顺序存储：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SortedItems</span><span class="p">(</span><span class="n">collections</span><span class="o">.</span><span class="n">Sequence</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_items</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">initial</span><span class="p">)</span> <span class="k">if</span> <span class="n">initial</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="p">[]</span>
+
+    <span class="c1"># Required sequence methods</span>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">)</span>
+
+    <span class="c1"># Method for adding an item in the right location</span>
+    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="n">bisect</span><span class="o">.</span><span class="n">insort</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+
+
+<span class="n">items</span> <span class="o">=</span> <span class="n">SortedItems</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">items</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">items</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">items</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">items</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>可以看到，SortedItems跟普通的序列没什么两样，支持所有常用操作，包括索引、迭代、包含判断，甚至是切片操作。</p>
+<p>这里面使用到了 <code class="docutils literal notranslate"><span class="pre">bisect</span></code> 模块，它是一个在排序列表中插入元素的高效方式。可以保证元素插入后还保持顺序。</p>
+</div>
+<div class="section" id="id4">
+<h2>讨论<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>使用 <code class="docutils literal notranslate"><span class="pre">collections</span></code> 中的抽象基类可以确保你自定义的容器实现了所有必要的方法。并且还能简化类型检查。
+你的自定义容器会满足大部分类型检查需要，如下所示：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">items</span> <span class="o">=</span> <span class="n">SortedItems</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">collections</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Sequence</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Container</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Sized</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Mapping</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">collections</span></code> 中很多抽象类会为一些常见容器操作提供默认的实现，
+这样一来你只需要实现那些你最感兴趣的方法即可。假设你的类继承自 <code class="docutils literal notranslate"><span class="pre">collections.MutableSequence</span></code> ，如下：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Items</span><span class="p">(</span><span class="n">collections</span><span class="o">.</span><span class="n">MutableSequence</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_items</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">initial</span><span class="p">)</span> <span class="k">if</span> <span class="n">initial</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="p">[]</span>
+
+    <span class="c1"># Required sequence methods</span>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Getting:&#39;</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Setting:&#39;</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="k">def</span> <span class="fm">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Deleting:&#39;</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Inserting:&#39;</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Len&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>如果你创建 <code class="docutils literal notranslate"><span class="pre">Items</span></code> 的实例，你会发现它支持几乎所有的核心列表方法(如append()、remove()、count()等)。
+下面是使用演示：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Items</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">Len</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="go">Len</span>
+<span class="go">Inserting: 3 4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">Len</span>
+<span class="go">Inserting: 4 2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">Getting: 0</span>
+<span class="go">Getting: 1</span>
+<span class="go">Getting: 2</span>
+<span class="go">Getting: 3</span>
+<span class="go">Getting: 4</span>
+<span class="go">Getting: 5</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">Getting: 0</span>
+<span class="go">Getting: 1</span>
+<span class="go">Getting: 2</span>
+<span class="go">Deleting: 2</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>本小节只是对Python抽象类功能的抛砖引玉。<code class="docutils literal notranslate"><span class="pre">numbers</span></code> 模块提供了一个类似的跟整数类型相关的抽象类型集合。
+可以参考8.12小节来构造更多自定义抽象基类。</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="p15_delegating_attribute_access.html" class="btn btn-neutral float-right" title="8.15 属性的代理访问" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="p13_implementing_data_model_or_type_system.html" class="btn btn-neutral" title="8.13 实现数据模型的类型约束" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; <a href="../copyright.html">Copyright</a> 2017, 熊能.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

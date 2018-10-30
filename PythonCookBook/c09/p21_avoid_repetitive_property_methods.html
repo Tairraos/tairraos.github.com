@@ -1,0 +1,361 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>9.21 避免重复的属性方法 &mdash; python3-cookbook 3.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="9.22 定义上下文管理器的简单方法" href="p22_define_context_managers_the_easy_way.html" />
+    <link rel="prev" title="9.20 利用函数注解实现方法重载" href="p20_implement_multiple_dispatch_with_function_annotations.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> python3-cookbook
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p01_data_structures_algorithms.html">第一章：数据结构和算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p02_strings_and_text.html">第二章：字符串和文本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p03_numbers_dates_times.html">第三章：数字日期和时间</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p04_iterators_and_generators.html">第四章：迭代器与生成器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p05_files_and_io.html">第五章：文件与IO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p06_data_encoding_and_process.html">第六章：数据编码和处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p07_functions.html">第七章：函数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p08_classes_and_objects.html">第八章：类与对象</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../chapters/p09_meta_programming.html">第九章：元编程</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="p01_put_wrapper_around_function.html">9.1 在函数上添加包装器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p02_preserve_function_metadata_when_write_decorators.html">9.2 创建装饰器时保留函数元信息</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p03_unwrapping_decorator.html">9.3 解除一个装饰器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p04_define_decorator_that_takes_arguments.html">9.4 定义一个带参数的装饰器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p05_define_decorator_with_user_adjustable_attributes.html">9.5 可自定义属性的装饰器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p06_define_decorator_that_takes_optional_argument.html">9.6 带可选参数的装饰器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p07_enforcing_type_check_on_function_using_decorator.html">9.7 利用装饰器强制函数上的类型检查</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p08_define_decorators_as_part_of_class.html">9.8 将装饰器定义为类的一部分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p09_define_decorators_as_classes.html">9.9 将装饰器定义为类</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p10_apply_decorators_to_class_and_static_methods.html">9.10 为类和静态方法提供装饰器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p11_write_decorators_that_add_arguments_to_functions.html">9.11 装饰器为被包装函数增加参数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p12_using_decorators_to_patch_class_definitions.html">9.12 使用装饰器扩充类的功能</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p13_using_mataclass_to_control_instance_creation.html">9.13 使用元类控制实例的创建</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p14_capture_class_attribute_definition_order.html">9.14 捕获类的属性定义顺序</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p15_define_metaclass_that_takes_optional_arguments.html">9.15 定义有可选参数的元类</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p16_enforce_argument_signature_on_args_kwargs.html">9.16 *args和**kwargs的强制参数签名</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p17_enforce_coding_conventions_in_classes.html">9.17 在类上强制使用编程规约</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p18_define_classes_programmatically.html">9.18 以编程方式定义类</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p19_initializing_class_members_at_definition_time.html">9.19 在定义的时候初始化类的成员</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p20_implement_multiple_dispatch_with_function_annotations.html">9.20 利用函数注解实现方法重载</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">9.21 避免重复的属性方法</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">问题</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">解决方案</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">讨论</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="p22_define_context_managers_the_easy_way.html">9.22 定义上下文管理器的简单方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p23_executing_code_with_local_side_effects.html">9.23 在局部变量域中执行代码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p24_parse_and_analyzing_python_source.html">9.24 解析与分析Python源码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p25_disassembling_python_byte_code.html">9.25 拆解Python字节码</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p10_modules_and_packages.html">第十章：模块与包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p11_network_and_web_program.html">第十一章：网络与Web编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p12_concurrency.html">第十二章：并发编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p13_utility_script_and_system_manage.html">第十三章：脚本编程与系统管理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p14_test_debug_and_exceptions.html">第十四章：测试、调试和异常</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p15_c_extensions.html">第十五章：C语言扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p16_appendix.html">附录A</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aboutme.html">关于译者</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">python3-cookbook</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../chapters/p09_meta_programming.html">第九章：元编程</a> &raquo;</li>
+        
+      <li>9.21 避免重复的属性方法</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/c09/p21_avoid_repetitive_property_methods.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>9.21 避免重复的属性方法<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>问题<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>你在类中需要重复的定义一些执行相同逻辑的属性方法，比如进行类型检查，怎样去简化这些重复代码呢？</p>
+</div>
+<div class="section" id="id3">
+<h2>解决方案<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>考虑下一个简单的类，它的属性由属性方法包装：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Person</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span> <span class="p">,</span><span class="n">age</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+    <span class="nd">@name.setter</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;name must be a string&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">age</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_age</span>
+
+    <span class="nd">@age.setter</span>
+    <span class="k">def</span> <span class="nf">age</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;age must be an int&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_age</span> <span class="o">=</span> <span class="n">value</span>
+</pre></div>
+</div>
+<p>可以看到，为了实现属性值的类型检查我们写了很多的重复代码。
+只要你以后看到类似这样的代码，你都应该想办法去简化它。
+一个可行的方法是创建一个函数用来定义属性并返回它。例如：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">typed_property</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">expected_type</span><span class="p">):</span>
+    <span class="n">storage_name</span> <span class="o">=</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">name</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">prop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage_name</span><span class="p">)</span>
+
+    <span class="nd">@prop.setter</span>
+    <span class="k">def</span> <span class="nf">prop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">expected_type</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;{} must be a {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">expected_type</span><span class="p">))</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage_name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">prop</span>
+
+<span class="c1"># Example use</span>
+<span class="k">class</span> <span class="nc">Person</span><span class="p">:</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">typed_property</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+    <span class="n">age</span> <span class="o">=</span> <span class="n">typed_property</span><span class="p">(</span><span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>讨论<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>本节我们演示内部函数或者闭包的一个重要特性，它们很像一个宏。例子中的函数 <code class="docutils literal notranslate"><span class="pre">typed_property()</span></code>
+看上去有点难理解，其实它所做的仅仅就是为你生成属性并返回这个属性对象。
+因此，当在一个类中使用它的时候，效果跟将它里面的代码放到类定义中去是一样的。
+尽管属性的 <code class="docutils literal notranslate"><span class="pre">getter</span></code> 和 <code class="docutils literal notranslate"><span class="pre">setter</span></code> 方法访问了本地变量如 <code class="docutils literal notranslate"><span class="pre">name</span></code> , <code class="docutils literal notranslate"><span class="pre">expected_type</span></code>
+以及 <code class="docutils literal notranslate"><span class="pre">storate_name</span></code> ，这个很正常，这些变量的值会保存在闭包当中。</p>
+<p>我们还可以使用 <code class="docutils literal notranslate"><span class="pre">functools.partial()</span></code> 来稍稍改变下这个例子，很有趣。例如，你可以像下面这样：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+
+<span class="n">String</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">typed_property</span><span class="p">,</span> <span class="n">expected_type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+<span class="n">Integer</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">typed_property</span><span class="p">,</span> <span class="n">expected_type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="c1"># Example:</span>
+<span class="k">class</span> <span class="nc">Person</span><span class="p">:</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">String</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
+    <span class="n">age</span> <span class="o">=</span> <span class="n">Integer</span><span class="p">(</span><span class="s1">&#39;age&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span>
+</pre></div>
+</div>
+<p>其实你可以发现，这里的代码跟8.13小节中的类型系统描述器代码有些相似。</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="p22_define_context_managers_the_easy_way.html" class="btn btn-neutral float-right" title="9.22 定义上下文管理器的简单方法" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="p20_implement_multiple_dispatch_with_function_annotations.html" class="btn btn-neutral" title="9.20 利用函数注解实现方法重载" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; <a href="../copyright.html">Copyright</a> 2017, 熊能.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

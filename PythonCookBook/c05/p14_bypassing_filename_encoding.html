@@ -1,0 +1,317 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>5.14 忽略文件名编码 &mdash; python3-cookbook 3.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="5.15 打印不合法的文件名" href="p15_printing_bad_filenames.html" />
+    <link rel="prev" title="5.13 获取文件夹中的文件列表" href="p13_get_directory_listing.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> python3-cookbook
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p01_data_structures_algorithms.html">第一章：数据结构和算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p02_strings_and_text.html">第二章：字符串和文本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p03_numbers_dates_times.html">第三章：数字日期和时间</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p04_iterators_and_generators.html">第四章：迭代器与生成器</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../chapters/p05_files_and_io.html">第五章：文件与IO</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="p01_read_write_text_data.html">5.1 读写文本数据</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p02_printing_to_file.html">5.2 打印输出至文件中</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p03_print_with_different_separator_or_line_ending.html">5.3 使用其他分隔符或行终止符打印</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p04_read_write_binary_data.html">5.4 读写字节数据</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p05_write_to_file_not_exist.html">5.5 文件不存在才能写入</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p06_io_operations_on_string.html">5.6 字符串的I/O操作</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p07_read_write_compressed_datafiles.html">5.7 读写压缩文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p08_iterate_over_fixed_sized_records.html">5.8 固定大小记录的文件迭代</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p09_read_binary_data_into_mutable_buffer.html">5.9 读取二进制数据到可变缓冲区中</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p10_memory_mapping_binary_files.html">5.10 内存映射的二进制文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p11_manipulating_pathnames.html">5.11 文件路径名的操作</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p12_test_for_the_existence_of_file.html">5.12 测试文件是否存在</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p13_get_directory_listing.html">5.13 获取文件夹中的文件列表</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">5.14 忽略文件名编码</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">问题</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">解决方案</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">讨论</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="p15_printing_bad_filenames.html">5.15 打印不合法的文件名</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p16_add_change_encoding_of_already_open_file.html">5.16 增加或改变已打开文件的编码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p17_write_bytes_to_text_file.html">5.17 将字节写入文本文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p18_wrap_existing_file_descriptor_as_file_object.html">5.18 将文件描述符包装成文件对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p19_make_temporary_files_and_directories.html">5.19 创建临时文件和文件夹</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p20_communicating_with_serial_ports.html">5.20 与串行端口的数据通信</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p21_serializing_python_objects.html">5.21 序列化Python对象</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p06_data_encoding_and_process.html">第六章：数据编码和处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p07_functions.html">第七章：函数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p08_classes_and_objects.html">第八章：类与对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p09_meta_programming.html">第九章：元编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p10_modules_and_packages.html">第十章：模块与包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p11_network_and_web_program.html">第十一章：网络与Web编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p12_concurrency.html">第十二章：并发编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p13_utility_script_and_system_manage.html">第十三章：脚本编程与系统管理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p14_test_debug_and_exceptions.html">第十四章：测试、调试和异常</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p15_c_extensions.html">第十五章：C语言扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p16_appendix.html">附录A</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aboutme.html">关于译者</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">python3-cookbook</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../chapters/p05_files_and_io.html">第五章：文件与IO</a> &raquo;</li>
+        
+      <li>5.14 忽略文件名编码</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/c05/p14_bypassing_filename_encoding.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>5.14 忽略文件名编码<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>问题<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>你想使用原始文件名执行文件的I/O操作，也就是说文件名并没有经过系统默认编码去解码或编码过。</p>
+</div>
+<div class="section" id="id3">
+<h2>解决方案<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>默认情况下，所有的文件名都会根据 <code class="docutils literal notranslate"><span class="pre">sys.getfilesystemencoding()</span></code> 返回的文本编码来编码或解码。比如：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sys</span><span class="o">.</span><span class="n">getfilesystemencoding</span><span class="p">()</span>
+<span class="go">&#39;utf-8&#39;</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>如果因为某种原因你想忽略这种编码，可以使用一个原始字节字符串来指定一个文件名即可。比如：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Wrte a file using a unicode filename</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;jalape</span><span class="se">\xf1</span><span class="s1">o.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;Spicy!&#39;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">6</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Directory listing (decoded)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="go">[&#39;jalapeño.txt&#39;]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Directory listing (raw)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;.&#39;</span><span class="p">)</span> <span class="c1"># Note: byte string</span>
+<span class="go">[b&#39;jalapen\xcc\x83o.txt&#39;]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Open file with raw filename</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;jalapen</span><span class="se">\xcc\x83</span><span class="s1">o.txt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+<span class="gp">...</span>
+<span class="go">Spicy!</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>正如你所见，在最后两个操作中，当你给文件相关函数如 <code class="docutils literal notranslate"><span class="pre">open()</span></code> 和 <code class="docutils literal notranslate"><span class="pre">os.listdir()</span></code>
+传递字节字符串时，文件名的处理方式会稍有不同。</p>
+</div>
+<div class="section" id="id4">
+<h2>讨论<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>通常来讲，你不需要担心文件名的编码和解码，普通的文件名操作应该就没问题了。
+但是，有些操作系统允许用户通过偶然或恶意方式去创建名字不符合默认编码的文件。
+这些文件名可能会神秘地中断那些需要处理大量文件的Python程序。</p>
+<p>读取目录并通过原始未解码方式处理文件名可以有效的避免这样的问题，
+尽管这样会带来一定的编程难度。</p>
+<p>关于打印不可解码的文件名，请参考5.15小节。</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="p15_printing_bad_filenames.html" class="btn btn-neutral float-right" title="5.15 打印不合法的文件名" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="p13_get_directory_listing.html" class="btn btn-neutral" title="5.13 获取文件夹中的文件列表" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; <a href="../copyright.html">Copyright</a> 2017, 熊能.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

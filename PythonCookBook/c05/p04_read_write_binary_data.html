@@ -1,0 +1,356 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>5.4 读写字节数据 &mdash; python3-cookbook 3.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="5.5 文件不存在才能写入" href="p05_write_to_file_not_exist.html" />
+    <link rel="prev" title="5.3 使用其他分隔符或行终止符打印" href="p03_print_with_different_separator_or_line_ending.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> python3-cookbook
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p01_data_structures_algorithms.html">第一章：数据结构和算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p02_strings_and_text.html">第二章：字符串和文本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p03_numbers_dates_times.html">第三章：数字日期和时间</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p04_iterators_and_generators.html">第四章：迭代器与生成器</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../chapters/p05_files_and_io.html">第五章：文件与IO</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="p01_read_write_text_data.html">5.1 读写文本数据</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p02_printing_to_file.html">5.2 打印输出至文件中</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p03_print_with_different_separator_or_line_ending.html">5.3 使用其他分隔符或行终止符打印</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">5.4 读写字节数据</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">问题</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">解决方案</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">讨论</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="p05_write_to_file_not_exist.html">5.5 文件不存在才能写入</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p06_io_operations_on_string.html">5.6 字符串的I/O操作</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p07_read_write_compressed_datafiles.html">5.7 读写压缩文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p08_iterate_over_fixed_sized_records.html">5.8 固定大小记录的文件迭代</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p09_read_binary_data_into_mutable_buffer.html">5.9 读取二进制数据到可变缓冲区中</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p10_memory_mapping_binary_files.html">5.10 内存映射的二进制文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p11_manipulating_pathnames.html">5.11 文件路径名的操作</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p12_test_for_the_existence_of_file.html">5.12 测试文件是否存在</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p13_get_directory_listing.html">5.13 获取文件夹中的文件列表</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p14_bypassing_filename_encoding.html">5.14 忽略文件名编码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p15_printing_bad_filenames.html">5.15 打印不合法的文件名</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p16_add_change_encoding_of_already_open_file.html">5.16 增加或改变已打开文件的编码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p17_write_bytes_to_text_file.html">5.17 将字节写入文本文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p18_wrap_existing_file_descriptor_as_file_object.html">5.18 将文件描述符包装成文件对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p19_make_temporary_files_and_directories.html">5.19 创建临时文件和文件夹</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p20_communicating_with_serial_ports.html">5.20 与串行端口的数据通信</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p21_serializing_python_objects.html">5.21 序列化Python对象</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p06_data_encoding_and_process.html">第六章：数据编码和处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p07_functions.html">第七章：函数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p08_classes_and_objects.html">第八章：类与对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p09_meta_programming.html">第九章：元编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p10_modules_and_packages.html">第十章：模块与包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p11_network_and_web_program.html">第十一章：网络与Web编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p12_concurrency.html">第十二章：并发编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p13_utility_script_and_system_manage.html">第十三章：脚本编程与系统管理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p14_test_debug_and_exceptions.html">第十四章：测试、调试和异常</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p15_c_extensions.html">第十五章：C语言扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p16_appendix.html">附录A</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aboutme.html">关于译者</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">python3-cookbook</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../chapters/p05_files_and_io.html">第五章：文件与IO</a> &raquo;</li>
+        
+      <li>5.4 读写字节数据</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/c05/p04_read_write_binary_data.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>5.4 读写字节数据<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>问题<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>你想读写二进制文件，比如图片，声音文件等等。</p>
+</div>
+<div class="section" id="id3">
+<h2>解决方案<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>使用模式为 <code class="docutils literal notranslate"><span class="pre">rb</span></code> 或 <code class="docutils literal notranslate"><span class="pre">wb</span></code> 的 <code class="docutils literal notranslate"><span class="pre">open()</span></code> 函数来读取或写入二进制数据。比如：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Read the entire file as a single byte string</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;somefile.bin&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="c1"># Write binary data to a file</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;somefile.bin&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;Hello World&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>在读取二进制数据时，需要指明的是所有返回的数据都是字节字符串格式的，而不是文本字符串。
+类似的，在写入的时候，必须保证参数是以字节形式对外暴露数据的对象(比如字节字符串，字节数组对象等)。</p>
+</div>
+<div class="section" id="id4">
+<h2>讨论<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>在读取二进制数据的时候，字节字符串和文本字符串的语义差异可能会导致一个潜在的陷阱。
+特别需要注意的是，索引和迭代动作返回的是字节的值而不是字节字符串。比如：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Text string</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="s1">&#39;Hello World&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">&#39;H&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">t</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">H</span>
+<span class="go">e</span>
+<span class="go">l</span>
+<span class="go">l</span>
+<span class="go">o</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Byte string</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;Hello World&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">72</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">b</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">72</span>
+<span class="go">101</span>
+<span class="go">108</span>
+<span class="go">108</span>
+<span class="go">111</span>
+<span class="gp">...</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>如果你想从二进制模式的文件中读取或写入文本数据，必须确保要进行解码和编码操作。比如：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;somefile.bin&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;somefile.bin&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;Hello World&#39;</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>二进制I/O还有一个鲜为人知的特性就是数组和C结构体类型能直接被写入，而不需要中间转换为自己对象。比如：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">array</span>
+<span class="n">nums</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="s1">&#39;i&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data.bin&#39;</span><span class="p">,</span><span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>这个适用于任何实现了被称之为”缓冲接口”的对象，这种对象会直接暴露其底层的内存缓冲区给能处理它的操作。
+二进制数据的写入就是这类操作之一。</p>
+<p>很多对象还允许通过使用文件对象的 <code class="docutils literal notranslate"><span class="pre">readinto()</span></code> 方法直接读取二进制数据到其底层的内存中去。比如：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">array</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="s1">&#39;i&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data.bin&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">f</span><span class="o">.</span><span class="n">readinto</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">16</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">array(&#39;i&#39;, [1, 2, 3, 4, 0, 0, 0, 0])</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>但是使用这种技术的时候需要格外小心，因为它通常具有平台相关性，并且可能会依赖字长和字节顺序(高位优先和低位优先)。
+可以查看5.9小节中另外一个读取二进制数据到可修改缓冲区的例子。</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="p05_write_to_file_not_exist.html" class="btn btn-neutral float-right" title="5.5 文件不存在才能写入" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="p03_print_with_different_separator_or_line_ending.html" class="btn btn-neutral" title="5.3 使用其他分隔符或行终止符打印" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; <a href="../copyright.html">Copyright</a> 2017, 熊能.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,413 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>11.2 创建TCP服务器 &mdash; python3-cookbook 3.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="11.3 创建UDP服务器" href="p03_creating_udp_server.html" />
+    <link rel="prev" title="11.1 作为客户端与HTTP服务交互" href="p01_interact_with_http_services_as_client.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> python3-cookbook
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p01_data_structures_algorithms.html">第一章：数据结构和算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p02_strings_and_text.html">第二章：字符串和文本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p03_numbers_dates_times.html">第三章：数字日期和时间</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p04_iterators_and_generators.html">第四章：迭代器与生成器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p05_files_and_io.html">第五章：文件与IO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p06_data_encoding_and_process.html">第六章：数据编码和处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p07_functions.html">第七章：函数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p08_classes_and_objects.html">第八章：类与对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p09_meta_programming.html">第九章：元编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p10_modules_and_packages.html">第十章：模块与包</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../chapters/p11_network_and_web_program.html">第十一章：网络与Web编程</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="p01_interact_with_http_services_as_client.html">11.1 作为客户端与HTTP服务交互</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">11.2 创建TCP服务器</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">问题</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">解决方案</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">讨论</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="p03_creating_udp_server.html">11.3 创建UDP服务器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p04_generate_range_of_ip_addresses_from_cidr_address.html">11.4 通过CIDR地址生成对应的IP地址集</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p05_creating_simple_rest_based_interface.html">11.5 创建一个简单的REST接口</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p06_implement_simple_remote_procedure_call_with_xml_rpc.html">11.6 通过XML-RPC实现简单的远程调用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p07_communicate_simply_between_interpreters.html">11.7 在不同的Python解释器之间交互</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p08_implementing_remote_procedure_calls.html">11.8 实现远程方法调用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p09_authenticating_clients_simply.html">11.9 简单的客户端认证</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p10_add_ssl_to_network_services.html">11.10 在网络服务中加入SSL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p11_pass_socket_file_descriptor_between_processes.html">11.11 进程间传递Socket文件描述符</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p12_understanding_event_driven_io.html">11.12 理解事件驱动的IO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p13_sending_receiving_large_arrays.html">11.13 发送与接收大型数组</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p12_concurrency.html">第十二章：并发编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p13_utility_script_and_system_manage.html">第十三章：脚本编程与系统管理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p14_test_debug_and_exceptions.html">第十四章：测试、调试和异常</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p15_c_extensions.html">第十五章：C语言扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p16_appendix.html">附录A</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aboutme.html">关于译者</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">python3-cookbook</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../chapters/p11_network_and_web_program.html">第十一章：网络与Web编程</a> &raquo;</li>
+        
+      <li>11.2 创建TCP服务器</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/c11/p02_creating_tcp_server.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="tcp">
+<h1>11.2 创建TCP服务器<a class="headerlink" href="#tcp" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>问题<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>你想实现一个服务器，通过TCP协议和客户端通信。</p>
+</div>
+<div class="section" id="id2">
+<h2>解决方案<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>创建一个TCP服务器的一个简单方法是使用 <code class="docutils literal notranslate"><span class="pre">socketserver</span></code> 库。例如，下面是一个简单的应答服务器：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">socketserver</span> <span class="kn">import</span> <span class="n">BaseRequestHandler</span><span class="p">,</span> <span class="n">TCPServer</span>
+
+<span class="k">class</span> <span class="nc">EchoHandler</span><span class="p">(</span><span class="n">BaseRequestHandler</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Got connection from&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_address</span><span class="p">)</span>
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+
+            <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">8192</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">serv</span> <span class="o">=</span> <span class="n">TCPServer</span><span class="p">((</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">20000</span><span class="p">),</span> <span class="n">EchoHandler</span><span class="p">)</span>
+    <span class="n">serv</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>在这段代码中，你定义了一个特殊的处理类，实现了一个 <code class="docutils literal notranslate"><span class="pre">handle()</span></code> 方法，用来为客户端连接服务。
+<code class="docutils literal notranslate"><span class="pre">request</span></code> 属性是客户端socket，<code class="docutils literal notranslate"><span class="pre">client_address</span></code> 有客户端地址。
+为了测试这个服务器，运行它并打开另外一个Python进程连接这个服务器：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">socket</span> <span class="kn">import</span> <span class="n">socket</span><span class="p">,</span> <span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">connect</span><span class="p">((</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="mi">20000</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;Hello&#39;</span><span class="p">)</span>
+<span class="go">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">8192</span><span class="p">)</span>
+<span class="go">b&#39;Hello&#39;</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>很多时候，可以很容易的定义一个不同的处理器。下面是一个使用 <code class="docutils literal notranslate"><span class="pre">StreamRequestHandler</span></code>
+基类将一个类文件接口放置在底层socket上的例子：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">socketserver</span> <span class="kn">import</span> <span class="n">StreamRequestHandler</span><span class="p">,</span> <span class="n">TCPServer</span>
+
+<span class="k">class</span> <span class="nc">EchoHandler</span><span class="p">(</span><span class="n">StreamRequestHandler</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Got connection from&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_address</span><span class="p">)</span>
+        <span class="c1"># self.rfile is a file-like object for reading</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rfile</span><span class="p">:</span>
+            <span class="c1"># self.wfile is a file-like object for writing</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">serv</span> <span class="o">=</span> <span class="n">TCPServer</span><span class="p">((</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">20000</span><span class="p">),</span> <span class="n">EchoHandler</span><span class="p">)</span>
+    <span class="n">serv</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>讨论<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">socketserver</span></code> 可以让我们很容易的创建简单的TCP服务器。
+但是，你需要注意的是，默认情况下这种服务器是单线程的，一次只能为一个客户端连接服务。
+如果你想处理多个客户端，可以初始化一个 <code class="docutils literal notranslate"><span class="pre">ForkingTCPServer</span></code> 或者是 <code class="docutils literal notranslate"><span class="pre">ThreadingTCPServer</span></code> 对象。例如：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">socketserver</span> <span class="kn">import</span> <span class="n">ThreadingTCPServer</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">serv</span> <span class="o">=</span> <span class="n">ThreadingTCPServer</span><span class="p">((</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">20000</span><span class="p">),</span> <span class="n">EchoHandler</span><span class="p">)</span>
+    <span class="n">serv</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>使用fork或线程服务器有个潜在问题就是它们会为每个客户端连接创建一个新的进程或线程。
+由于客户端连接数是没有限制的，因此一个恶意的黑客可以同时发送大量的连接让你的服务器奔溃。</p>
+<p>如果你担心这个问题，你可以创建一个预先分配大小的工作线程池或进程池。
+你先创建一个普通的非线程服务器，然后在一个线程池中使用 <code class="docutils literal notranslate"><span class="pre">serve_forever()</span></code> 方法来启动它们。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">Thread</span>
+    <span class="n">NWORKERS</span> <span class="o">=</span> <span class="mi">16</span>
+    <span class="n">serv</span> <span class="o">=</span> <span class="n">TCPServer</span><span class="p">((</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">20000</span><span class="p">),</span> <span class="n">EchoHandler</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">NWORKERS</span><span class="p">):</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">serv</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">)</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">daemon</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+    <span class="n">serv</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>一般来讲，一个 <code class="docutils literal notranslate"><span class="pre">TCPServer</span></code> 在实例化的时候会绑定并激活相应的 <code class="docutils literal notranslate"><span class="pre">socket</span></code> 。
+不过，有时候你想通过设置某些选项去调整底下的 <cite>socket`</cite> ，可以设置参数 <code class="docutils literal notranslate"><span class="pre">bind_and_activate=False</span></code> 。如下：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">serv</span> <span class="o">=</span> <span class="n">TCPServer</span><span class="p">((</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">20000</span><span class="p">),</span> <span class="n">EchoHandler</span><span class="p">,</span> <span class="n">bind_and_activate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="c1"># Set up various socket options</span>
+    <span class="n">serv</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">setsockopt</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">SOL_SOCKET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SO_REUSEADDR</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+    <span class="c1"># Bind and activate</span>
+    <span class="n">serv</span><span class="o">.</span><span class="n">server_bind</span><span class="p">()</span>
+    <span class="n">serv</span><span class="o">.</span><span class="n">server_activate</span><span class="p">()</span>
+    <span class="n">serv</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>上面的 <code class="docutils literal notranslate"><span class="pre">socket</span></code> 选项是一个非常普遍的配置项，它允许服务器重新绑定一个之前使用过的端口号。
+由于要被经常使用到，它被放置到类变量中，可以直接在 <code class="docutils literal notranslate"><span class="pre">TCPServer</span></code> 上面设置。
+在实例化服务器的时候去设置它的值，如下所示：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">TCPServer</span><span class="o">.</span><span class="n">allow_reuse_address</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">serv</span> <span class="o">=</span> <span class="n">TCPServer</span><span class="p">((</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">20000</span><span class="p">),</span> <span class="n">EchoHandler</span><span class="p">)</span>
+    <span class="n">serv</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>在上面示例中，我们演示了两种不同的处理器基类（ <code class="docutils literal notranslate"><span class="pre">BaseRequestHandler</span></code> 和 <code class="docutils literal notranslate"><span class="pre">StreamRequestHandler</span></code> ）。
+<code class="docutils literal notranslate"><span class="pre">StreamRequestHandler</span></code> 更加灵活点，能通过设置其他的类变量来支持一些新的特性。比如：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">socket</span>
+
+<span class="k">class</span> <span class="nc">EchoHandler</span><span class="p">(</span><span class="n">StreamRequestHandler</span><span class="p">):</span>
+    <span class="c1"># Optional settings (defaults shown)</span>
+    <span class="n">timeout</span> <span class="o">=</span> <span class="mi">5</span>                      <span class="c1"># Timeout on all socket operations</span>
+    <span class="n">rbufsize</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>                    <span class="c1"># Read buffer size</span>
+    <span class="n">wbufsize</span> <span class="o">=</span> <span class="mi">0</span>                     <span class="c1"># Write buffer size</span>
+    <span class="n">disable_nagle_algorithm</span> <span class="o">=</span> <span class="bp">False</span>  <span class="c1"># Sets TCP_NODELAY socket option</span>
+    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Got connection from&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_address</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rfile</span><span class="p">:</span>
+                <span class="c1"># self.wfile is a file-like object for writing</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">socket</span><span class="o">.</span><span class="n">timeout</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Timed out!&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>最后，还需要注意的是巨大部分Python的高层网络模块（比如HTTP、XML-RPC等）都是建立在 <code class="docutils literal notranslate"><span class="pre">socketserver</span></code> 功能之上。
+也就是说，直接使用 <code class="docutils literal notranslate"><span class="pre">socket</span></code> 库来实现服务器也并不是很难。
+下面是一个使用 <code class="docutils literal notranslate"><span class="pre">socket</span></code> 直接编程实现的一个服务器简单例子：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">socket</span> <span class="kn">import</span> <span class="n">socket</span><span class="p">,</span> <span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span>
+
+<span class="k">def</span> <span class="nf">echo_handler</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">client_sock</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Got connection from {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">address</span><span class="p">))</span>
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">client_sock</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">8192</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">client_sock</span><span class="o">.</span><span class="n">sendall</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="n">client_sock</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">echo_server</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">backlog</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">sock</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">)</span>
+    <span class="n">sock</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+    <span class="n">sock</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="n">backlog</span><span class="p">)</span>
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">client_sock</span><span class="p">,</span> <span class="n">client_addr</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+        <span class="n">echo_handler</span><span class="p">(</span><span class="n">client_addr</span><span class="p">,</span> <span class="n">client_sock</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">echo_server</span><span class="p">((</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">20000</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="p03_creating_udp_server.html" class="btn btn-neutral float-right" title="11.3 创建UDP服务器" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="p01_interact_with_http_services_as_client.html" class="btn btn-neutral" title="11.1 作为客户端与HTTP服务交互" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; <a href="../copyright.html">Copyright</a> 2017, 熊能.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

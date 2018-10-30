@@ -1,0 +1,323 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>15.15 C字符串转换为Python字符串 &mdash; python3-cookbook 3.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="15.16 不确定编码格式的C字符串" href="p16_work_with_c_strings_of_dubious_encoding.html" />
+    <link rel="prev" title="15.14 传递Unicode字符串给C函数库" href="p14_pass_unicode_strings_to_c_libraries.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> python3-cookbook
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p01_data_structures_algorithms.html">第一章：数据结构和算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p02_strings_and_text.html">第二章：字符串和文本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p03_numbers_dates_times.html">第三章：数字日期和时间</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p04_iterators_and_generators.html">第四章：迭代器与生成器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p05_files_and_io.html">第五章：文件与IO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p06_data_encoding_and_process.html">第六章：数据编码和处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p07_functions.html">第七章：函数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p08_classes_and_objects.html">第八章：类与对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p09_meta_programming.html">第九章：元编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p10_modules_and_packages.html">第十章：模块与包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p11_network_and_web_program.html">第十一章：网络与Web编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p12_concurrency.html">第十二章：并发编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p13_utility_script_and_system_manage.html">第十三章：脚本编程与系统管理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p14_test_debug_and_exceptions.html">第十四章：测试、调试和异常</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../chapters/p15_c_extensions.html">第十五章：C语言扩展</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="p01_access_ccode_using_ctypes.html">15.1 使用ctypes访问C代码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p02_write_simple_c_extension_module.html">15.2 简单的C扩展模块</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p03_write_extension_function_operate_on_arrays.html">15.3 编写扩展函数操作数组</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p04_manage_opaque_pointers_in_c_extension_modules.html">15.4 在C扩展模块中操作隐形指针</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p05_define_and_export_c_api_from_extension_modules.html">15.5 从扩展模块中定义和导出C的API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p06_calling_python_from_c.html">15.6 从C语言中调用Python代码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p07_release_the_gil_in_c_extensions.html">15.7 从C扩展中释放全局锁</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p08_mix_threads_from_c_and_python.html">15.8 C和Python中的线程混用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p09_wrap_c_code_with_swig.html">15.9 用WSIG包装C代码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p10_wrap_existing_c_code_with_cython.html">15.10 用Cython包装C代码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p11_use_cython_to_write_high_performance_array_operation.html">15.11 用Cython写高性能的数组操作</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p12_turning_function_pointer_into_callable.html">15.12 将函数指针转换为可调用对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p13_pass_null_terminated_string_to_c_libraries.html">15.13 传递NULL结尾的字符串给C函数库</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p14_pass_unicode_strings_to_c_libraries.html">15.14 传递Unicode字符串给C函数库</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">15.15 C字符串转换为Python字符串</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">问题</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">解决方案</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">讨论</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="p16_work_with_c_strings_of_dubious_encoding.html">15.16 不确定编码格式的C字符串</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p17_pass_filenames_to_c_extensions.html">15.17 传递文件名给C扩展</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p18_pass_open_files_to_c_extensions.html">15.18 传递已打开的文件给C扩展</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p19_read_file_like_objects_from_c.html">15.19 从C语言中读取类文件对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p20_consuming_an_iterable_from_c.html">15.20 处理C语言中的可迭代对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p21_diagnosing_segmentation_faults.html">15.21 诊断分段错误</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p16_appendix.html">附录A</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aboutme.html">关于译者</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">python3-cookbook</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../chapters/p15_c_extensions.html">第十五章：C语言扩展</a> &raquo;</li>
+        
+      <li>15.15 C字符串转换为Python字符串</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/c15/p15_converting_c_string_to_python.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="cpython">
+<h1>15.15 C字符串转换为Python字符串<a class="headerlink" href="#cpython" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>问题<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>怎样将C中的字符串转换为Python字节或一个字符串对象？</p>
+</div>
+<div class="section" id="id2">
+<h2>解决方案<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>C字符串使用一对 <code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*</span></code> 和 <code class="docutils literal notranslate"><span class="pre">int</span></code> 来表示，
+你需要决定字符串到底是用一个原始字节字符串还是一个Unicode字符串来表示。
+字节对象可以像下面这样使用 <code class="docutils literal notranslate"><span class="pre">Py_BuildValue()</span></code> 来构建：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">char</span> <span class="o">*</span><span class="n">s</span><span class="p">;</span>     <span class="o">/*</span> <span class="n">Pointer</span> <span class="n">to</span> <span class="n">C</span> <span class="n">string</span> <span class="n">data</span> <span class="o">*/</span>
+<span class="nb">int</span>   <span class="nb">len</span><span class="p">;</span>   <span class="o">/*</span> <span class="n">Length</span> <span class="n">of</span> <span class="n">data</span> <span class="o">*/</span>
+
+<span class="o">/*</span> <span class="n">Make</span> <span class="n">a</span> <span class="nb">bytes</span> <span class="nb">object</span> <span class="o">*/</span>
+<span class="n">PyObject</span> <span class="o">*</span><span class="n">obj</span> <span class="o">=</span> <span class="n">Py_BuildValue</span><span class="p">(</span><span class="s2">&quot;y#&quot;</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="nb">len</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>如果你要创建一个Unicode字符串，并且你知道 <code class="docutils literal notranslate"><span class="pre">s</span></code> 指向了UTF-8编码的数据，可以使用下面的方式：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PyObject</span> <span class="o">*</span><span class="n">obj</span> <span class="o">=</span> <span class="n">Py_BuildValue</span><span class="p">(</span><span class="s2">&quot;s#&quot;</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="nb">len</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>如果 <code class="docutils literal notranslate"><span class="pre">s</span></code> 使用其他编码方式，那么可以像下面使用 <code class="docutils literal notranslate"><span class="pre">PyUnicode_Decode()</span></code> 来构建一个字符串：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PyObject</span> <span class="o">*</span><span class="n">obj</span> <span class="o">=</span> <span class="n">PyUnicode_Decode</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">len</span><span class="p">,</span> <span class="s2">&quot;encoding&quot;</span><span class="p">,</span> <span class="s2">&quot;errors&quot;</span><span class="p">);</span>
+
+<span class="o">/*</span> <span class="n">Examples</span> <span class="o">/*</span>
+<span class="n">obj</span> <span class="o">=</span> <span class="n">PyUnicode_Decode</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">len</span><span class="p">,</span> <span class="s2">&quot;latin-1&quot;</span><span class="p">,</span> <span class="s2">&quot;strict&quot;</span><span class="p">);</span>
+<span class="n">obj</span> <span class="o">=</span> <span class="n">PyUnicode_Decode</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">len</span><span class="p">,</span> <span class="s2">&quot;ascii&quot;</span><span class="p">,</span> <span class="s2">&quot;ignore&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>如果你恰好有一个用 <code class="docutils literal notranslate"><span class="pre">wchar_t</span> <span class="pre">*,</span> <span class="pre">len</span></code> 对表示的宽字符串，
+有几种选择性。首先你可以使用 <code class="docutils literal notranslate"><span class="pre">Py_BuildValue()</span></code> ：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wchar_t</span> <span class="o">*</span><span class="n">w</span><span class="p">;</span>    <span class="o">/*</span> <span class="n">Wide</span> <span class="n">character</span> <span class="n">string</span> <span class="o">*/</span>
+<span class="nb">int</span> <span class="nb">len</span><span class="p">;</span>       <span class="o">/*</span> <span class="n">Length</span> <span class="o">*/</span>
+
+<span class="n">PyObject</span> <span class="o">*</span><span class="n">obj</span> <span class="o">=</span> <span class="n">Py_BuildValue</span><span class="p">(</span><span class="s2">&quot;u#&quot;</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="nb">len</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>另外，你还可以使用 <code class="docutils literal notranslate"><span class="pre">PyUnicode_FromWideChar()</span></code> :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PyObject</span> <span class="o">*</span><span class="n">obj</span> <span class="o">=</span> <span class="n">PyUnicode_FromWideChar</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="nb">len</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>对于宽字符串，并没有对字符数据进行解析——它被假定是原始Unicode编码指针，可以被直接转换成Python。</p>
+</div>
+<div class="section" id="id3">
+<h2>讨论<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>将C中的字符串转换为Python字符串遵循和I/O同样的原则。
+也就是说，来自C中的数据必须根据一些解码器被显式的解码为一个字符串。
+通常编码格式包括ASCII、Latin-1和UTF-8.
+如果你并不确定编码方式或者数据是二进制的，你最好将字符串编码成字节。
+当构造一个对象的时候，Python通常会复制你提供的字符串数据。
+如果有必要的话，你需要在后面去释放C字符串。
+同时，为了让程序更加健壮，你应该同时使用一个指针和一个大小值，
+而不是依赖NULL结尾数据来创建字符串。</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="p16_work_with_c_strings_of_dubious_encoding.html" class="btn btn-neutral float-right" title="15.16 不确定编码格式的C字符串" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="p14_pass_unicode_strings_to_c_libraries.html" class="btn btn-neutral" title="15.14 传递Unicode字符串给C函数库" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; <a href="../copyright.html">Copyright</a> 2017, 熊能.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

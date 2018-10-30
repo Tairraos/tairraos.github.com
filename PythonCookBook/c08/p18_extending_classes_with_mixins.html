@@ -1,0 +1,401 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>8.18 利用Mixins扩展类功能 &mdash; python3-cookbook 3.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="8.19 实现状态对象或者状态机" href="p19_implements_stateful_objects_or_state_machines.html" />
+    <link rel="prev" title="8.17 创建不调用init方法的实例" href="p17_create_instance_without_invoking_init_method.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> python3-cookbook
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p01_data_structures_algorithms.html">第一章：数据结构和算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p02_strings_and_text.html">第二章：字符串和文本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p03_numbers_dates_times.html">第三章：数字日期和时间</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p04_iterators_and_generators.html">第四章：迭代器与生成器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p05_files_and_io.html">第五章：文件与IO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p06_data_encoding_and_process.html">第六章：数据编码和处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p07_functions.html">第七章：函数</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../chapters/p08_classes_and_objects.html">第八章：类与对象</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="p01_change_string_representation_of_instances.html">8.1 改变对象的字符串显示</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p02_customizing_string_formatting.html">8.2 自定义字符串的格式化</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p03_make_objects_support_context_management_protocol.html">8.3 让对象支持上下文管理协议</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p04_save_memory_when_create_large_number_instances.html">8.4 创建大量对象时节省内存方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p05_encapsulating_names_in_class.html">8.5 在类中封装属性名</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p06_create_managed_attributes.html">8.6 创建可管理的属性</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p07_calling_method_on_parent_class.html">8.7 调用父类方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p08_extending_property_in_subclass.html">8.8 子类中扩展property</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p09_create_new_kind_of_class_or_instance_attribute.html">8.9 创建新的类或实例属性</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p10_using_lazily_computed_properties.html">8.10 使用延迟计算属性</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p11_simplify_initialization_of_data_structure.html">8.11 简化数据结构的初始化</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p12_define_interface_or_abstract_base_class.html">8.12 定义接口或者抽象基类</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p13_implementing_data_model_or_type_system.html">8.13 实现数据模型的类型约束</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p14_implementing_custom_containers.html">8.14 实现自定义容器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p15_delegating_attribute_access.html">8.15 属性的代理访问</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p16_define_more_than_one_constructor_in_class.html">8.16 在类中定义多个构造器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p17_create_instance_without_invoking_init_method.html">8.17 创建不调用init方法的实例</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">8.18 利用Mixins扩展类功能</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">问题</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">解决方案</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">讨论</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="p19_implements_stateful_objects_or_state_machines.html">8.19 实现状态对象或者状态机</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p20_call_method_on_object_by_string_name.html">8.20 通过字符串调用对象方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p21_implementing_visitor_pattern.html">8.21 实现访问者模式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p22_implementing_visitor_pattern_without_recursion.html">8.22 不用递归实现访问者模式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p23_managing_memory_in_cyclic_data_structures.html">8.23 循环引用数据结构的内存管理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p24_making_classes_support_comparison_operations.html">8.24 让类支持比较操作</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p25_creating_cached_instances.html">8.25 创建缓存实例</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p09_meta_programming.html">第九章：元编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p10_modules_and_packages.html">第十章：模块与包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p11_network_and_web_program.html">第十一章：网络与Web编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p12_concurrency.html">第十二章：并发编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p13_utility_script_and_system_manage.html">第十三章：脚本编程与系统管理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p14_test_debug_and_exceptions.html">第十四章：测试、调试和异常</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p15_c_extensions.html">第十五章：C语言扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p16_appendix.html">附录A</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aboutme.html">关于译者</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">python3-cookbook</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../chapters/p08_classes_and_objects.html">第八章：类与对象</a> &raquo;</li>
+        
+      <li>8.18 利用Mixins扩展类功能</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/c08/p18_extending_classes_with_mixins.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="mixins">
+<h1>8.18 利用Mixins扩展类功能<a class="headerlink" href="#mixins" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>问题<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>你有很多有用的方法，想使用它们来扩展其他类的功能。但是这些类并没有任何继承的关系。
+因此你不能简单的将这些方法放入一个基类，然后被其他类继承。</p>
+</div>
+<div class="section" id="id2">
+<h2>解决方案<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>通常当你想自定义类的时候会碰上这些问题。可能是某个库提供了一些基础类，
+你可以利用它们来构造你自己的类。</p>
+<p>假设你想扩展映射对象，给它们添加日志、唯一性设置、类型检查等等功能。下面是一些混入类：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">LoggedMappingMixin</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add logging to get/set/delete operations for debugging.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>  <span class="c1"># 混入类都没有实例变量，因为直接实例化混入类没有任何意义</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Getting &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Setting {} = {!r}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Deleting &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__delitem__</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">SetOnceMappingMixin</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Only allow a key to be set once.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; already set&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">StringKeysMappingMixin</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Restrict keys to strings only</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;keys must be strings&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>这些类单独使用起来没有任何意义，事实上如果你去实例化任何一个类，除了产生异常外没任何作用。
+它们是用来通过多继承来和其他映射对象混入使用的。例如：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">LoggedDict</span><span class="p">(</span><span class="n">LoggedMappingMixin</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="n">d</span> <span class="o">=</span> <span class="n">LoggedDict</span><span class="p">()</span>
+<span class="n">d</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">23</span>
+<span class="k">print</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">])</span>
+<span class="k">del</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span>
+
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+
+<span class="k">class</span> <span class="nc">SetOnceDefaultDict</span><span class="p">(</span><span class="n">SetOnceMappingMixin</span><span class="p">,</span> <span class="n">defaultdict</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="n">d</span> <span class="o">=</span> <span class="n">SetOnceDefaultDict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+<span class="n">d</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">d</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="c1"># d[&#39;x&#39;] = 23  # KeyError: &#39;x already set&#39;</span>
+</pre></div>
+</div>
+<p>这个例子中，可以看到混入类跟其他已存在的类(比如dict、defaultdict和OrderedDict)结合起来使用，一个接一个。
+结合后就能发挥正常功效了。</p>
+</div>
+<div class="section" id="id3">
+<h2>讨论<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>混入类在标准库中很多地方都出现过，通常都是用来像上面那样扩展某些类的功能。
+它们也是多继承的一个主要用途。比如，当你编写网络代码时候，
+你会经常使用 <code class="docutils literal notranslate"><span class="pre">socketserver</span></code> 模块中的 <code class="docutils literal notranslate"><span class="pre">ThreadingMixIn</span></code> 来给其他网络相关类增加多线程支持。
+例如，下面是一个多线程的XML-RPC服务：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">xmlrpc.server</span> <span class="kn">import</span> <span class="n">SimpleXMLRPCServer</span>
+<span class="kn">from</span> <span class="nn">socketserver</span> <span class="kn">import</span> <span class="n">ThreadingMixIn</span>
+<span class="k">class</span> <span class="nc">ThreadedXMLRPCServer</span><span class="p">(</span><span class="n">ThreadingMixIn</span><span class="p">,</span> <span class="n">SimpleXMLRPCServer</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>同时在一些大型库和框架中也会发现混入类的使用，用途同样是增强已存在的类的功能和一些可选特征。</p>
+<p>对于混入类，有几点需要记住。首先是，混入类不能直接被实例化使用。
+其次，混入类没有自己的状态信息，也就是说它们并没有定义 <code class="docutils literal notranslate"><span class="pre">__init__()</span></code> 方法，并且没有实例属性。
+这也是为什么我们在上面明确定义了 <code class="docutils literal notranslate"><span class="pre">__slots__</span> <span class="pre">=</span> <span class="pre">()</span></code> 。</p>
+<p>还有一种实现混入类的方式就是使用类装饰器，如下所示：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">LoggedMapping</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;第二种方式：使用类装饰器&quot;&quot;&quot;</span>
+    <span class="n">cls_getitem</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="fm">__getitem__</span>
+    <span class="n">cls_setitem</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="fm">__setitem__</span>
+    <span class="n">cls_delitem</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="fm">__delitem__</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Getting &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">cls_getitem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Setting {} = {!r}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">cls_setitem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Deleting &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">cls_delitem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+
+    <span class="bp">cls</span><span class="o">.</span><span class="fm">__getitem__</span> <span class="o">=</span> <span class="fm">__getitem__</span>
+    <span class="bp">cls</span><span class="o">.</span><span class="fm">__setitem__</span> <span class="o">=</span> <span class="fm">__setitem__</span>
+    <span class="bp">cls</span><span class="o">.</span><span class="fm">__delitem__</span> <span class="o">=</span> <span class="fm">__delitem__</span>
+    <span class="k">return</span> <span class="bp">cls</span>
+
+
+<span class="nd">@LoggedMapping</span>
+<span class="k">class</span> <span class="nc">LoggedDict</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>这个效果跟之前的是一样的，而且不再需要使用多继承了。参考9.12小节获取更多类装饰器的信息，
+参考8.13小节查看更多混入类和类装饰器的例子。</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="p19_implements_stateful_objects_or_state_machines.html" class="btn btn-neutral float-right" title="8.19 实现状态对象或者状态机" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="p17_create_instance_without_invoking_init_method.html" class="btn btn-neutral" title="8.17 创建不调用init方法的实例" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; <a href="../copyright.html">Copyright</a> 2017, 熊能.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
