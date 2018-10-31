@@ -1,5 +1,5 @@
 @font-face {
-    font-family: 'lcdfont';
+    font-family: 'Lcdfont';
     src: url(./lcd.woff) format("woff");
     font-style: normal;
     font-weight: 100;
@@ -36,7 +36,7 @@
 }
 
 .input-container label {
-    font: 12px/12px Consolas;
+    font: 12px/20px 'Lcdfont';
     position: absolute;
     left: 0;
     top: 8px;
@@ -46,7 +46,7 @@
 .input-container input {
     background: #ddd;
     color: #555;
-    font: 35px/40px 'lcdfont';
+    font: 35px/35px 'Lcdfont';
     text-align: right;
     border: none;
     outline: none;
@@ -60,7 +60,7 @@
 .button-container button {
     color: #555;
     text-shadow: 1px 1px rgba(255, 255, 255, 0.3);
-    font: 16px/28px Consolas;
+    font: 16px/28px 'Consolas';
     margin: 8px 15px 15px;
     width: 120px;
     height: 30px;
@@ -73,7 +73,7 @@
 }
 
 #history {
-    font: 14px/18px Consolas;
+    font: 14px/18px 'Consolas';
     height: 108px;
     overflow-y: auto;
     margin: auto;
