@@ -21,6 +21,12 @@ function formatHex(h) {
     return ("000000000000" + h).replace(/^.*(.{12})$/, "$1").replace(/([\dA-F]{2})/ig, "$1 ").trim().replace(/00 /g, "").split(" ").reverse().join(" ");
 }
 
+function enter(e) {
+    if(e.keyCode===13){
+        clear();
+    }
+}
+
 function clear() {
     if (+$dec.value) {
         $history.innerHTML += counter++ + ": " + $dec.value + " <--> " + $hex.value + " <--> " + formatHex($hex.value) + "<br />";
@@ -37,3 +43,5 @@ $hex.addEventListener("change", updateDec);
 $hex.addEventListener("click", updateDec);
 $hex.addEventListener("keyup", updateDec);
 $clear.addEventListener("click", clear);
+$dec.addEventListener("keydown", enter);
+$hex.addEventListener("keydown", enter);
