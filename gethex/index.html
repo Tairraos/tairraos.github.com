@@ -5,40 +5,20 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Dec to Hex</title>
-    <style>
-        div, input {
-        font: 25px/35px Consolas;
-            text-align: center; 
-        }
-        input{
-            border: 1px solid #333;
-        }
-    </style>
+    <link rel="stylesheet" href="index.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
-    <div>DEC: <input type="text" id="dec" /></div>
-    <div>HEX: <input type="text" id="hex" /></div>
+    <div id="container">
+        <div id="calc">
+            <div class="input-container"><label for="dec">DEC</label><input type="text" id="dec" maxlength="15"/></div>
+            <div class="input-container"><label for="hex">HEX</label><input type="text" id="hex" maxlength="12"/></div>
+        </div>
+        <div class="button-container"><button id="clear">CLEAR</button></div>
+        <div id="history"></div>
+    </div>
 </body>
-<script>
-    let $dec = document.getElementById("dec"),
-        $hex = document.getElementById("hex");
-
-    function updateHex() {
-        $hex.value = (+$dec.value).toString(16);
-    }
-
-    function updateDec() {
-        $dec.value = parseInt($hex.value, 16);
-    }
-
-    $dec.addEventListener("change", updateHex);
-    $dec.addEventListener("click", updateHex);
-    $dec.addEventListener("keyup", updateHex);
-    $hex.addEventListener("change", updateDec);
-    $hex.addEventListener("click", updateDec);
-    $hex.addEventListener("keyup", updateDec);
-</script>
+<script src="index.js"></script>
 
 </html>
