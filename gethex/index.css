@@ -36,10 +36,10 @@
 
 .input-container label {
     left: 0;
-    top: 8px;
+    bottom: 16px;
     color: #555;
     position: absolute;
-    font: 12px/20px 'Lcdfont';
+    font: 12px/12px 'Lcdfont';
 }
 
 .input-container input {
