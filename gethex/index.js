@@ -6,16 +6,16 @@ let $dec = document.getElementById("dec"),
     counter = 1;
 
 function updateHex() {
-    $dec.value = $dec.value.replace(/[^\d]/g, "");
+    $dec.value = +$dec.value.replace(/[^\d]/g, "");
     $hex.value = (+$dec.value).toString(16).toUpperCase();
-    if ($hex.value === "0") {
-        $hex.value = "";
+    if ($hex.value === "") {
+        $hex.value = "0";
     }
 }
 
 function updateDec() {
     $hex.value = $hex.value.toUpperCase().replace(/[^\dA-F]/g, "");
-    $dec.value = parseInt($hex.value, 16) || "";
+    $dec.value = parseInt($hex.value, 16) || "0";
 }
 
 function formatHex(h) {
@@ -32,7 +32,7 @@ function clearNumber() {
     if (+$dec.value) {
         $history.innerHTML += counter++ + ": " + $dec.value + " <--> " + $hex.value + " <--> " + formatHex($hex.value) + "<br />";
     }
-    $dec.value = $hex.value = "";
+    $dec.value = $hex.value = "0";
     $dec.focus();
     $history.scrollTop = $history.scrollHeight;
 }
