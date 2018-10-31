@@ -1,6 +1,7 @@
 let $dec = document.getElementById("dec"),
     $hex = document.getElementById("hex"),
-    $clear = document.getElementById("clear"),
+    $clearNumber = document.getElementById("clearNumber"),
+    $clearHistory = document.getElementById("clearHistory"),
     $history = document.getElementById("history"),
     counter = 1;
 
@@ -22,12 +23,12 @@ function formatHex(h) {
 }
 
 function enter(e) {
-    if(e.keyCode===13){
-        clear();
+    if (e.keyCode === 13) {
+        clearNumber();
     }
 }
 
-function clear() {
+function clearNumber() {
     if (+$dec.value) {
         $history.innerHTML += counter++ + ": " + $dec.value + " <--> " + $hex.value + " <--> " + formatHex($hex.value) + "<br />";
     }
@@ -36,12 +37,19 @@ function clear() {
     $history.scrollTop = $history.scrollHeight;
 }
 
+function clearHistory() {
+    $history.innerHTML = "";
+    counter = 1;
+    $dec.focus();
+}
+
 $dec.addEventListener("change", updateHex);
 $dec.addEventListener("click", updateHex);
 $dec.addEventListener("keyup", updateHex);
 $hex.addEventListener("change", updateDec);
 $hex.addEventListener("click", updateDec);
 $hex.addEventListener("keyup", updateDec);
-$clear.addEventListener("click", clear);
 $dec.addEventListener("keydown", enter);
 $hex.addEventListener("keydown", enter);
+$clearNumber.addEventListener("click", clearNumber);
+$clearHistory.addEventListener("click", clearHistory);
