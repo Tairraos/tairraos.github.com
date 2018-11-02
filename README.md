@@ -21,7 +21,11 @@
   **Euclidea 3求解** ([演示网页](https://mathsfans.github.io/Euclidea/))  
   对应 Apple app store 里的 Euclidea 3游戏求解。  
   开源Repo: [https://github.com/MathsFans/Euclidea](https://github.com/MathsFans/Euclidea)  
-  
+
+  **Tchisla 求解** ([演示网页](https://mathsfans.github.io/Tchisla/))  
+  对应 Apple app store 里的 Tchisla 游戏求解。  
+  开源Repo: [https://github.com/MathsFans/Tchisla](https://github.com/MathsFans/Tchisla)  
+
 * * *  
   
 ### 推荐几本学习好书  
