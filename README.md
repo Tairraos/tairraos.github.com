@@ -30,6 +30,6 @@
   
 ### 推荐几本学习好书  
   
-[First Step In Python](https://tairraos.github.io//FirstStepInPython) ([来源网页](http://www.runoob.com/manual/pythontutorial3/docs/html/index.html))
-[Intermediate Python](https://tairraos.github.io//IntermediatePython) ([来源Repo](https://github.com/eastlakeside/interpy-zh))
+[First Step In Python](https://tairraos.github.io//FirstStepInPython) ([来源网页](http://www.runoob.com/manual/pythontutorial3/docs/html/index.html))  
+[Intermediate Python](https://tairraos.github.io//IntermediatePython) ([来源Repo](https://github.com/eastlakeside/interpy-zh))  
 [Python Cookbook](https://tairraos.github.io//PythonCookBook) ([来源Repo](https://github.com/yidao620c/python3-cookbook))  
