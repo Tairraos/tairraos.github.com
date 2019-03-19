@@ -14,9 +14,9 @@
   VS Code 插件: 在右键菜单上加上使用本地web服务器打开html的项。    
   开源Repo: [https://github.com/Tairraos/vscode-local-web-opener](https://github.com/Tairraos/vscode-local-web-opener)  
   
-  **几何求解** ([演示网页](https://tairraos.github.io/Poker.JS/))  
+  **几何求解** ([演示网页](https://tairraos.github.io/Geometry-Solving/))  
   Apple app store 里的 Pythagorea, Pythagorea 60, XSection 三款几何游戏的求解。  
-  开源Repo: [https://tairraos.github.io/Geometry-Solving](https://tairraos.github.io/Geometry-Solving)  
+  开源Repo: [https://github.com/Tairraos/Geometry-Solving](https://github.com/Tairraos/Geometry-Solving)  
   
   **Euclidea 3求解** ([演示网页](https://mathsfans.github.io/Euclidea/))  
   对应 Apple app store 里的 Euclidea 3游戏求解。  
