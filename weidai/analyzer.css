@@ -1,0 +1,34 @@
+body {
+    overflow: hidden;
+}
+
+#title {
+    font: bold 25px/40px Georgia, 'Times New Roman', Times, serif;
+    text-align: center;
+    width: 600px;
+    margin: auto;
+}
+
+#basket {
+    width: 600px;
+    height: 400px;
+    transition: background-color 1s, height 0s;
+    border: 2px dashed #333;
+    border-radius: 20px;
+    margin: 20px auto;
+    padding: 20px;
+    font: italic 25px/400px Georgia, 'Times New Roman', Times, serif;
+    text-align: center;
+    color: #333
+}
+
+#basket.dragover {
+    background: rgb(210, 186, 255);
+    border-style: dotted;
+}
+
+#chart {
+    width: 90%;
+    height: 600px;
+    margin: auto;
+}
