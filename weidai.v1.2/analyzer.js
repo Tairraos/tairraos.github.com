@@ -81,7 +81,7 @@
         for (var pointer = start; pointer <= end; pointer++) {
             var d = raw["B" + pointer].v.slice(0, -3),
                 y = d.slice(0, -3),
-                v = raw["C" + pointer].v;
+                v = raw["D" + pointer].v;
             monthPay[d] = fix((monthPay[d] || 0) + v);
             yearPay[y] = fix((yearPay[y] || 0) + v);
             monthNum[d] = fix((monthNum[d] || 0) + 1);
