@@ -1,6 +1,7 @@
 (function() {
-    let $basket = document.getElementById("basket"),
-        $title = document.getElementById("title");
+    var $basket = document.getElementById("basket"),
+        $title = document.getElementById("title"),
+        $report = document.getElementById("report");
 
     if (!window.FileReader) {
         $basket.innerHTML = "你的浏览器太老了，换一个浏览器试试。";
@@ -40,7 +41,7 @@
 
     function handleFiles(file) {
         if (file.name.match(/\.xls$/)) {
-            let reader = new FileReader();
+            var reader = new FileReader();
             reader.onload = function(e) {
                 var data = e.target.result;
                 var workbook = XLSX.read(data, {
@@ -64,44 +65,54 @@
         return Math.round(+num * 100) / 100;
     };
 
-    function analyseContent(data) {
-        let start = 5,
-            end = +data["!ref"].match(/H(\d+)/)[1],
-            total = 0,
-            monthData = {},
-            yearData = {};
+    function format(d) {
+        return d.replace("-", "年") + "月";
+    };
+
+    function analyseContent(raw) {
+        var start = 5,
+            end = +raw["!ref"].match(/H(\d+)/)[1],
+            totalPay = 0,
+            monthNum = {},
+            monthPay = {},
+            yearPay = {},
+            lastPayDay;
 
         for (var pointer = start; pointer <= end; pointer++) {
-            var d = data["B" + pointer].v.slice(0, -3),
+            var d = raw["B" + pointer].v.slice(0, -3),
                 y = d.slice(0, -3),
-                v = data["C" + pointer].v;
-            monthData[d] = fix((monthData[d] || 0) + v);
-            yearData[y] = fix((yearData[y] || 0) + v);
-            total = fix(total + v);
+                v = raw["C" + pointer].v;
+            monthPay[d] = fix((monthPay[d] || 0) + v);
+            yearPay[y] = fix((yearPay[y] || 0) + v);
+            monthNum[d] = fix((monthNum[d] || 0) + 1);
+            totalPay = fix(totalPay + v);
         }
+        lastPayDay = raw["B" + end].v;
 
         //for debug
         window.debug = {
             start,
             end,
-            data,
-            total,
-            monthData,
-            yearData
+            raw,
+            totalPay,
+            monthPay,
+            yearPay
         };
         drawChart({
-            monthData,
-            yearData
+            totalPay,
+            monthPay,
+            yearPay,
+            lastPayDay
         });
     }
 
     function drawChart(data) {
-        var chart = echarts.init(document.getElementById("chart"), "light");
-        var pieData = [];
-        for (x in data.yearData) {
+        var chart = echarts.init(document.getElementById("chart"), "light"),
+            x, pieData = [];
+        for (x in data.yearPay) {
             pieData.push({
-                value: data.yearData[x],
-                name: x
+                value: data.yearPay[x],
+                name: x + "年 " + fix(data.yearPay[x] / data.totalPay) + "%"
             });
         }
         var option = {
@@ -109,7 +120,9 @@
             tooltip: {},
             legend: {},
             xAxis: {
-                data: Object.keys(data.monthData)
+                data: Object.keys(data.monthPay).map(function(d) {
+                    return d.match(/-01/) ? d.slice(0, -3) + "年" : d.slice(-2) + "月"
+                })
             },
             yAxis: {},
             series: [{
@@ -119,7 +132,7 @@
                         color: "#600"
                     },
                     smooth: true,
-                    data: Object.values(data.monthData)
+                    data: Object.values(data.monthPay)
                 },
                 {
                     name: "月回款",
@@ -133,7 +146,7 @@
                         rotate: 90,
                         fontSize: 12
                     },
-                    data: Object.values(data.monthData)
+                    data: Object.values(data.monthPay)
                 },
                 {
                     name: "年回款",
@@ -147,5 +160,18 @@
 
         // 使用刚指定的配置项和数据显示图表。
         chart.setOption(option);
+
+        var report = ["回款分析："],
+            amount = 0;
+        report.push("最后一笔回款时间" + data.lastPayDay.replace(/-(\d\d)-(\d\d)/, "年$1月$2日"));
+        for (x in data.yearPay) {
+            report.push(x + "年还款：" + data.yearPay[x] + "元，占比" + fix(data.yearPay[x] / data.totalPay * 100) + "%");
+        }
+        for (x in data.monthPay) {
+            amount = fix(amount + data.monthPay[x]);
+            report.push(format(x) + "还款：" + data.monthPay[x] + "元，占比" + fix(data.monthPay[x] / data.totalPay * 100) + "%" +
+                "总还款：" + amount + "元，占比" + fix(amount / data.totalPay * 100) + "%");
+        }
+        $report.innerHTML = report.join("<br>\n");
     }
 }());

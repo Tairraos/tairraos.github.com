@@ -1,7 +1,3 @@
-body {
-    overflow: hidden;
-}
-
 #title {
     font: bold 25px/40px Georgia, 'Times New Roman', Times, serif;
     text-align: center;
@@ -30,5 +26,10 @@ body {
 #chart {
     width: 90%;
     height: 600px;
+    margin: auto;
+}
+
+#report {
+    width: 800px;
     margin: auto;
 }
