@@ -1,5 +1,7 @@
 #title {
-    font: bold 25px/40px Georgia, 'Times New Roman', Times, serif;
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 40px;
     text-align: center;
     width: 600px;
     margin: auto;
@@ -7,20 +9,30 @@
 
 #basket {
     width: 600px;
-    height: 400px;
+    height: 300px;
     transition: background-color 1s, height 0s;
     border: 2px dashed #333;
     border-radius: 20px;
     margin: 20px auto;
     padding: 20px;
-    font: italic 25px/400px Georgia, 'Times New Roman', Times, serif;
+    font-size: 20px;
+    line-height: 40px;
     text-align: center;
     color: #333
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
 }
 
 #basket.dragover {
     background: rgb(210, 186, 255);
     border-style: dotted;
+}
+
+#readme {
+    color: #600;
 }
 
 #chart {
