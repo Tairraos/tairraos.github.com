@@ -89,20 +89,12 @@
         }
         lastPayDay = raw["B" + end].v;
 
-        //for debug
-        window.debug = {
-            start,
-            end,
-            raw,
-            totalPay,
-            monthPay,
-            yearPay
-        };
         drawChart({
             totalPay,
             monthPay,
             yearPay,
-            lastPayDay
+            lastPayDay,
+            monthNum
         });
     }
 
