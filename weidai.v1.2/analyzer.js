@@ -155,14 +155,22 @@
 
         var report = ["回款分析："],
             amount = 0;
-        report.push("最后一笔回款时间" + data.lastPayDay.replace(/-(\d\d)-(\d\d)/, "年$1月$2日"));
+        report.push("");
+
+        report.push("待还总金额：" + data.totalPay + "元");
+        report.push("共有待执行合同：" + Math.max(...Object.values(data.monthNum)) + "个");
+        report.push("最后一笔回款时间：" + data.lastPayDay.replace(/-(\d\d)-(\d\d)/, "年$1月$2日"));
+        report.push("");
         for (x in data.yearPay) {
             report.push(x + "年还款：" + data.yearPay[x] + "元，占比" + fix(data.yearPay[x] / data.totalPay * 100) + "%");
         }
+        report.push("");
+
         for (x in data.monthPay) {
             amount = fix(amount + data.monthPay[x]);
-            report.push(format(x) + "还款：" + data.monthPay[x] + "元，占比" + fix(data.monthPay[x] / data.totalPay * 100) + "%" +
-                "总还款：" + amount + "元，占比" + fix(amount / data.totalPay * 100) + "%");
+            report.push(format(x) + "还款：" + data.monthPay[x] + "元，占比" + fix(data.monthPay[x] / data.totalPay * 100) + "%；" +
+                "总还款：" + amount + "元，占比" + fix(amount / data.totalPay * 100) + "%；" +
+                "执行合同数:" + data.monthNum[x] + "个");
         }
         $report.innerHTML = report.join("<br>\n");
     }
