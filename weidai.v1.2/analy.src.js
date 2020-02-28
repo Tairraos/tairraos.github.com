@@ -169,8 +169,8 @@
 
         for (x in data.monthPay) {
             amount = fix(amount + data.monthPay[x]);
-            report.push(format(x) + "还款：" + data.monthPay[x] + "元，占比" + fix(data.monthPay[x] / data.totalPay * 100) + "%；" +
-                "总还款：" + amount + "元，占比" + fix(amount / data.totalPay * 100) + "%；" +
+            report.push(format(x) + "还款：" + data.monthPay[x] + "元(" + fix(data.monthPay[x] / data.totalPay * 100) + "%)" +
+                "累计还款：" + amount + "元(" + fix(amount / data.totalPay * 100) + "%)；" +
                 "执行合同数:" + data.monthNum[x] + "个");
         }
         $report.innerHTML = report.join("<br>\n");
