@@ -101,11 +101,23 @@
 
     function drawChart(data) {
         var chart = echarts.init(document.getElementById("chart"), "light"),
-            x, pieData = [];
+            x, c, pieData = [],
+            processData = [],
+            amount = 0;
         for (x in data.yearPay) {
             pieData.push({
                 value: data.yearPay[x],
                 name: x + "年 " + fix(data.yearPay[x] / data.totalPay * 100) + "%"
+            });
+        }
+        c = 0;
+        for (x in data.monthPay) {
+            amount = fix(amount + data.monthPay[x]);
+            processData.push({
+                value: Math.floor(amount / data.totalPay * 100) + "%",
+                name: "进度: " + fix(amount / data.totalPay * 100) + "%",
+                xAxis: c++,
+                yAxis: data.monthPay[x]
             });
         }
         var option = {
@@ -113,8 +125,17 @@
             tooltip: {},
             legend: {},
             xAxis: {
+                splitNumber: Object.keys(data.monthPay).length,
+                axisLabel: {
+                    interval: 0
+                },
                 data: Object.keys(data.monthPay).map(function(d) {
-                    return d.match(/-01/) ? d.slice(0, -3) + "年" : d.slice(-2) + "月"
+                    return {
+                        value: d.match(/-01/) ? d.slice(0, -3) + "年" : d.slice(-2) + "月",
+                        textStyle: {
+                            fontSize: 10
+                        }
+                    }
                 })
             },
             yAxis: {},
@@ -130,14 +151,28 @@
                 {
                     name: "月回款",
                     type: "bar",
+                    // label: {
+                    //     show: true,
+                    //     position: "top"
+                    // },
+                    markPoint: {
+                        symbol: "pin",
+                        data: processData,
+                        symbolSize: [1, 30],
+                        label: {
+                            color: "#333",
+                            fontSize: 10
+                        },
+                        itemStyle: {
+                            color: "#fff",
+                        }
+                    },
                     label: {
                         show: true,
                         position: "insideBottom",
-                        distance: 5,
-                        align: "left",
-                        verticalAlign: "middle",
-                        rotate: 90,
-                        fontSize: 12
+                        rotate: 45,
+                        offset: [2, -8],
+                        fontSize: 8
                     },
                     data: Object.values(data.monthPay)
                 },
@@ -154,8 +189,8 @@
         // 使用刚指定的配置项和数据显示图表。
         chart.setOption(option);
 
-        var report = ["回款分析："],
-            amount = 0;
+        var report = ["回款分析："];
+
         report.push("");
 
         report.push("待还总本金金额：" + data.totalPay + "元");
@@ -166,10 +201,10 @@
             report.push(x + "年还款：" + data.yearPay[x] + "元，占比" + fix(data.yearPay[x] / data.totalPay * 100) + "%");
         }
         report.push("");
-
+        amount = 0;
         for (x in data.monthPay) {
             amount = fix(amount + data.monthPay[x]);
-            report.push(format(x) + "还款：" + data.monthPay[x] + "元(" + fix(data.monthPay[x] / data.totalPay * 100) + "%)" +
+            report.push(format(x) + "还款：" + data.monthPay[x] + "元(" + fix(data.monthPay[x] / data.totalPay * 100) + "%)；" +
                 "累计还款：" + amount + "元(" + fix(amount / data.totalPay * 100) + "%)；" +
                 "执行合同数:" + data.monthNum[x] + "个");
         }

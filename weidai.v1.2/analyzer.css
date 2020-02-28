@@ -25,12 +25,18 @@
 
 #chart {
     width: 90%;
-    min-width: 1000px;
+    min-width: 1200px;
     height: 600px;
     margin: auto;
+}
+
+#chart>div {
+    margin: auto !important;
 }
 
 #report {
     width: 800px;
     margin: auto;
+    font-size: 14px;
+    line-height: 1.6;
 }
