@@ -14,7 +14,7 @@
     $basket.addEventListener("drop", dropHandler, false);
     document.title += " by 小乐";
     $title.innerHTML = document.title;
-
+    $basket.innerHTML = "把“待收明细报表_全部.xls”拖放到此处。"
     function dragLeave() {
         $basket.classList.remove("dragover");
     }
