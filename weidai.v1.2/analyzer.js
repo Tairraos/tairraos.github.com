@@ -157,7 +157,7 @@
             amount = 0;
         report.push("");
 
-        report.push("待还总金额：" + data.totalPay + "元");
+        report.push("待还总本金金额：" + data.totalPay + "元");
         report.push("共有待执行合同：" + Math.max(...Object.values(data.monthNum)) + "个");
         report.push("最后一笔回款时间：" + data.lastPayDay.replace(/-(\d\d)-(\d\d)/, "年$1月$2日"));
         report.push("");
