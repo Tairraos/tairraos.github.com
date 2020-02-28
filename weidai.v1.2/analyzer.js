@@ -112,7 +112,7 @@
         for (x in data.yearPay) {
             pieData.push({
                 value: data.yearPay[x],
-                name: x + "年 " + fix(data.yearPay[x] / data.totalPay) + "%"
+                name: x + "年 " + fix(data.yearPay[x] / data.totalPay * 100) + "%"
             });
         }
         var option = {
