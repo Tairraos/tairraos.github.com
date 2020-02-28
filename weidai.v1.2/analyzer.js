@@ -152,7 +152,7 @@
                     name: "年回款",
                     type: "pie",
                     radius: "40%",
-                    center: ["75%", "35%"],
+                    center: ["70%", "35%"],
                     data: pieData
                 }
             ]
