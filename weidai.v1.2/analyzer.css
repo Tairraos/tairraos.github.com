@@ -25,6 +25,7 @@
 
 #chart {
     width: 90%;
+    min-width: 1000px;
     height: 600px;
     margin: auto;
 }
