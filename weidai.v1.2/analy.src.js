@@ -89,7 +89,7 @@
             monthNum[d] = fix((monthNum[d] || 0) + 1);
             totalPay = fix(totalPay + v);
         }
-        lastPayDay = raw["B" + end].v;
+        lastPayDay = raw["B" + end].v.slice(-10);
 
         drawChart({
             totalPay: totalPay,
