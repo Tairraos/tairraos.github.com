@@ -58,12 +58,12 @@ function pushLine(data) {
         "<tr>",
         "<td>" + data.goodsName + "</td>",
         "<td>D" + data.recoverTime + "</td>",
-        "<td>" + data.recoverPrincipal + "</td>",
         "<td>" + data.recoverTotalAmount + "</td>",
+        "<td>" + data.recoverPrincipal + "</td>",
         "<td>" + data.recoverInterest + "</td>",
-        "<td>" + data.goodsNo === "undefined" ? "优选" : "标的编号缺" + "</td>",
+        "<td>" + (data.goodsNo === "undefined" ? "优选" : "标的编号缺") + "</td>",
         "<td>第" + data.period + "</td>",
-        "<td>" + data.mark === "undefined" ? "优选" : data.mark + "</td>",
+        "<td>" + (data.mark === "undefined" ? "优选" : data.mark) + "</td>",
         "</tr>"
     ].join(""));
 }
