@@ -15,7 +15,7 @@
     $basket.addEventListener("drop", dropHandler, false);
     document.title += " by 小乐";
     $title.innerHTML = document.title;
-    $readme.innerHTML = "把“待收明细报表_全部.xls”拖放到此处。"
+    $readme.innerHTML = "把“导出获得的xls或xlsx文件”拖放到此处。"
 
     function dragLeave() {
         $basket.classList.remove("dragover");
@@ -42,7 +42,7 @@
     }
 
     function handleFiles(file) {
-        if (file.name.match(/\.xls$/)) {
+        if (file.name.match(/\.xls.?$/)) {
             var reader = new FileReader();
             reader.onload = function(e) {
                 var data = e.target.result;
