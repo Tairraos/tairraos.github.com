@@ -81,8 +81,7 @@
             lastPayDay;
 
         for (var pointer = start; pointer <= end; pointer++) {
-            raw["B" + pointer] = raw["B" + pointer].replace("D", "");
-            var d = raw["B" + pointer].v.slice(0, -3),
+            var d = raw["B" + pointer].v.slice(-10).slice(0, -3),
                 y = d.slice(0, -3),
                 v = raw["D" + pointer].v;
             monthPay[d] = fix((monthPay[d] || 0) + v);
