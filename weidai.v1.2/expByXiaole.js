@@ -57,13 +57,13 @@ function pushLine(data) {
     table.push([
         "<tr>",
         "<td>" + data.goodsName + "</td>",
-        "<td>" + data.recoverTime + "</td>",
+        "<td>D" + data.recoverTime + "</td>",
         "<td>" + data.recoverPrincipal + "</td>",
         "<td>" + data.recoverTotalAmount + "</td>",
         "<td>" + data.recoverInterest + "</td>",
-        "<td>" + data.goodsNo + "</td>",
-        "<td>" + data.period + "</td>",
-        "<td>" + data.mark + "</td>",
+        "<td>" + data.goodsNo||"" + "</td>",
+        "<td>第" + data.period + "</td>",
+        "<td>" + data.mark||"优选" + "</td>",
         "</tr>"
     ].join(""));
 }
