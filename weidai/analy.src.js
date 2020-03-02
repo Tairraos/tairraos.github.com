@@ -2,8 +2,15 @@
     var $basket = document.getElementById("basket"),
         $title = document.getElementById("title"),
         $readme = document.getElementById("readme"),
-        $report = document.getElementById("report");
-
+        $report = document.getElementById("report"),
+        conf = {
+            totalPay: 0,
+            dayPay: {},
+            monthNum: {},
+            monthPay: {},
+            yearPay: {}
+        };
+    window.conf = conf;
     if (!window.FileReader) {
         $basket.innerHTML = "你的浏览器太老了，换一个浏览器试试。";
         return;
@@ -74,51 +81,47 @@
     function analyseContent(raw) {
         var start = 5,
             end = +raw["!ref"].match(/H(\d+)/)[1],
-            totalPay = 0,
-            monthNum = {},
-            monthPay = {},
-            yearPay = {},
-            lastPayDay;
+            dp = conf.dayPay,
+            mp = conf.monthPay,
+            mn = conf.monthNum,
+            yp = conf.yearPay;
 
         for (var pointer = start; pointer <= end; pointer++) {
-            var d = raw["B" + pointer].v.slice(-10).slice(0, -3),
-                y = d.slice(0, -3),
+            var d = raw["B" + pointer].v.slice(-10),
+                m = d.slice(0, -3),
+                y = m.slice(0, -3),
                 v = raw["D" + pointer].v;
-            monthPay[d] = fix((monthPay[d] || 0) + v);
-            yearPay[y] = fix((yearPay[y] || 0) + v);
-            monthNum[d] = fix((monthNum[d] || 0) + 1);
-            totalPay = fix(totalPay + v);
+            dp[d] = fix((dp[d] || 0) + v);
+            mp[m] = fix((mp[m] || 0) + v);
+            mn[m] = fix((mn[m] || 0) + 1);
+            yp[y] = fix((yp[y] || 0) + v);
+            conf.totalPay = fix(conf.totalPay + v);
         }
-        lastPayDay = raw["B" + end].v.slice(-10);
+        conf.lastPayDay = raw["B" + end].v.slice(-10);
 
-        drawChart({
-            totalPay: totalPay,
-            monthPay: monthPay,
-            yearPay: yearPay,
-            lastPayDay: lastPayDay,
-            monthNum: monthNum
-        });
+        drawChart();
+        genCalendar();
     }
 
-    function drawChart(data) {
+    function drawChart() {
         var chart = echarts.init(document.getElementById("chart"), "light"),
             x, c, pieData = [],
             processData = [],
             amount = 0;
-        for (x in data.yearPay) {
+        for (x in conf.yearPay) {
             pieData.push({
-                value: data.yearPay[x],
-                name: x + "年 " + fix(data.yearPay[x] / data.totalPay * 100) + "%"
+                value: conf.yearPay[x],
+                name: x + "年 " + fix(conf.yearPay[x] / conf.totalPay * 100) + "%"
             });
         }
         c = 0;
-        for (x in data.monthPay) {
-            amount = fix(amount + data.monthPay[x]);
+        for (x in conf.monthPay) {
+            amount = fix(amount + conf.monthPay[x]);
             processData.push({
-                value: Math.floor(amount / data.totalPay * 100) + "%",
-                name: "进度: " + fix(amount / data.totalPay * 100) + "%",
+                value: Math.floor(amount / conf.totalPay * 100) + "%",
+                name: "进度: " + fix(amount / conf.totalPay * 100) + "%",
                 xAxis: c++,
-                yAxis: data.monthPay[x]
+                yAxis: conf.monthPay[x]
             });
         }
         var option = {
@@ -126,11 +129,11 @@
             tooltip: {},
             legend: {},
             xAxis: {
-                splitNumber: Object.keys(data.monthPay).length,
+                splitNumber: Object.keys(conf.monthPay).length,
                 axisLabel: {
                     interval: 0
                 },
-                data: Object.keys(data.monthPay).map(function(d) {
+                data: Object.keys(conf.monthPay).map(function(d) {
                     return {
                         value: d.match(/-01/) ? d.slice(0, -3) + "年" : d.slice(-2) + "月",
                         textStyle: {
@@ -147,15 +150,11 @@
                         color: "#600"
                     },
                     smooth: true,
-                    data: Object.values(data.monthPay)
+                    data: Object.values(conf.monthPay)
                 },
                 {
                     name: "月回款",
                     type: "bar",
-                    // label: {
-                    //     show: true,
-                    //     position: "top"
-                    // },
                     markPoint: {
                         symbol: "pin",
                         data: processData,
@@ -175,7 +174,7 @@
                         offset: [2, -8],
                         fontSize: 8
                     },
-                    data: Object.values(data.monthPay)
+                    data: Object.values(conf.monthPay)
                 },
                 {
                     name: "年回款",
@@ -194,21 +193,57 @@
 
         report.push("");
 
-        report.push("待还总本金金额：" + data.totalPay + "元");
-        report.push("共有待执行合同：" + Math.max.apply(Math, Object.values(data.monthNum)) + "个");
-        report.push("最后一笔回款时间：" + data.lastPayDay.replace(/-(\d\d)-(\d\d)/, "年$1月$2日"));
+        report.push("待还总本金金额：" + conf.totalPay + "元");
+        report.push("共有待执行合同：" + Math.max.apply(Math, Object.values(conf.monthNum)) + "个");
+        report.push("最后一笔回款时间：" + conf.lastPayDay.replace(/-(\d\d)-(\d\d)/, "年$1月$2日"));
         report.push("");
-        for (x in data.yearPay) {
-            report.push(x + "年还款：" + data.yearPay[x] + "元，占比" + fix(data.yearPay[x] / data.totalPay * 100) + "%");
+        for (x in conf.yearPay) {
+            report.push(x + "年还款：" + conf.yearPay[x] + "元，占比" + fix(conf.yearPay[x] / conf.totalPay * 100) + "%");
         }
         report.push("");
         amount = 0;
-        for (x in data.monthPay) {
-            amount = fix(amount + data.monthPay[x]);
-            report.push(format(x) + "还款：" + data.monthPay[x] + "元(" + fix(data.monthPay[x] / data.totalPay * 100) + "%)；" +
-                "累计还款：" + amount + "元(" + fix(amount / data.totalPay * 100) + "%)；" +
-                "执行合同数:" + data.monthNum[x] + "个");
+        for (x in conf.monthPay) {
+            amount = fix(amount + conf.monthPay[x]);
+            report.push(format(x) + "还款：" + conf.monthPay[x] + "元(" + fix(conf.monthPay[x] / conf.totalPay * 100) + "%)；" +
+                "累计还款：" + amount + "元(" + fix(amount / conf.totalPay * 100) + "%)；" +
+                "执行合同数:" + conf.monthNum[x] + "个");
         }
+        report.push("");
         $report.innerHTML = report.join("<br>\n");
+    }
+
+    function nextDay(date) {
+        var d = new Date(+(new Date(date)) + 1000 * 60 * 60 * 24);
+        return d.getFullYear() + ('0' + (d.getMonth() + 1)).slice(-2) + ('0' + d.getDate()).slice(-2);
+    }
+
+    function thisDay(date) {
+        return date.replace(/-/g, "");
+    }
+
+    function genCalendar() {
+        var a = document.createElement("a"),
+            content = [];
+
+        content.push("BEGIN:VCALENDAR");
+        content.push("METHOD:PUBLISH");
+        content.push("VERSION:2.0");
+        content.push("X-WR-CALNAME:微贷");
+        content.push("X-APPLE-CALENDAR-COLOR:#660000");
+        content.push("X-WR-TIMEZONE:Asia/Shanghai");
+        content.push("CALSCALE:GREGORIAN");
+        for (x in conf.dayPay) {
+            content.push("BEGIN:VEVENT");
+            content.push("SUMMARY:还款" + conf.dayPay[x] + "元");
+            content.push("DTSTART;VALUE=DATE:" + thisDay(x));
+            content.push("DTEND;VALUE=DATE:" + nextDay(x));
+            content.push("SEQUENCE:1");
+            content.push("END:VEVENT");
+        }
+        content.push("END:VCALENDAR");
+        a.innerHTML = "导出还款日历";
+        a.download = "微贷.ics";
+        a.href = URL.createObjectURL(new Blob([content.join("\n")]));
+        $report.appendChild(a);
     }
 }());
