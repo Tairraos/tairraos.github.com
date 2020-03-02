@@ -3,7 +3,12 @@
 
 <head>
     <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-store, must-revalidate">
+    <meta http-equiv="expires" content="Tus, 1 Jan 1980 11:11:11 GMT">
+    <meta http-equiv="expires" content="0">
     <title>微贷X标打散后回款分析工具</title>
+    <link type="text/css" rel="stylesheet" href="analyzer.css">
     <script>
         var _hmt = _hmt || [];
         (function() {
@@ -17,11 +22,26 @@
 </head>
 
 <body>
-    工具已经更新，自动跳转到V1.2
-</body>
-<script>
-    location.href = "https://tairraos.github.io/weidai.v1.2/index.html";
+    <div id="title">　</div>
+    <div id="basket">
+        <ul>
+            <li>使用说明</li>
+            <li>访问并登录微贷网站: <a href="https://www.weidai.com.cn/home/auth/login.html?redirectURL=https://www.weidai.com.cn/home/index/index.html"
+                    target="weidai">点击访问微贷网</a></li>
+            <li>我的帐户 -> 待收明细 -> 右上角[导出excel]</li>
+            <li>等待，得到 “待收明细报表_全部.xls” 文件</li>
+            <li>　</li>
+            <li>
+                <div id="readme">分析程序准备中...稍候...</div>
+            </li>
+        </ul>
+    </div>
+    <div id="chart"></div>
+    <div id="report"></div>
 
-</script>
+</body>
+<script src="xlsx.core.js"></script>
+<script src="echarts.js"></script>
+<script src="analyzer.js"></script>
 
 </html>
