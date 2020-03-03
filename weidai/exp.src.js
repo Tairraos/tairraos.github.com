@@ -2,7 +2,7 @@
 
 var table = [],
     $process = document.getElementById("app"),
-    per = 10;
+    per = 40;
 table.push("<table id='list'>");
 table.push("<tr><td>微贷待还散标数据</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
 table.push("<tr><td>By 小乐</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
