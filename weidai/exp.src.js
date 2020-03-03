@@ -19,13 +19,21 @@ table.push([
     "</tr>"
 ].join(""));
 
+
+
 function getData(index) {
     fetch("https://frontpc.weidai.com.cn/api/user/investor/returnMoney/getUserReceiveList?_api=returnMoney.getUserReceiveList&_mock=false&_stamp=" + +
         new Date(), {
             "credentials": "include",
             "headers": {
                 "accept": "application/json, text/json",
-                "content-type": "application/x-www-form-urlencoded"
+                "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,und;q=0.7,zh-TW;q=0.6",
+                "cache-control": "no-cache",
+                "content-type": "application/x-www-form-urlencoded",
+                "pragma": "no-cache",
+                "sec-fetch-dest": "empty",
+                "sec-fetch-mode": "cors",
+                "sec-fetch-site": "same-site"
             },
             "referrer": "https://www.weidai.com.cn/home/myAccount/receivablesDetail.html",
             "referrerPolicy": "no-referrer-when-downgrade",
