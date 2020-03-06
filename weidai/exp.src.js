@@ -1,5 +1,3 @@
-"use strict";
-
 var table = [],
     $process = document.getElementById("app"),
     per = 10,
@@ -52,7 +50,8 @@ function getData(index) {
         };
     }).then(function(resp) {
         if (resp.available === true) {
-            $process.innerHTML = Math.floor(resp.index * per / resp.count * 100) + "%";
+            $process.innerHTML = "共" + resp.count + "条数据，每页" + per + "条数据，第" + curIndex + "页 进度：" +
+                Math.floor(resp.index * per / resp.count * 100) + "%";
             resp.data.forEach(function(item) {
                 return pushLine(item);
             });
