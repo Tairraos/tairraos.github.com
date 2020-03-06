@@ -2,13 +2,12 @@
 
 var table = [],
     $process = document.getElementById("app"),
-    per = 10,
+    per = 50,
     curIndex = 1;
-
 table.push("<table id='list'>");
-table.push("<tr><td>微贷待还散标数据</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
-table.push("<tr><td>By 小乐</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
-table.push("<tr><td>时间戳：" + +new Date() + "</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
+table.push("<tr><td>微贷待还散标数据</td><td></td><td></td><td></td><td></td><td></td></tr>");
+table.push("<tr><td>By 小乐</td><td></td><td></td><td></td><td></td><td></td></tr>");
+table.push("<tr><td>时间戳：" + +new Date() + "</td><td></td><td></td><td></td><td></td><td></td></tr>");
 table.push([
     "<tr><td>项目名称</td>",
     "<td>日期</td>",
@@ -16,9 +15,10 @@ table.push([
     "<td>本金(元)</td>",
     "<td>预期利息(元)</td>",
     "<td>偿还期数</td>",
-    "<td>页码</td>",
     "</tr>"
 ].join(""));
+
+
 
 function getData(index) {
     fetch("https://frontpc.weidai.com.cn/api/user/investor/returnMoney/getUserReceiveList?_api=returnMoney.getUserReceiveList&_mock=false&_stamp=" + +
@@ -43,29 +43,23 @@ function getData(index) {
         return response.text();
     }).then(function(jsonText) {
         var json = JSON.parse(jsonText);
-        var resp = {
-            available: json.data.available,
+        return {
             count: json.data.count,
             data: json.data.data,
             index: json.data.pageIndex
         };
-
+    }).then(function(resp) {
         $process.innerHTML = Math.floor(resp.index * per / resp.count * 100) + "%";
-
-        if (resp.available) {
-            resp.data.forEach(function(item) {
-                return pushLine(item);
-            });
-
-            if (resp.index < resp.count / per) {
-                getData(resp.index + 1);
-            } else {
-                resolveFetch();
-            }
+        resp.data.forEach(function(item) {
+            return pushLine(item);
+        });
+        curIndex++;
+        if (curIndex < resp.count / per) {
+            getData(curIndex + 1);
         } else {
-            getData(resp.index);
+            resolveFetch();
         }
-    }).catch(function() {
+    }).then(function() {
         window.setTimeout(function() {
             getData(curIndex);
         }, 500);
@@ -86,7 +80,6 @@ function pushLine(data) {
         "<td>" + data.recoverPrincipal + "</td>",
         "<td>" + data.recoverInterest + "</td>",
         "<td>第" + data.period + "</td>",
-        "<td>第" + curIndex + "</td>",
         "</tr>"
     ].join(""));
 }
