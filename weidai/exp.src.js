@@ -85,7 +85,7 @@ function pushLine(data) {
         "<td>" + data.recoverPrincipal + "</td>",
         "<td>" + data.recoverInterest + "</td>",
         "<td>第" + data.period + "期</td>",
-        "<td>第" + data.period + "页</td>",
+        "<td>第" + curIndex + "页</td>",
         "</tr>"
     ].join(""));
 }
