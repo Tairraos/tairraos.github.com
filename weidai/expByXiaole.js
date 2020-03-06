@@ -3,7 +3,7 @@
 var table = [],
     $process = document.getElementById("app"),
     per = 10,
-    curIndex = 1;
+    curIndex = 867;
 
 table.push("<table id='list'>");
 table.push("<tr><td>微贷待还散标数据</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
@@ -49,20 +49,21 @@ function getData(index) {
             data: json.data.data,
             index: json.data.pageIndex
         };
+
         $process.innerHTML = Math.floor(resp.index * per / resp.count * 100) + "%";
 
         if (resp.available) {
             resp.data.forEach(function(item) {
                 return pushLine(item);
             });
-            curIndex++;
-            if (curIndex < resp.count / per) {
-                getData(curIndex + 1);
+
+            if (resp.index < resp.count / per) {
+                getData(resp.index + 1);
             } else {
                 resolveFetch();
             }
         } else {
-            getData(curIndex);
+            getData(resp.index);
         }
     }).catch(function() {
         window.setTimeout(function() {
