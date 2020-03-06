@@ -56,12 +56,23 @@
                 var workbook = XLSX.read(data, {
                     type: "binary"
                 });
-                if (!workbook.Sheets["待收明细报表_全部"]) {
-                    $basket.innerHTML = "你拖放的xls不是微贷散标导出文件，重试一次。";
-                    return;
+
+                var raw = workbook.Sheets["待收明细报表_全部"] || workbook.Sheets["Sheet1"],
+                    end = +raw["!ref"].match(/(\d+)/g)[1],
+                    start, pointer;
+                for (pointer = 1; pointer <= end; pointer++) {
+                    if (raw["A" + pointer].v === "项目名称") {
+                        start = pointer + 1;
+                        break;
+                    }
                 }
-                analyseContent(workbook.Sheets["待收明细报表_全部"]);
-                $basket.style.display = "none";
+                if (start) {
+                    analyseContent(raw, start, end);
+                    $basket.style.display = "none";
+                } else {
+                    $basket.innerHTML = "你拖放的xls不是微贷散标导出文件。";
+                    dragLeave();
+                }
             };
             reader.readAsBinaryString(file);
         } else {
@@ -78,10 +89,8 @@
         return d.replace("-", "年") + "月";
     };
 
-    function analyseContent(raw) {
-        var start = 5,
-            end = +raw["!ref"].match(/(\d+)/g)[1],
-            dd = conf.dayData,
+    function analyseContent(raw, start, end) {
+        var dd = conf.dayData,
             mp = conf.monthPay,
             mn = conf.monthNum,
             yp = conf.yearPay;
