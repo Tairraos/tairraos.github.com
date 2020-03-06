@@ -5,9 +5,9 @@ var table = [],
     per = 50,
     curIndex = 1;
 table.push("<table id='list'>");
-table.push("<tr><td>微贷待还散标数据</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
-table.push("<tr><td>By 小乐</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
-table.push("<tr><td>时间戳：" + +new Date() + "</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
+table.push("<tr><td>微贷待还散标数据</td><td></td><td></td><td></td><td></td><td></td></tr>");
+table.push("<tr><td>By 小乐</td><td></td><td></td><td></td><td></td><td></td></tr>");
+table.push("<tr><td>时间戳：" + +new Date() + "</td><td></td><td></td><td></td><td></td><td></td></tr>");
 table.push([
     "<tr><td>项目名称</td>",
     "<td>日期</td>",
@@ -62,7 +62,7 @@ function getData(index) {
     }).then(function() {
         window.setTimeout(function() {
             getData(curIndex);
-        }, 2000);
+        }, 500);
     });
 }
 
