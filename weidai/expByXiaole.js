@@ -2,13 +2,13 @@
 
 var table = [],
     $process = document.getElementById("app"),
-    per = 40,
+    per = 10,
     curIndex = 1;
 
 table.push("<table id='list'>");
-table.push("<tr><td>微贷待还散标数据</td><td></td><td></td><td></td><td></td><td></td></tr>");
-table.push("<tr><td>By 小乐</td><td></td><td></td><td></td><td></td><td></td></tr>");
-table.push("<tr><td>时间戳：" + +new Date() + "</td><td></td><td></td><td></td><td></td><td></td></tr>");
+table.push("<tr><td>微贷待还散标数据</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
+table.push("<tr><td>By 小乐</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
+table.push("<tr><td>时间戳：" + +new Date() + "</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
 table.push([
     "<tr><td>项目名称</td>",
     "<td>日期</td>",
@@ -16,10 +16,9 @@ table.push([
     "<td>本金(元)</td>",
     "<td>预期利息(元)</td>",
     "<td>偿还期数</td>",
+    "<td>页码</td>",
     "</tr>"
 ].join(""));
-
-
 
 function getData(index) {
     fetch("https://frontpc.weidai.com.cn/api/user/investor/returnMoney/getUserReceiveList?_api=returnMoney.getUserReceiveList&_mock=false&_stamp=" + +
@@ -86,6 +85,7 @@ function pushLine(data) {
         "<td>" + data.recoverPrincipal + "</td>",
         "<td>" + data.recoverInterest + "</td>",
         "<td>第" + data.period + "</td>",
+        "<td>第" + curIndex + "</td>",
         "</tr>"
     ].join(""));
 }
