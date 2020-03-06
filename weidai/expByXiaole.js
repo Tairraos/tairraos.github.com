@@ -3,7 +3,7 @@
 var table = [],
     $process = document.getElementById("app"),
     per = 10,
-    curIndex = 867;
+    curIndex = 1;
 
 table.push("<table id='list'>");
 table.push("<tr><td>微贷待还散标数据</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
