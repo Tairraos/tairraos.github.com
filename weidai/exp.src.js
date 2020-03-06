@@ -91,4 +91,4 @@ function pushLine(data) {
     ].join(""));
 }
 
-getData(curIndex);
+// getData(curIndex);
