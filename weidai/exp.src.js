@@ -2,7 +2,8 @@
 
 var table = [],
     $process = document.getElementById("app"),
-    per = 40;
+    per = 50,
+    curIndex = 1;
 table.push("<table id='list'>");
 table.push("<tr><td>微贷待还散标数据</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
 table.push("<tr><td>By 小乐</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
@@ -13,9 +14,7 @@ table.push([
     "<td>预期总收(元)</td>",
     "<td>本金(元)</td>",
     "<td>预期利息(元)</td>",
-    "<td>标的编号</td>",
     "<td>偿还期数</td>",
-    "<td>标的来源</td>",
     "</tr>"
 ].join(""));
 
@@ -54,12 +53,16 @@ function getData(index) {
         resp.data.forEach(function(item) {
             return pushLine(item);
         });
-
-        if (resp.index < resp.count / per) {
-            getData(resp.index + 1);
+        curIndex++;
+        if (curIndex < resp.count / per) {
+            getData(curIndex + 1);
         } else {
             resolveFetch();
         }
+    }).then(function() {
+        window.setTimeout(function() {
+            getData(curIndex);
+        }, 2000);
     });
 }
 
@@ -76,11 +79,9 @@ function pushLine(data) {
         "<td>" + data.recoverTotalAmount + "</td>",
         "<td>" + data.recoverPrincipal + "</td>",
         "<td>" + data.recoverInterest + "</td>",
-        "<td>" + (data.goodsNo === "undefined" ? "优选" : "标的编号缺") + "</td>",
         "<td>第" + data.period + "</td>",
-        "<td>" + (data.mark === "undefined" ? "优选" : data.mark) + "</td>",
         "</tr>"
     ].join(""));
 }
 
-getData(1);
+getData(curIndex);
