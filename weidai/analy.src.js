@@ -80,7 +80,7 @@
 
     function analyseContent(raw) {
         var start = 5,
-            end = +raw["!ref"].match(/(\d+)/)[1],
+            end = +raw["!ref"].match(/(\d+)/g)[1],
             dd = conf.dayData,
             mp = conf.monthPay,
             mn = conf.monthNum,
