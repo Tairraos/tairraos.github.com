@@ -3,7 +3,7 @@
 var table = [],
     $process = document.getElementById("app"),
     per = 50,
-    curIndex = 1;
+    curIndex = 866;
 table.push("<table id='list'>");
 table.push("<tr><td>微贷待还散标数据</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
 table.push("<tr><td>By 小乐</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
@@ -56,12 +56,14 @@ function getData(index) {
             resp.data.forEach(function(item) {
                 return pushLine(item);
             });
-            curIndex = resp.index + 1;
             if (resp.index < resp.count / per) {
+                curIndex = resp.index + 1;
                 getData(resp.index + 1);
             } else {
                 resolveFetch();
             }
+        } else {
+            getData(curIndex);
         }
     }).catch(function() {
         window.setTimeout(function() {
@@ -89,4 +91,4 @@ function pushLine(data) {
     ].join(""));
 }
 
-// getData(curIndex);
+getData(curIndex);
