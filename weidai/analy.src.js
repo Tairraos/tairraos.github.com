@@ -8,7 +8,8 @@
             dayData: {},
             monthNum: {},
             monthPay: {},
-            yearPay: {}
+            yearPay: {},
+            calcCol: "D"
         };
     window.conf = conf;
     if (!window.FileReader) {
@@ -63,6 +64,7 @@
                 for (pointer = 1; pointer <= end; pointer++) {
                     if (raw["A" + pointer].v === "项目名称") {
                         start = pointer + 1;
+                        conf.calcCol = raw["C" + pointer].v === "本金(元)" ? "C" : "D";
                         break;
                     }
                 }
@@ -100,7 +102,7 @@
                 d = raw["B" + pointer].v.slice(-10),
                 m = d.slice(0, -3),
                 y = m.slice(0, -3),
-                v = raw["D" + pointer].v,
+                v = raw[conf.calcCol + pointer].v,
                 ds = dd[d] || {
                     pay: 0,
                     credit: 0,
