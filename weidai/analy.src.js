@@ -62,7 +62,7 @@
                     end = +raw["!ref"].match(/(\d+)/g)[1],
                     start, pointer;
                 for (pointer = 1; pointer <= end; pointer++) {
-                    if (raw["A" + pointer].v === "项目名称") {
+                    if (raw["A" + pointer] && raw["A" + pointer].v === "项目名称") {
                         start = pointer + 1;
                         conf.calcCol = raw["C" + pointer].v === "本金(元)" ? "C" : "D";
                         break;
