@@ -130,9 +130,9 @@
         <div class="codeLine"> operator() { operator() &nbsp; action();</div>
         <div class="codeLine"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; operator() { action(); action(); } }</div>
     </div>
-    <p>对象（object)是模型的基本组成单元，由2D与3D图元（primitive）创建而成。对象以分号&#39;;&#39;结尾。</p>
+    <p>对象（object）是模型的基本组成单元，由2D与3D图元（primitive）创建而成。对象以分号&#39;;&#39;结尾。</p>
     <p>动作（action）语句包括利用图元创建对象以及为变量赋值。动作语句同样以分号&#39;;&#39;作为结尾。</p>
-    <p>运算符（operator)或称变换（transformation），用于修改对象的位置、颜色以及其他属性。当运算符的工作域中存在一个以上的动作，就要用大括号&#39;{}&#39;将其圈定起来。多个运算符可执行相同的动作，也可构成一组不同的动作。多个运算符按由右至左的顺序处理，即，离动作最近的运算符率先执行。运算符结尾不加分号&#39;;&#39;，但是不同的动作间要加分号。
+    <p>运算符（operator）或称变换（transformation），用于修改对象的位置、颜色以及其他属性。当运算符的工作域中存在一个以上的动作，就要用大括号&#39;{}&#39;将其圈定起来。多个运算符可执行相同的动作，也可构成一组不同的动作。多个运算符按由右至左的顺序处理，即，离动作最近的运算符率先执行。运算符结尾不加分号&#39;;&#39;，但是不同的动作间要加分号。
     </p>
     <div class="CodeMirror-code">
         <div class="codeLine"> 示例</div>
@@ -255,7 +255,7 @@
         <div class="codeLine">range1 = [-1.5:0.5:3]; // for()循环范围</div>
         <div class="codeLine">xx = [0:5]; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 替代for()循环范围</div>
     </div>
-    <p>OpenSCAD是一种<a target="wikibook" href="https://zh.wikipedia.org/wiki/Functional_programming">函数式</a>编程语言，因此<a target="wikibook"href="https://zh.wikipedia.org/wiki/Variable_(computer_science)">变量</a>)都与表达式相绑定，且在整个生命周期中保持为一个恒定的值，这是因为它需要满足<a target="wikibook"href="https://zh.wikipedia.org/wiki/Referential_transparency_(computer_science)">引用透明性</a>这项需求。在类似于C这样的<a target="wikibook"href="https://zh.wikipedia.org/wiki/Imperative_programming">命令式编程语言</a>中，上述变量行为就如同常量一般，与其中的普通变量形成鲜明对比。</p>
+    <p>OpenSCAD是一种<a target="wikibook" href="https://zh.wikipedia.org/wiki/Functional_programming">函数式</a>编程语言，因此<a target="wikibook"href="https://zh.wikipedia.org/wiki/Variable_(computer_science)">变量</a>都与表达式相绑定，且在整个生命周期中保持为一个恒定的值，这是因为它需要满足<a target="wikibook"href="https://zh.wikipedia.org/wiki/Referential_transparency_(computer_science)">引用透明性</a>这项需求。在类似于C这样的<a target="wikibook"href="https://zh.wikipedia.org/wiki/Imperative_programming">命令式编程语言</a>中，上述变量行为就如同常量一般，与其中的普通变量形成鲜明对比。</p>
     <p>换言之，OpenSCAD中的变量更像是常量，但仍有一点重要的不同之处。如果多次为变量赋值，则在整个代码中此变量仅存有最后一次所赋的值。这一点可参见进一步的讨论<a href="#设置变量发生在编译时，而非运行时">设置变量发生在编译时，而非运行时</a>。此行为的原因是需要通过使用<em>-Dvariable=value</em>选项，才能在<a target="wikibook"href="https://zh.wikibooks.org/wiki/OpenSCAD用户手册/在命令行环境下使用OpenSCAD">命令行</a>中输入变量。OpenSCAD当前将赋值过程置于源代码的结尾处，这样，一定可使变量的值以上述方式发生改变。</p>
     <p>在编译期变量保留其最后一次赋值结果，这与<a target="wikibook" href="https://zh.wikipedia.org/wiki/Functional_programming">函数式</a>编程语言的行为相符。与C这样的<a target="wikibook"href="https://zh.wikipedia.org/wiki/Imperative_programming">命令式</a>编程语言不同，OpenSCAD并不是一种支持迭代的语言，像<em>x = x +1</em>这样的语句是不合法的，如果理解了这个概念，您将领略OpenSCAD之美。</p>
     <p>除文件顶层（file top-level）与模块顶层（module top-level）之外，不能在任意作用域内进行赋值。在<em>if/else</em>语句或<em>for</em>循环语句中，需要使用assign()。</p>
