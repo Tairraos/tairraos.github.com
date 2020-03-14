@@ -1,7 +1,9 @@
 body {
-    font-size: 15px;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    font-family: PingFang SC;
+    font-weight: 400;
     padding: 20px 40px;
+    line-height: 1.8em;
 }
 
 .CodeMirror-code {
@@ -13,7 +15,8 @@ body {
 }
 
 .codeLine {
-    line-height: 1.5em;
+    line-height: 1.8em;
+    font-size: 13px;
 }
 
 li {
@@ -21,6 +24,21 @@ li {
 }
 
 #content {
-    width: 1000px;
+    width: 1200px;
     margin: auto;
+}
+
+p{
+    text-indent: 2em;
+}
+
+li, ul{
+    list-style-type: none;
+    margin-bottom: 0;
+    line-height: 1.5em;
+    font-size: 14px;
+}
+
+a{
+    text-decoration: none;
 }
