@@ -58,7 +58,7 @@
                     type: "binary"
                 });
 
-                var raw = workbook.Sheets["待收明细报表_全部"] || workbook.Sheets["Sheet1"],
+                var raw = workbook.Sheets[Object.keys(workbook.Sheets)[0]],
                     end = +raw["!ref"].match(/(\d+)/g)[1],
                     start, pointer;
                 for (pointer = 1; pointer <= end; pointer++) {
