@@ -28,17 +28,18 @@ li {
     margin: auto;
 }
 
-p{
+p {
     text-indent: 2em;
 }
 
-li, ul{
+li,
+ul {
     list-style-type: none;
     margin-bottom: 0;
     line-height: 1.5em;
     font-size: 14px;
 }
 
-a{
+a {
     text-decoration: none;
 }
