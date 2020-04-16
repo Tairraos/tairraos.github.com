@@ -5,10 +5,11 @@
         $report = document.getElementById("report"),
         conf = {
             totalPay: 0,
-            dayData: {},
-            monthNum: {},
-            monthPay: {},
-            yearPay: {},
+            dayData: {}, //每天
+            monthNum: {}, //每月合同数
+            monthPay: {}, //每月还款数
+            yearPay: {}, //每年还款数
+            suspecial: [], //存疑合同
             calcCol: "D"
         };
     window.conf = conf;
@@ -95,9 +96,11 @@
         var dd = conf.dayData,
             mp = conf.monthPay,
             mn = conf.monthNum,
-            yp = conf.yearPay;
+            yp = conf.yearPay,
+            cs = conf.suspecial,
+            pointer;
 
-        for (var pointer = start; pointer <= end; pointer++) {
+        for (pointer = start; pointer <= end; pointer++) {
             var type = raw["A" + pointer].v.match(/抵|械/),
                 d = raw["B" + pointer].v.slice(-10),
                 m = d.slice(0, -3),
@@ -121,7 +124,37 @@
             mn[m] = fix((mn[m] || 0) + 1);
             yp[y] = fix((yp[y] || 0) + v);
             conf.totalPay = fix(conf.totalPay + v);
+
         }
+
+        var thisMonth = (new Date).getMonth() + 1,
+            scopeMonth = [1, 3, 5, 7, 8, 10, 12].filter(function(i) {
+                return i > thisMonth;
+            })[0] || 1, //找到下一个31天的月
+            scopeYear = 0,
+            dataList = [];
+
+        for (pointer = start; pointer <= end; pointer++) { //搜集一个月的合同
+            var year = +raw["B" + pointer].v.slice(-10).slice(0, 4),
+                month = +raw["B" + pointer].v.slice(-5).slice(0, 2),
+                day = +raw["B" + pointer].v.slice(-2);
+
+            if (month === scopeMonth && (year === scopeYear || scopeYear === 0)) { //把目标月的数据全存下来
+                scopeYear = year;
+                dataList[day] = dataList[day] || [];
+                dataList[day].push(raw["A" + pointer].v);
+            }
+        }
+        var tmpItem;
+        for (day = 1; day <= 31; day++) { //分析一个月合同项目名称
+            cs[day] = [];
+            while (tmpItem = dataList[day].pop()) {
+                if (dataList[day].includes(tmpItem) && !cs[day].includes(tmpItem) && tmpItem.match(/抵/)) {
+                    cs[day].push(tmpItem);
+                }
+            }
+        }
+
         conf.lastPayDay = raw["B" + end].v.slice(-10);
 
         drawChart();
@@ -234,6 +267,20 @@
                 "执行合同数:" + conf.monthNum[x] + "个");
         }
         report.push("");
+
+        report.push("一车多合同存疑分析：");
+
+        var day, susReport = [],
+            cs = conf.suspecial;
+        for (day = 1; day <= 31; day++) { //分析一个月合同项目名称
+            if (cs[day].length) {
+                susReport.push("关注" + day + "日还款的合同: " + cs[day].join(" 和 "));
+            }
+        }
+        report.push(susReport.length ? susReport.join("<br>\n") : "没有存疑合同");
+        report.push("");
+        report.push("");
+
         $report.innerHTML = report.join("<br>\n");
     }
 
