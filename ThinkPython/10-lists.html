@@ -18,7 +18,7 @@
 
   
   
-    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="shortcut icon" href="static/favicon.ico"/>
   
 
   
@@ -31,7 +31,7 @@
 
   
   
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="static/css/theme.css" type="text/css" />
   
 
   
@@ -45,7 +45,7 @@
         <link rel="prev" title="第九章：文字游戏" href="09-case-study-word-play.html"/> 
 
   
-  <script src="_static/js/modernizr.min.js"></script>
+  <script src="static/js/modernizr.min.js"></script>
 
     
 <script>
@@ -257,7 +257,7 @@ var _hmt = _hmt || [];
 <p><code class="docutils literal notranslate"><span class="pre">numbers</span></code>中索引为1的元素，原来是123，现在变成了5。</p>
 <p><a class="reference internal" href="#fig-liststate"><span class="std std-ref">图10-1：状态图</span></a> 是 <code class="docutils literal notranslate"><span class="pre">cheeses</span></code> 、 <code class="docutils literal notranslate"><span class="pre">nubmers</span></code> 和 <code class="docutils literal notranslate"><span class="pre">empty</span></code> 的状态图。</p>
 <div class="figure align-default" id="id30">
-<span id="fig-liststate"></span><img alt="图10-1：状态图" src="_images/liststate.png" />
+<span id="fig-liststate"></span><img alt="图10-1：状态图" src="images/liststate.png" />
 <p class="caption"><span class="caption-text">图10-1：状态图</span><a class="headerlink" href="#id30" title="永久链接至图片">¶</a></p>
 </div>
 <p>列表用外部标有”list”的盒子表示，盒子内部是列表的元素。 <code class="docutils literal notranslate"><span class="pre">cheeses</span></code> 指向一个有3个元素的列表，3个元素的下标分别是0、1、2。<code class="docutils literal notranslate"><span class="pre">numbers</span></code> 包含两个元素；
@@ -509,7 +509,7 @@ var _hmt = _hmt || [];
 </div>
 <p>我们知道 <code class="docutils literal notranslate"><span class="pre">a</span></code> 和 <code class="docutils literal notranslate"><span class="pre">b</span></code> 都指向一个字符串，但是我们不知道是否他们指向 <em>同一个</em> 字符串。这里有两种可能的状态，如<a class="reference internal" href="#fig-list1"><span class="std std-ref">图10-2：状态图</span></a>所示。</p>
 <div class="figure align-default" id="id31">
-<span id="fig-list1"></span><img alt="图10-2：状态图" src="_images/list1.png" />
+<span id="fig-list1"></span><img alt="图10-2：状态图" src="images/list1.png" />
 <p class="caption"><span class="caption-text">图10-2：状态图</span><a class="headerlink" href="#id31" title="永久链接至图片">¶</a></p>
 </div>
 <p>一种情况是，<code class="docutils literal notranslate"><span class="pre">a</span></code> 和 <code class="docutils literal notranslate"><span class="pre">b</span></code> 指向两个有相同值的不同对象。
@@ -530,7 +530,7 @@ var _hmt = _hmt || [];
 </div>
 <p>所以状态图如<a class="reference internal" href="#fig-list2"><span class="std std-ref">图10-3：状态图</span></a>所示。</p>
 <div class="figure align-default" id="id32">
-<span id="fig-list2"></span><img alt="图10-3：状态图" src="_images/list2.png" />
+<span id="fig-list2"></span><img alt="图10-3：状态图" src="images/list2.png" />
 <p class="caption"><span class="caption-text">图10-3：状态图</span><a class="headerlink" href="#id32" title="永久链接至图片">¶</a></p>
 </div>
 <p>在这个例子中，我们称这两个列表是 <strong>相等（equivalent）</strong> 的，因为它们有相同的元素。但它们并不 <strong>相同（identical）</strong> ，因为他们不是同一个对象。如果两个对象 <strong>相同</strong> ，它们也是相等的，但是如果它们是相等的，它们不一定是相同的。</p>
@@ -549,7 +549,7 @@ var _hmt = _hmt || [];
 </div>
 <p>状态图如<a class="reference internal" href="#fig-list3"><span class="std std-ref">图10-4：状态图</span></a>所示。</p>
 <div class="figure align-default" id="id33">
-<span id="fig-list3"></span><img alt="图10-4：状态图" src="_images/list3.png" />
+<span id="fig-list3"></span><img alt="图10-4：状态图" src="images/list3.png" />
 <p class="caption"><span class="caption-text">图10-4：状态图</span><a class="headerlink" href="#id33" title="永久链接至图片">¶</a></p>
 </div>
 <p>变量和对象之间的关联称为 <strong>引用（reference）</strong> 。
@@ -588,7 +588,7 @@ var _hmt = _hmt || [];
 <p>参数 <code class="docutils literal notranslate"><span class="pre">t</span></code> 和变量 <code class="docutils literal notranslate"><span class="pre">letters</span></code> 是同一个对象的别名。
 其堆栈图如<a class="reference internal" href="#fig-stack5"><span class="std std-ref">图10-5：堆栈图</span></a>所示。</p>
 <div class="figure align-default" id="id34">
-<span id="fig-stack5"></span><img alt="图10-5：堆栈图" src="_images/stack5.png" />
+<span id="fig-stack5"></span><img alt="图10-5：堆栈图" src="images/stack5.png" />
 <p class="caption"><span class="caption-text">图10-5：堆栈图</span><a class="headerlink" href="#id34" title="永久链接至图片">¶</a></p>
 </div>
 <p>由于列表被两个帧共享，我把它画在它们中间。</p>
@@ -934,17 +934,17 @@ var _hmt = _hmt || [];
             HAS_SOURCE:  true
         };
     </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="_static/language_data.js"></script>
-      <script type="text/javascript" src="_static/translations.js"></script>
+      <script type="text/javascript" src="static/jquery.js"></script>
+      <script type="text/javascript" src="static/underscore.js"></script>
+      <script type="text/javascript" src="static/doctools.js"></script>
+      <script type="text/javascript" src="static/language_data.js"></script>
+      <script type="text/javascript" src="static/translations.js"></script>
 
   
 
   
   
-    <script type="text/javascript" src="_static/js/theme.js"></script>
+    <script type="text/javascript" src="static/js/theme.js"></script>
   
 
   
