@@ -1,0 +1,554 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>前言 &mdash; 《Think Python 2e》中译本 1.0 文档</title>
+  
+
+  
+    <meta name="keywords" content="《Think Python》第二版中译文, Python 3版入门教材, Allen Downey, EarlGrey, 编程派">
+    <meta name="description" content="编程派翻译的《Think Python 2ed》中文版，为最新支持Python 3版的教材。">
+  
+
+  
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="索引"
+              href="genindex.html"/>
+        <link rel="search" title="搜索" href="search.html"/>
+    <link rel="top" title="《Think Python 2e》中译本 1.0 文档" href="index.html"/>
+        <link rel="next" title="第一章：程序之道" href="01-the-way-of-the-program.html"/>
+        <link rel="prev" title="《Think Python 2e》中文版" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+    
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?1a54d19172d7819c009872071839bfe3";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-69612020-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> 《Think Python 2e》中译本
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">前言</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">本书与众不同的历史</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#acknowledgments">Acknowledgments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#contributor-list">Contributor List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="01-the-way-of-the-program.html">第一章：程序之道</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-variables-expressions-and-statements.html">第二章：变量、表达式和语句</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-functions.html">第三章：函数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-case-study-interface-design.html">第四章：案例研究：接口设计</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-conditionals-and-recursion.html">第五章：条件和递归</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-fruitful-functions.html">第六章：有返回值的函数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07-iteration.html">第七章：迭代</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08-strings.html">第八章：字符串</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09-case-study-word-play.html">第九章：文字游戏</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10-lists.html">第十章：列表</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11-dictionaries.html">第十一章：字典</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12-tuples.html">第十二章：元组</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13-case-study-data-structure-selection.html">第十三章：案例研究：数据结构选择</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14-files.html">第十四章：文件</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15-classes-and-objects.html">第十五章：类和对象</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16-classes-and-functions.html">第十六章：类和函数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17-classes-and-methods.html">第十七章：类和方法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="18-inheritance.html">第十八章：继承</a></li>
+<li class="toctree-l1"><a class="reference internal" href="19-the-goodies.html">第十九章：进阶小技巧</a></li>
+<li class="toctree-l1"><a class="reference internal" href="20-debugging.html">第二十章：调试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="21-analysis-of-algorithms.html">第二十一章：算法分析</a></li>
+<li class="toctree-l1"><a class="reference internal" href="foreword.html">译者序</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">《Think Python 2e》中译本</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>前言</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>前言<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id2">
+<h2>本书与众不同的历史<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>1999年1月，我正准备使用Java教一门编程入门课程。我之前已经开了三次课，
+但是却感到越来越沮丧。课程的不及格率太高，即使对于及格的学生，他们整体的收获也太低。</p>
+<p>我看到的问题之一是教材。</p>
+<p>它们都太厚重了，写了太多关于Java的不必要细节，却缺乏如何编程的上层指导
+（high-level guidance）。这些教材都陷入了陷阱门效应（trap door
+effect）：开始的时候简单，逐渐深入，然后大概到了第五章左右，基础差的学生就跟不上了。
+学生们看的材料太多，进展太快，最后，我在接下来的学期里都是在收拾残局（pick
+up the pieces）。</p>
+<p>所以，在开始上课前两周，我决定自己写一本书。我的目标是：</p>
+<ul class="simple">
+<li><p>尽量简短。让学生们读10页，胜过让他们读50页。</p></li>
+<li><p>谨慎使用术语。我会尽量少用术语，而且第一次使用时，会给出定义。</p></li>
+<li><p>循序渐进。为了避免陷阱门，我将最难的主题拆分成了很多个小节。</p></li>
+<li><p>聚焦于编程，而不是编程语言。我只涵盖了Java最小可用子集，剔除了其余的部分。</p></li>
+</ul>
+<p>我需要一个书名，所以一时兴起，我选择了<em>《如何像计算机科学家一样思考》</em>。</p>
+<p>这本书的第一版很粗糙，但是却起了作用。学生们读了它之后，对书中内容理解的很好，
+因此我才可以在课堂上讲授那些困难、有趣的主题，并让学生们动手实践（这点最重要）。</p>
+<p>我将此书以GNU自有文档许可的形式发布，允许用户拷贝、修改和传播此书。</p>
+<p>有趣的是接下来发生的事。弗吉尼亚一所高中的教师Jeff Elkne采用了我的教材，
+并改为使用Python语言。他将修改过的书发给了我一份，就这样，我读着自己的书学会了
+Python。2001年，通过Green Tea Press，我出版了本书的第一个Python版本。</p>
+<p>2003年，我开始在Olin College教书，并且第一次教授Python语言。
+与Java教学的对比很明显。学生们遇到的困难更少，学到的更多，开发了更有趣的工程，
+并且大部分人都学的更开心。</p>
+<p>此后，我一直致力于改善本书，纠正错误，改进一些示例，新增教学材料，尤其是练习题。</p>
+<p>最后的结果，就是此书。现在的书名没有之前那么浮夸，就叫《<em>Think
+Python</em>》 。下面是一些变化：</p>
+<ul class="simple">
+<li><p>我在每章的最后新增了一个名叫调试的小节。我会在这些小节中，为大家介绍如何发现及避免bug的一般技巧，并提醒大家注意使用Python过程中可能的陷阱。</p></li>
+<li><p>我增补了更多的练习题，从测试是否理解书中概念的小测试，到部分较大的项目。大部分的练习题后，我都会附上答案的链接。</p></li>
+<li><p>我新增了一系列案例研究——更长的代码示例，既有练习题，也有答题解释和讨论。</p></li>
+<li><p>我扩充了对程序开发计划及基本设计模式的内容介绍。</p></li>
+<li><p>我增加了关于调试和算法分析的附录。</p></li>
+</ul>
+<p><em>《Think Python》</em> 第二版还有以下新特点：</p>
+<ul class="simple">
+<li><p>本书及其中的代码都已更新至Python 3。</p></li>
+<li><p>我增加了一些小节内容，还在本书网站上介绍如何在网络浏览器上运行Python。这样，如果你嫌麻烦的话，就可以先不用在本地安装Python。</p></li>
+<li><p>在海龟绘图这章中，我没有继续使用自己编写的海龟绘图包``Swampy``，改用了一个更标准的Python包 <code class="docutils literal notranslate"><span class="pre">turtle</span></code>。这个包更容易安装，也更强大。</p></li>
+<li><p>我新增了一个叫作“The Goodies”的章节，给大家介绍一些严格来说并不是必须了解的Python特性，不过有时候这些特性还是很方便的。</p></li>
+</ul>
+<p>我希望你能使用该书愉快的工作，也希望它能帮助你学习编程，学会像计算机科学家一样思考，至少有那么一点像。</p>
+<div class="line-block">
+<div class="line">Allen B. Downey</div>
+<div class="line">Olin College</div>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="acknowledgments">
+<h2>Acknowledgments<a class="headerlink" href="#acknowledgments" title="永久链接至标题">¶</a></h2>
+<p>Many thanks to Jeff Elkner, who translated my Java book into Python,
+which got this project started and introduced me to what has turned out
+to be my favorite language.</p>
+<p>Thanks also to Chris Meyers, who contributed several sections to <em>How to
+Think Like a Computer Scientist</em>.</p>
+<p>Thanks to the Free Software Foundation for developing the GNU Free
+Documentation License, which helped make my collaboration with Jeff and
+Chris possible, and Creative Commons for the license I am using now.</p>
+<p>Thanks to the editors at Lulu who worked on <em>How to Think Like a
+Computer Scientist</em>.</p>
+<p>Thanks to the editors at O’Reilly Media who worked on <em>Think Python</em>.</p>
+<p>Thanks to all the students who worked with earlier versions of this book
+and all the contributors (listed below) who sent in corrections and
+suggestions.</p>
+</div>
+<div class="section" id="contributor-list">
+<h2>Contributor List<a class="headerlink" href="#contributor-list" title="永久链接至标题">¶</a></h2>
+<p>More than 100 sharp-eyed and thoughtful readers have sent in suggestions
+and corrections over the past few years. Their contributions, and
+enthusiasm for this project, have been a huge help.</p>
+<p>If you have a suggestion or correction, please send email to
+<a class="reference external" href="mailto:feedback&#37;&#52;&#48;thinkpython&#46;com">feedback<span>&#64;</span>thinkpython<span>&#46;</span>com</a>. If I make a change based on your feedback, I
+will add you to the contributor list (unless you ask to be omitted).</p>
+<p>If you include at least part of the sentence the error appears in, that
+makes it easy for me to search. Page and section numbers are fine, too,
+but not quite as easy to work with. Thanks!</p>
+<ul class="simple">
+<li><p>Lloyd Hugh Allen sent in a correction to Section 8.4.</p></li>
+<li><p>Yvon Boulianne sent in a correction of a semantic error in Chapter 5.</p></li>
+<li><p>Fred Bremmer submitted a correction in Section 2.1.</p></li>
+<li><p>Jonah Cohen wrote the Perl scripts to convert the LaTeX source for
+this book into beautiful HTML.</p></li>
+<li><p>Michael Conlon sent in a grammar correction in Chapter 2 and an
+improvement in style in Chapter 1, and he initiated discussion on the
+technical aspects of interpreters.</p></li>
+<li><p>Benoit Girard sent in a correction to a humorous mistake in Section
+5.6.</p></li>
+<li><p>Courtney Gleason and Katherine Smith wrote horsebet.py, which was
+used as a case study in an earlier version of the book. Their program
+can now be found on the website.</p></li>
+<li><p>Lee Harr submitted more corrections than we have room to list here,
+and indeed he should be listed as one of the principal editors of the
+text.</p></li>
+<li><p>James Kaylin is a student using the text. He has submitted numerous
+corrections.</p></li>
+<li><p>David Kershaw fixed the broken catTwice function in Section 3.10.</p></li>
+<li><p>Eddie Lam has sent in numerous corrections to Chapters 1, 2, and 3.
+He also fixed the Makefile so that it creates an index the first time
+it is run and helped us set up a versioning scheme.</p></li>
+<li><p>Man-Yong Lee sent in a correction to the example code in Section 2.4.</p></li>
+<li><p>David Mayo pointed out that the word “unconsciously” in Chapter 1
+needed to be changed to “subconsciously”.</p></li>
+<li><p>Chris McAloon sent in several corrections to Sections 3.9 and 3.10.</p></li>
+<li><p>Matthew J. Moelter has been a long-time contributor who sent in
+numerous corrections and suggestions to the book.</p></li>
+<li><p>Simon Dicon Montford reported a missing function definition and
+several typos in Chapter 3. He also found errors in the increment
+function in Chapter 13.</p></li>
+<li><p>John Ouzts corrected the definition of “return value” in Chapter 3.</p></li>
+<li><p>Kevin Parks sent in valuable comments and suggestions as to how to
+improve the distribution of the book.</p></li>
+<li><p>David Pool sent in a typo in the glossary of Chapter 1, as well as
+kind words of encouragement.</p></li>
+<li><p>Michael Schmitt sent in a correction to the chapter on files and
+exceptions.</p></li>
+<li><p>Robin Shaw pointed out an error in Section 13.1, where the printTime
+function was used in an example without being defined.</p></li>
+<li><p>Paul Sleigh found an error in Chapter 7 and a bug in Jonah Cohen’s
+Perl script that generates HTML from LaTeX.</p></li>
+<li><p>Craig T. Snydal is testing the text in a course at Drew University.
+He has contributed several valuable suggestions and corrections.</p></li>
+<li><p>Ian Thomas and his students are using the text in a programming
+course. They are the first ones to test the chapters in the latter
+half of the book, and they have made numerous corrections and
+suggestions.</p></li>
+<li><p>Keith Verheyden sent in a correction in Chapter 3.</p></li>
+<li><p>Peter Winstanley let us know about a longstanding error in our Latin
+in Chapter 3.</p></li>
+<li><p>Chris Wrobel made corrections to the code in the chapter on file I/O
+and exceptions.</p></li>
+<li><p>Moshe Zadka has made invaluable contributions to this project. In
+addition to writing the first draft of the chapter on Dictionaries,
+he provided continual guidance in the early stages of the book.</p></li>
+<li><p>Christoph Zwerschke sent several corrections and pedagogic
+suggestions, and explained the difference between <em>gleich</em> and
+<em>selbe</em>.</p></li>
+<li><p>James Mayer sent us a whole slew of spelling and typographical
+errors, including two in the contributor list.</p></li>
+<li><p>Hayden McAfee caught a potentially confusing inconsistency between
+two examples.</p></li>
+<li><p>Angel Arnal is part of an international team of translators working
+on the Spanish version of the text. He has also found several errors
+in the English version.</p></li>
+<li><p>Tauhidul Hoque and Lex Berezhny created the illustrations in Chapter
+1 and improved many of the other illustrations.</p></li>
+<li><p>Dr. Michele Alzetta caught an error in Chapter 8 and sent some
+interesting pedagogic comments and suggestions about Fibonacci and
+Old Maid.</p></li>
+<li><p>Andy Mitchell caught a typo in Chapter 1 and a broken example in
+Chapter 2.</p></li>
+<li><p>Kalin Harvey suggested a clarification in Chapter 7 and caught some
+typos.</p></li>
+<li><p>Christopher P. Smith caught several typos and helped us update the
+book for Python 2.2.</p></li>
+<li><p>David Hutchins caught a typo in the Foreword.</p></li>
+<li><p>Gregor Lingl is teaching Python at a high school in Vienna, Austria.
+He is working on a German translation of the book, and he caught a
+couple of bad errors in Chapter 5.</p></li>
+<li><p>Julie Peters caught a typo in the Preface.</p></li>
+<li><p>Florin Oprina sent in an improvement in makeTime, a correction in
+printTime, and a nice typo.</p></li>
+<li><p>D. J. Webre suggested a clarification in Chapter 3.</p></li>
+<li><p>Ken found a fistful of errors in Chapters 8, 9 and 11.</p></li>
+<li><p>Ivo Wever caught a typo in Chapter 5 and suggested a clarification in
+Chapter 3.</p></li>
+<li><p>Curtis Yanko suggested a clarification in Chapter 2.</p></li>
+<li><p>Ben Logan sent in a number of typos and problems with translating the
+book into HTML.</p></li>
+<li><p>Jason Armstrong saw the missing word in Chapter 2.</p></li>
+<li><p>Louis Cordier noticed a spot in Chapter 16 where the code didn’t
+match the text.</p></li>
+<li><p>Brian Cain suggested several clarifications in Chapters 2 and 3.</p></li>
+<li><p>Rob Black sent in a passel of corrections, including some changes for
+Python 2.2.</p></li>
+<li><p>Jean-Philippe Rey at Ecole Centrale Paris sent a number of patches,
+including some updates for Python 2.2 and other thoughtful
+improvements.</p></li>
+<li><p>Jason Mader at George Washington University made a number of useful
+suggestions and corrections.</p></li>
+<li><p>Jan Gundtofte-Bruun reminded us that “a error” is an error.</p></li>
+<li><p>Abel David and Alexis Dinno reminded us that the plural of “matrix”
+is “matrices”, not “matrixes”. This error was in the book for years,
+but two readers with the same initials reported it on the same day.
+Weird.</p></li>
+<li><p>Charles Thayer encouraged us to get rid of the semi-colons we had put
+at the ends of some statements and to clean up our use of “argument”
+and “parameter”.</p></li>
+<li><p>Roger Sperberg pointed out a twisted piece of logic in Chapter 3.</p></li>
+<li><p>Sam Bull pointed out a confusing paragraph in Chapter 2.</p></li>
+<li><p>Andrew Cheung pointed out two instances of “use before def”.</p></li>
+<li><p>C. Corey Capel spotted the missing word in the Third Theorem of
+Debugging and a typo in Chapter 4.</p></li>
+<li><p>Alessandra helped clear up some Turtle confusion.</p></li>
+<li><p>Wim Champagne found a brain-o in a dictionary example.</p></li>
+<li><p>Douglas Wright pointed out a problem with floor division in arc.</p></li>
+<li><p>Jared Spindor found some jetsam at the end of a sentence.</p></li>
+<li><p>Lin Peiheng sent a number of very helpful suggestions.</p></li>
+<li><p>Ray Hagtvedt sent in two errors and a not-quite-error.</p></li>
+<li><p>Torsten Hübsch pointed out an inconsistency in Swampy.</p></li>
+<li><p>Inga Petuhhov corrected an example in Chapter 14.</p></li>
+<li><p>Arne Babenhauserheide sent several helpful corrections.</p></li>
+<li><p>Mark E. Casida is is good at spotting repeated words.</p></li>
+<li><p>Scott Tyler filled in a that was missing. And then sent in a heap of
+corrections.</p></li>
+<li><p>Gordon Shephard sent in several corrections, all in separate emails.</p></li>
+<li><p>Andrew Turner spotted an error in Chapter 8.</p></li>
+<li><p>Adam Hobart fixed a problem with floor division in arc.</p></li>
+<li><p>Daryl Hammond and Sarah Zimmerman pointed out that I served up
+math.pi too early. And Zim spotted a typo.</p></li>
+<li><p>George Sass found a bug in a Debugging section.</p></li>
+<li><p>Brian Bingham suggested Exercise [exrotatepairs].</p></li>
+<li><p>Leah Engelbert-Fenton pointed out that I used tuple as a variable
+name, contrary to my own advice. And then found a bunch of typos and
+a “use before def”.</p></li>
+<li><p>Joe Funke spotted a typo.</p></li>
+<li><p>Chao-chao Chen found an inconsistency in the Fibonacci example.</p></li>
+<li><p>Jeff Paine knows the difference between space and spam.</p></li>
+<li><p>Lubos Pintes sent in a typo.</p></li>
+<li><p>Gregg Lind and Abigail Heithoff suggested Exercise [checksum].</p></li>
+<li><p>Max Hailperin has sent in a number of corrections and suggestions.
+Max is one of the authors of the extraordinary <em>Concrete
+Abstractions</em>, which you might want to read when you are done with
+this book.</p></li>
+<li><p>Chotipat Pornavalai found an error in an error message.</p></li>
+<li><p>Stanislaw Antol sent a list of very helpful suggestions.</p></li>
+<li><p>Eric Pashman sent a number of corrections for Chapters 4–11.</p></li>
+<li><p>Miguel Azevedo found some typos.</p></li>
+<li><p>Jianhua Liu sent in a long list of corrections.</p></li>
+<li><p>Nick King found a missing word.</p></li>
+<li><p>Martin Zuther sent a long list of suggestions.</p></li>
+<li><p>Adam Zimmerman found an inconsistency in my instance of an “instance”
+and several other errors.</p></li>
+<li><p>Ratnakar Tiwari suggested a footnote explaining degenerate triangles.</p></li>
+<li><p>Anurag Goel suggested another solution for <code class="docutils literal notranslate"><span class="pre">is_abecedarian</span></code> and
+sent some additional corrections. And he knows how to spell Jane
+Austen.</p></li>
+<li><p>Kelli Kratzer spotted one of the typos.</p></li>
+<li><p>Mark Griffiths pointed out a confusing example in Chapter 3.</p></li>
+<li><p>Roydan Ongie found an error in my Newton’s method.</p></li>
+<li><p>Patryk Wolowiec helped me with a problem in the HTML version.</p></li>
+<li><p>Mark Chonofsky told me about a new keyword in Python 3.</p></li>
+<li><p>Russell Coleman helped me with my geometry.</p></li>
+<li><p>Wei Huang spotted several typographical errors.</p></li>
+<li><p>Karen Barber spotted the the oldest typo in the book.</p></li>
+<li><p>Nam Nguyen found a typo and pointed out that I used the Decorator
+pattern but didn’t mention it by name.</p></li>
+<li><p>Stéphane Morin sent in several corrections and suggestions.</p></li>
+<li><p>Paul Stoop corrected a typo in <code class="docutils literal notranslate"><span class="pre">uses_only</span></code>.</p></li>
+<li><p>Eric Bronner pointed out a confusion in the discussion of the order
+of operations.</p></li>
+<li><p>Alexandros Gezerlis set a new standard for the number and quality of
+suggestions he submitted. We are deeply grateful!</p></li>
+<li><p>Gray Thomas knows his right from his left.</p></li>
+<li><p>Giovanni Escobar Sosa sent a long list of corrections and
+suggestions.</p></li>
+<li><p>Alix Etienne fixed one of the URLs.</p></li>
+<li><p>Kuang He found a typo.</p></li>
+<li><p>Daniel Neilson corrected an error about the order of operations.</p></li>
+<li><p>Will McGinnis pointed out that polyline was defined differently in
+two places.</p></li>
+<li><p>Swarup Sahoo spotted a missing semi-colon.</p></li>
+<li><p>Frank Hecker pointed out an exercise that was under-specified, and
+some broken links.</p></li>
+<li><p>Animesh B helped me clean up a confusing example.</p></li>
+<li><p>Martin Caspersen found two round-off errors.</p></li>
+<li><p>Gregor Ulm sent several corrections and suggestions.</p></li>
+<li><p>Dimitrios Tsirigkas suggested I clarify an exercise.</p></li>
+<li><p>Carlos Tafur sent a page of corrections and suggestions.</p></li>
+<li><p>Martin Nordsletten found a bug in an exercise solution.</p></li>
+<li><p>Lars O.D. Christensen found a broken reference.</p></li>
+<li><p>Victor Simeone found a typo.</p></li>
+<li><p>Sven Hoexter pointed out that a variable named input shadows a
+build-in function.</p></li>
+<li><p>Viet Le found a typo.</p></li>
+<li><p>Stephen Gregory pointed out the problem with cmp in Python 3.</p></li>
+<li><p>Matthew Shultz let me know about a broken link.</p></li>
+<li><p>Lokesh Kumar Makani let me know about some broken links and some
+changes in error messages.</p></li>
+<li><p>Ishwar Bhat corrected my statement of Fermat’s last theorem.</p></li>
+<li><p>Brian McGhie suggested a clarification.</p></li>
+<li><p>Andrea Zanella translated the book into Italian, and sent a number of
+corrections along the way.</p></li>
+<li><p>Many, many thanks to Melissa Lewis and Luciano Ramalho for excellent
+comments and suggestions on the second edition.</p></li>
+<li><p>Thanks to Harry Percival from PythonAnywhere for his help getting
+people started running Python in a browser.</p></li>
+<li><p>Xavier Van Aubel made several useful corrections in the second
+edition.</p></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="01-the-way-of-the-program.html" class="btn btn-neutral float-right" title="第一章：程序之道" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="《Think Python 2e》中文版" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, EarlGrey et.al@codingpy.com.
+      最后更新于 5月 31, 2020.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
