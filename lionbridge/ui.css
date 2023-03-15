@@ -1,0 +1,128 @@
+#title {
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 40px;
+    text-align: center;
+    width: 600px;
+    margin: 25px auto;
+}
+
+#material {
+    display: flex;
+    justify-content: center;
+}
+
+#basket {
+    width: 180px;
+    transition: background-color 1s, height 0s;
+    border: 2px dashed #333;
+    border-radius: 10px;
+    padding: 30px 10px;
+    font-size: 24px;
+    line-height: 43px;
+    text-align: center;
+    color: #bf4ff0;
+}
+
+#basket.dragover {
+    background: #d2baff;
+    border-style: dotted;
+}
+
+#logback {
+    margin-left: 20px;
+    width: 400px;
+    background: #333;
+    border-radius: 10px;
+    color: #eee;
+    padding: 5px;
+}
+
+#log {
+    margin: 0;
+    height: 150px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    font-size: 14px;
+    line-height: 19px;
+    text-overflow: ellipsis;
+}
+
+/* 设置滚动条整体样式 */
+#log::-webkit-scrollbar {
+    width: 10px;
+    background-color: #333;
+    border-radius: 10px;
+}
+
+/* 设置滚动条里面小方块 */
+#log::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #888;
+}
+
+/* 设置滚动条轨道 */
+#log::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: #484848;
+}
+
+#action,
+#preview {
+    border-radius: 6px;
+    margin: 10px auto;
+    font-size: 16px;
+    color: #000000;
+    line-height: 32px;
+}
+
+#action {
+    text-align: center;
+    width: 640px;
+    border: 2px dashed #333;
+}
+
+#preview {
+    background: #fff;
+}
+
+.link-download {
+    color: #000;
+    padding: 0px 15px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 10px 12px;
+    cursor: pointer;
+    background-color: #ccc;
+    border-radius: 8px;
+    border: 1px solid #999;
+    box-shadow: 1px 1px 4px #000;
+}
+
+#content {
+    border-collapse: collapse;
+    margin: 0 auto;
+    font-size: 13px;
+    line-height: 20px;
+}
+
+#content .xls-title td {
+    text-align: center;
+    background: #333;
+    color: #fff;
+}
+
+#content td {
+    border: 1px solid #cad9ea;
+    color: #666;
+    padding: 4px 6px;
+}
+
+#content tr:nth-child(odd) {
+    background: #fff;
+}
+
+#content tr:nth-child(even) {
+    background: #eee;
+}

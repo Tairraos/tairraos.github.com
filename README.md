@@ -29,7 +29,7 @@ Apple app store 里的 Pythagorea, Pythagorea 60, XSection 三款几何游戏的
 开源Repo: https://github.com/MathsFans/Tchisla
 
 **xTool.js** ([NPM库链接](https://www.npmjs.com/package/xtool.js))
-Node下用的小工具集，自己做的瑞士军刀。` npm i xtool.js`
+Node下用的小工具集，自己做的瑞士军刀。`npm i xtool.js`
 开源Repo: https://github.com/Tairraos/xTool.js
 
 ------
