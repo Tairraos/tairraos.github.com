@@ -2,41 +2,8 @@
 let subs = [];
 
 function analyseContent(data, type) {
-    let isEnglishFile, chnTxt, engTxt, chnIdx, engIdx;
     log(`读取成功，开始处理...`);
-    if (type === "csv") {
-        //csv文件视为voice识别文件
-        let lines = data.trim().split(/[\r\n]+/);
-        lines.shift(); //删除标题地
-        lines.forEach((line) => {
-            //csv: "Speaker Name","Start Time","End Time","Text"
-            let items = line.replace(/^"|"$/g, "").split(`","`);
-            if (isEnglishFile === undefined) {
-                isEnglishFile = isEnglish(items[3]);
-            }
-            [chnTxt, engTxt] = isEnglishFile ? ["", items[3]] : [items[3], ""];
-            mergeRow([fmtStamp(items[1]), fmtStamp(items[2]), items[0], chnTxt, engTxt, ""]);
-        });
-    } else if (type === "txt") {
-        //txt文件视为screen手打文件。mix的时候，screen的内容会添上(OST)
-        let lines = data.trim().split(/[\r\n]+/);
-        lines.forEach((line) => {
-            //txt: "Start Time", "Text"
-            let items = line.match(/(\d[^\s]+)\s+(.*)/),
-                stamp = fmtStamp(items[1]);
-            [chnTxt, engTxt] = isEnglishFile ? ["", `(OST)${items[2]}`] : [`(OST)${items[2]}`, ""];
-            mergeRow([stamp, getHolderStamp(stamp), "", chnTxt, engTxt, ""]);
-        });
-    } else if (type === "srt") {
-        let blocks = data.replace(/^\s+|\r|\s+$/g, "").split(/\n{2,}/);
-        engIdx = isEnglish(blocks[0].split(/\n/)[2]) ? 2 : 3;
-        chnIdx = engIdx === 2 ? 3 : 2;
-        blocks.forEach((block) => {
-            let items = block.split(/\n/),
-                stamp = items[1].split(/[ >-]+/);
-            mergeRow([fmtStamp(stamp[0]), fmtStamp(items[1]), "", items[chnIdx] || "", items[engIdx] || "", ""]);
-        });
-    } else {
+    if (type === "xls" || type === "xlsx") {
         let workbook = XLSX.read(data, { type: "binary" }),
             worksheet = Object.values(workbook.Sheets)[0],
             range = XLSX.utils.decode_range(worksheet["!ref"]),
@@ -47,7 +14,7 @@ function analyseContent(data, type) {
             return;
         }
         for (let row = 2; row <= range.e.r + 1; row++) {
-            mergeRow([w[`B${row}`].v, w[`C${row}`].v, w[`D${row}`].v, w[`E${row}`].v, w[`F${row}`].v, w[`G${row}`].v]);
+            subs.push([w[`B${row}`].v, w[`C${row}`].v, w[`D${row}`].v, w[`E${row}`].v, w[`F${row}`].v, w[`G${row}`].v]);
         }
     }
     log(`${type}文件导入完成，共有${subs.length}条字幕`);
@@ -55,45 +22,6 @@ function analyseContent(data, type) {
     genAction();
     genPreview();
     log(`已准备好下载文件，点击可下载`);
-}
-
-function mergeRow(row) {
-    let isMerged = false;
-    for (let idx1 = 0; idx1 < subs.length; idx1++) {
-        if (subs[idx1][0] === row[0] && subs[idx1][1] === row[1]) {
-            subs[idx1].forEach((item, idx2) => (subs[idx1][idx2] = item || row[idx2]));
-            isMerged = true;
-            break;
-        }
-    }
-    if (!isMerged) {
-        subs.push(row);
-    }
-}
-
-//格式化时间戳
-function fmtStamp(stamp) {
-    let timeArr = stamp.replace(/[\s]/g, "").split(/[：:。.，,]/),
-        mmm = timeArr.length >= 4 || stamp.match(/[。.，,]/) ? String(+timeArr.pop()).padEnd(3, "0") : "000",
-        ss = String(+timeArr.pop() || 0).padStart(2, "0"),
-        mm = String(+timeArr.pop() || 0).padStart(2, "0"),
-        hh = String(+timeArr.pop() || 0).padStart(2, "0");
-    return `${hh}:${mm}:${ss}.${mmm}`;
-}
-
-//下一秒的时间戳，毫秒清零以表示这是生成戳
-function getHolderStamp(stamp) {
-    let base = new Date(+new Date("1970-01-01T" + stamp.replace(",", ".") + "Z") + 1000);
-    base.setMilliseconds(0);
-    return base.toISOString().slice(11, 23);
-}
-
-function isEnglish(str) {
-    return !!str.match(/^[\x1e-\x80]+$/);
-}
-
-function getSrtContent(isEng) {
-    return subs.map((line, index) => `${index}\n${line[0]} --> ${line[1]}\n${isEng ? line[4] : line[3]}\n`).join("\n");
 }
 
 function getReleasTxt() {
