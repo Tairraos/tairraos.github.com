@@ -10,8 +10,7 @@ function analyseContent(data, type) {
             w = worksheet;
 
         if (range.e.c < 6) {
-            log(`导入EXCEL不是Work文件！！！！！`);
-            return;
+            return log(`导入EXCEL不是Work文件！！！！！`);
         }
         for (let row = 2; row <= range.e.r + 1; row++) {
             subs.push([w[`B${row}`].v, w[`C${row}`].v, w[`D${row}`].v, w[`E${row}`].v, w[`F${row}`].v, w[`G${row}`].v]);
@@ -34,30 +33,30 @@ function getDate() {
     return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
 }
 
-function getWorkXlsx() {
-    let content = subs.map((item, index) => [index + 1, ...item]);
-    content.unshift(["#", "Time Start", "Time End", "Speecher", "Chinese", "Translation", "Annotation"]);
-    return genXlsx(content, /^[ABCD]|^[A-Z]1$/, [30, 80, 80, 60, 400, 400, 300]);
-}
-
 function getReleaseXlsx() {
     let content = subs.map((item, index) => [index + 1, item[0], item[4], item[5]]);
     content.unshift(["#", "Timestamp", "Translation", "Annotation"]);
-    return genXlsx(content, /^[AB]|^[A-Z]1$/, [30, 80, 400, 300]);
+    return genXlsx(content, { AB: "008000", C: "0000FF", D: "ff0000" }, [30, 80, 600, 300]);
 }
 
-function genXlsx(content, reCenter, listWidth) {
+function genXlsx(content, mapColor, listWidth) {
     let workbook = XLSX.utils.book_new(),
         worksheet = XLSX.utils.aoa_to_sheet(content);
     Object.keys(worksheet).forEach((key) => {
         if (!key.startsWith("!")) {
             worksheet[key].s = {
-                font: { name: "Calibri", sz: "11", bold: key.match(/^[A-Z]1$/) ? true : false },
-                alignment: { horizontal: key.match(reCenter) ? "center" : "left", vertical: "center", wrapText: true }
+                font: { name: "Calibri", sz: "11", bold: key.match(/^[A-Z]1$/) ? true : false, color: { rgb: getColor(key, mapColor) } },
+                alignment: { horizontal: "left", vertical: "top", wrapText: true }
             };
         }
     });
     worksheet["!cols"] = listWidth.map((i) => ({ wpx: i }));
     XLSX.utils.book_append_sheet(workbook, worksheet, "YouTube");
     return XLSX.write(workbook, { type: "array", bookType: "xlsx" });
+}
+
+function getColor(key, mapColor) {
+    let color = "#000000";
+    !key.match(/^[A-Z]1$/) && Object.keys(mapColor).forEach((item) => (color = item.includes(key[0]) ? mapColor[item] : color));
+    return color;
 }
