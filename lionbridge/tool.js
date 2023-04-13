@@ -12,8 +12,9 @@ function analyseContent(data, type) {
         if (range.e.c < 6) {
             return log(`导入EXCEL不是Work文件！！！！！`);
         }
+        let g = (r) => (w[r] ? w[r].v : "");
         for (let row = 2; row <= range.e.r + 1; row++) {
-            subs.push([w[`B${row}`].v, w[`C${row}`].v, w[`D${row}`].v, w[`E${row}`].v, w[`F${row}`].v, w[`G${row}`].v]);
+            mergeRow([g(`B${row}`), g(`C${row}`), g(`D${row}`), g(`E${row}`), g(`F${row}`), g(`G${row}`)]);
         }
     }
     log(`${type}文件导入完成，共有${subs.length}条字幕`);
@@ -24,8 +25,8 @@ function analyseContent(data, type) {
 }
 
 function getReleasTxt() {
-    let fmtStamp = (stamp) => stamp.replace(/^(\d+):(\d+):(\d+)\.\d+$/, `Timestamp $1 hours $2 minutes $3 seconds`).replace("00 hours ", "");
-    return subs.map((line) => `${fmtStamp(line[0])} ${line[4]}`).join("\n");
+    let fmtReleaseStamp = (stamp) => stamp.replace(/^(\d+):(\d+):(\d+)\.\d+$/, `$1 hours $2 minutes $3 seconds`).replace("00 hours ", "");
+    return subs.map((line) => `Timestamp ${fmtReleaseStamp(line[0])} ${line[4]}`).join("\n");
 }
 
 function getDate() {
@@ -34,9 +35,10 @@ function getDate() {
 }
 
 function getReleaseXlsx() {
-    let content = subs.map((item, index) => [index + 1, item[0], item[4], item[5]]);
+    let fmtReleaseStamp = (stamp) => stamp.replace(/^(\d+):(\d+):(\d+)\.\d+$/, `$1 hours $2 min $3 s`).replace("00 hours ", "");
+    let content = subs.map((item, index) => [index + 1, fmtReleaseStamp(item[0]), item[4], item[5]]);
     content.unshift(["#", "Timestamp", "Translation", "Annotation"]);
-    return genXlsx(content, { AB: "008000", C: "0000FF", D: "ff0000" }, [30, 80, 600, 300]);
+    return genXlsx(content, { AB: "008000", C: "0000FF", D: "ff0000" }, [30, 90, 600, 300]);
 }
 
 function genXlsx(content, mapColor, listWidth) {
