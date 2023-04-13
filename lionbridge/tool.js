@@ -14,7 +14,7 @@ function analyseContent(data, type) {
         }
         let g = (r) => (w[r] ? w[r].v : "");
         for (let row = 2; row <= range.e.r + 1; row++) {
-            mergeRow([g(`B${row}`), g(`C${row}`), g(`D${row}`), g(`E${row}`), g(`F${row}`), g(`G${row}`)]);
+            subs.push([g(`B${row}`), g(`C${row}`), g(`D${row}`), g(`E${row}`), g(`F${row}`), g(`G${row}`)]);
         }
     }
     log(`${type}文件导入完成，共有${subs.length}条字幕`);
