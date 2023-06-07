@@ -40,7 +40,7 @@ function log(msg) {
 }
 
 function handleFiles(file) {
-    let test = file.name.match(/\.(xls|xlsx)$/);
+    let test = file.name.match(/\.(txt|srt|xls|xlsx|csv)$/);
     dragLeave();
     if (!test) {
         log(`无法处理：[${file.name}]`);
@@ -53,7 +53,7 @@ function handleFiles(file) {
         let data = e.target.result;
         analyseContent(data, test[1]); //读出文件，开始分析
     };
-    reader.readAsBinaryString(file);
+    test[1].match(/txt|srt|csv/) ? reader.readAsText(file) : reader.readAsBinaryString(file);
 }
 
 function genPreview() {
@@ -72,7 +72,10 @@ function genPreview() {
 
 function genAction() {
     if (subs.length) {
-        $action.innerHTML = "下载交付文件到 Download 目录：";
+        $action.innerHTML = "下载：";
+        $action.appendChild(getDownloadLink("中文SRT", `[work].${getDate()}.CHN.srt`, getSrtContent(false)));
+        $action.appendChild(getDownloadLink("英语SRT", `[work].${getDate()}.ENG.srt`, getSrtContent(true)));
+        $action.appendChild(getDownloadLink("工作XLSX", `[work].${getDate()}.xlsx`, getWorkXlsx()));
         $action.appendChild(getDownloadLink("交付XLSX", `[RELEASE].${getDate()}.xlsx`, getReleaseXlsx()));
         $action.appendChild(getDownloadLink("交付TXT", `[RELEASE].${getDate()}.txt`, getReleasTxt()));
     }
