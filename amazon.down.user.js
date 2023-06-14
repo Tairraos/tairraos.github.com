@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Amazon 搜索页抓取机
 // @namespace    http://tampermonkey.net/
-// @version      1.5
+// @version      1.6
 // @description  Collect amazon search page data
 // @author       Xiaole Iota
 // @match        https://www.amazon.com/s*
@@ -48,7 +48,7 @@
         domProdList.forEach((domProd) => {
             let asin = domProd.getAttribute("data-asin"),
                 product_name = domProd.querySelector("h2").textContent.trim(),
-                jungle = document.querySelectorAll("#embedCard-B0BWN1K5RY-regular-8c8c4bea-3909-4683-9014-7e817777faa9>div>div");
+                jungle = document.querySelectorAll(`#embedCard-${asin}-regular-${product_name}>div>div`);
             if (!domProd.querySelector("a").href.match(/\/sspa\/click/)) {
                 data[asin] = {
                     //From Amazon
