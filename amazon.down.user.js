@@ -1,12 +1,13 @@
 // ==UserScript==
 // @name         Amazon 搜索页抓取机
 // @namespace    http://tampermonkey.net/
-// @version      1.2
+// @version      1.3
 // @description  Collect amazon search page data
 // @author       Xiaole Iota
 // @match        https://www.amazon.com/s*
 // @icon         https://tairraos.github.io/lemade.ico
 // @downloadURL  https://download.sf-helper.com/chrome/helper.user.js
+// @updateURL    https://download.sf-helper.com/chrome/helper.user.js
 // @grant        GM_addStyle
 // ==/UserScript==
 
