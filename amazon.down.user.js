@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Amazon 搜索页抓取机
 // @namespace    http://tampermonkey.net/
-// @version      1.4
+// @version      1.5
 // @description  Collect amazon search page data
 // @author       Xiaole Iota
 // @match        https://www.amazon.com/s*
@@ -39,8 +39,7 @@
     }
 
     function getDate() {
-        let today = new Date();
-        return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+        return new Date().toISOString().replace(/T/, " ").replace(/\..*/,"");
     }
 
     function collect() {
@@ -74,7 +73,9 @@
             }
         });
         document.querySelector(".hacked-log").innerText = `已抓取 ${Object.keys(data).length} 条数据`;
-        document.querySelector(".hacked-log").prepend(getDownloadLink("下载数据", `amazon-data[${getDate()}].json`, JSON.stringify(data)));
+        document.querySelector(".hacked-log").prepend(
+            getDownloadLink("下载数据", `amazon-data[${getDate()}].json`, JSON.stringify(data))
+            );
     }
 
     function getDownloadLink(text, filename, content) {
