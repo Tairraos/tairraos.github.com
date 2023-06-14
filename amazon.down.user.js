@@ -6,8 +6,8 @@
 // @author       Xiaole Iota
 // @match        https://www.amazon.com/s*
 // @icon         https://tairraos.github.io/lemade.ico
-// @downloadURL  https://download.sf-helper.com/chrome/helper.user.js
-// @updateURL    https://download.sf-helper.com/chrome/helper.user.js
+// @downloadURL  https://tairraos.github.io/amazon.down.user.js
+// @updateURL    https://tairraos.github.io/amazon.down.user.js
 // @grant        GM_addStyle
 // ==/UserScript==
 
