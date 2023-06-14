@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Amazon 搜索页抓取机
 // @namespace    http://tampermonkey.net/
-// @version      1.8
+// @version      1.10
 // @description  Collect amazon search page data
 // @author       Xiaole Iota
 // @match        https://www.amazon.com/s*
@@ -42,13 +42,24 @@
         return new Date().toISOString().replace(/T/, " ").replace(/\..*/, "");
     }
 
+    function jungleSearch(data, pattern, dir) {
+        let copy = [...data],
+            result = "";
+        while (result === "" && copy.length) {
+            let val = dir ? copy.pop() : copy.shift();
+            if (val.match(pattern)) {
+                result = val.replace(pattern, "$1");
+            }
+        }
+        return result;
+    }
     function collect() {
         let domProdList = document.querySelectorAll("div[data-asin][data-uuid]");
 
         domProdList.forEach((domProd) => {
             let asin = domProd.getAttribute("data-asin"),
                 product_id = domProd.getAttribute("data-uuid"),
-                jungle = document.querySelectorAll(`#embedCard-${asin}-regular-${product_id}>div>div`);
+                jungle = document.querySelector(`#embedCard-${asin}-regular-${product_id}`);
             if (!domProd.querySelector("a").href.match(/\/sspa\/click/)) {
                 data[asin] = {
                     //From Amazon
@@ -59,17 +70,26 @@
                     price_offer: fixnum(domProd.querySelector(".a-price .a-offscreen").innerText),
                     asin: asin,
                     product_name: domProd.querySelector("h2").textContent.trim(),
-                    product_id: domProd.getAttribute("data-uuid"),
-                    //From Jungle
-                    category_first: (jungle[4] || { textContent: "" }).textContent.split(" in ")[1] || "",
-                    category_last: (jungle[5] || { textContent: "" }).textContent.split(" in ")[1] || "",
-                    sales_month: fixnum((jungle[3].querySelector("[class^=DataWrapper]") || { textContent: "" }).textContent),
-                    sales_day: fixnum((jungle[7].querySelector("[class^=DataWrapper]") || { textContent: "" }).textContent),
-                    bsr_first: fixnum((jungle[4] || { textContent: "" }).textContent.split(" in ")[0]),
-                    bsr_last: fixnum((jungle[5] || { textContent: "" }).textContent.split(" in ")[0]),
-                    brand: jungle[6].querySelector("[class^=DataWrapper]").textContent,
-                    page_release: jungle[9].querySelector("[class^=DataWrapper]").textContent
+                    product_id: domProd.getAttribute("data-uuid")
                 };
+                if (jungle) {
+                    let jungleData = jungle.innerText
+                        .replace(/:\n/g, ":")
+                        .replace(/#(\d+) in ([^\n]+)/g, "BSR:$1\nCATEGORY:$2")
+                        .split("\n");
+
+                     Object.assign(data[asin], {
+                        //From Jungle
+                        category_first: jungleSearch(jungleData, /CATEGORY:(.*)/),
+                        category_last: jungleSearch(jungleData, /CATEGORY:(.*)/, true), // 逆向搜索
+                        sales_month: fixnum(jungleSearch(jungleData, /Mo. Sales:(.*)/)),
+                        sales_day: fixnum(jungleSearch(jungleData, /D. Sales:(.*)/)),
+                        bsr_first: jungleSearch(jungleData, /BSR:(.*)/),
+                        bsr_last: jungleSearch(jungleData, /BSR:(.*)/, true),
+                        brand: jungleSearch(jungleData, /Brand:(.*)/),
+                        page_release: jungleSearch(jungleData, /Date First Available:(.*)/)
+                    });
+                }
             }
         });
         document.querySelector(".hacked-log").innerText = `已抓取 ${Object.keys(data).length} 条数据`;
