@@ -72,24 +72,19 @@
                     product_name: domProd.querySelector("h2").textContent.trim(),
                     product_id: domProd.getAttribute("data-uuid")
                 };
-                if (jungle) {
-                    let jungleData = jungle.innerText
-                        .replace(/:\n/g, ":")
-                        .replace(/#(\d+) in ([^\n]+)/g, "BSR:$1\nCATEGORY:$2")
-                        .split("\n");
+                let jungleData = jungle ? jungle.innerText.replace(/:\n/g, ":").replace(/#(\d+) in ([^\n]+)/g, "BSR:$1\nCATEGORY:$2").split("\n") : [];
 
-                     Object.assign(data[asin], {
-                        //From Jungle
-                        category_first: jungleSearch(jungleData, /CATEGORY:(.*)/),
-                        category_last: jungleSearch(jungleData, /CATEGORY:(.*)/, true), // 逆向搜索
-                        sales_month: fixnum(jungleSearch(jungleData, /Mo. Sales:(.*)/)),
-                        sales_day: fixnum(jungleSearch(jungleData, /D. Sales:(.*)/)),
-                        bsr_first: jungleSearch(jungleData, /BSR:(.*)/),
-                        bsr_last: jungleSearch(jungleData, /BSR:(.*)/, true),
-                        brand: jungleSearch(jungleData, /Brand:(.*)/),
-                        page_release: jungleSearch(jungleData, /Date First Available:(.*)/)
-                    });
-                }
+                Object.assign(data[asin], {
+                    //From Jungle
+                    category_first: jungleSearch(jungleData, /CATEGORY:(.*)/),
+                    category_last: jungleSearch(jungleData, /CATEGORY:(.*)/, true), // 逆向搜索
+                    sales_month: fixnum(jungleSearch(jungleData, /Mo. Sales:(.*)/)),
+                    sales_day: fixnum(jungleSearch(jungleData, /D. Sales:(.*)/)),
+                    bsr_first: jungleSearch(jungleData, /BSR:(.*)/),
+                    bsr_last: jungleSearch(jungleData, /BSR:(.*)/, true), // 逆向搜索
+                    brand: jungleSearch(jungleData, /Brand:(.*)/),
+                    page_release: jungleSearch(jungleData, /Date First Available:(.*)/)
+                });
             }
         });
         document.querySelector(".hacked-log").innerText = `已抓取 ${Object.keys(data).length} 条数据`;
