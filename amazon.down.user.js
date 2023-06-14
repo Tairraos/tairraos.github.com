@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Amazon 搜索页抓取机
 // @namespace    http://tampermonkey.net/
-// @version      1.6
+// @version      1.7
 // @description  Collect amazon search page data
 // @author       Xiaole Iota
 // @match        https://www.amazon.com/s*
@@ -39,42 +39,74 @@
     }
 
     function getDate() {
-        return new Date().toISOString().replace(/T/, " ").replace(/\..*/,"");
+        return new Date().toISOString().replace(/T/, " ").replace(/\..*/, "");
     }
 
     function collect() {
-        let domProdList = document.querySelectorAll("div[data-asin][data-uuid]");
+        let domProdList = document.querySelectorAll(
+            "div[data-asin][data-uuid]"
+        );
 
         domProdList.forEach((domProd) => {
             let asin = domProd.getAttribute("data-asin"),
-                product_name = domProd.querySelector("h2").textContent.trim(),
-                jungle = document.querySelectorAll(`#embedCard-${asin}-regular-${product_name}>div>div`);
+                product_id = domProd.getAttribute("data-uuid"),
+                jungle = document.querySelectorAll(
+                    `#embedCard-${asin}-regular-${product_id}>div>div`
+                );
             if (!domProd.querySelector("a").href.match(/\/sspa\/click/)) {
                 data[asin] = {
                     //From Amazon
                     page_url: domProd.querySelector("a").href,
                     image1: domProd.querySelector("img").src,
-                    stars_avg: document.querySelector(".a-icon-alt").innerText.replace(/ .*/, ""),
-                    review_count: domProd.querySelector("a.s-underline-text span.s-underline-text").innerText.replace(/,/, ""),
-                    price_offer: fixnum(domProd.querySelector(".a-price .a-offscreen").innerText),
+                    stars_avg: document
+                        .querySelector(".a-icon-alt")
+                        .innerText.replace(/ .*/, ""),
+                    review_count: domProd
+                        .querySelector(
+                            "a.s-underline-text span.s-underline-text"
+                        )
+                        .innerText.replace(/,/, ""),
+                    price_offer: fixnum(
+                        domProd.querySelector(".a-price .a-offscreen").innerText
+                    ),
                     asin: asin,
-                    product_name: product_name,
+                    product_name: domProd
+                        .querySelector("h2")
+                        .textContent.trim(),
                     product_id: domProd.getAttribute("data-uuid"),
                     //From Jungle
-                    category_first: jungle[4].textContent.split(" in ")[1] || "",
+                    category_first:
+                        jungle[4].textContent.split(" in ")[1] || "",
                     category_last: jungle[5].textContent.split(" in ")[1] || "",
-                    sales_month: fixnum(jungle[3].querySelector("[class^=DataWrapper]").textContent),
-                    sales_day: fixnum(jungle[7].querySelector("[class^=DataWrapper]").textContent),
+                    sales_month: fixnum(
+                        jungle[3].querySelector("[class^=DataWrapper]")
+                            .textContent
+                    ),
+                    sales_day: fixnum(
+                        jungle[7].querySelector("[class^=DataWrapper]")
+                            .textContent
+                    ),
                     bsr_first: fixnum(jungle[4].textContent.split(" in ")[0]),
                     bsr_last: fixnum(jungle[5].textContent.split(" in ")[0]),
-                    brand: jungle[6].querySelector("[class^=DataWrapper]").textContent,
-                    page_release: jungle[9].querySelector("[class^=DataWrapper]").textContent
+                    brand: jungle[6].querySelector("[class^=DataWrapper]")
+                        .textContent,
+                    page_release: jungle[9].querySelector(
+                        "[class^=DataWrapper]"
+                    ).textContent,
                 };
             }
         });
-        document.querySelector(".hacked-log").innerText = `已抓取 ${Object.keys(data).length} 条数据`;
-        document.querySelector(".hacked-log").prepend(
-            getDownloadLink("下载数据", `amazon-data[${getDate()}].json`, JSON.stringify(data))
+        document.querySelector(".hacked-log").innerText = `已抓取 ${
+            Object.keys(data).length
+        } 条数据`;
+        document
+            .querySelector(".hacked-log")
+            .prepend(
+                getDownloadLink(
+                    "下载数据",
+                    `amazon-data[${getDate()}].json`,
+                    JSON.stringify(data)
+                )
             );
     }
 
