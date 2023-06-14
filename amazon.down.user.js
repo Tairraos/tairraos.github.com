@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Amazon 搜索页抓取机
 // @namespace    http://tampermonkey.net/
-// @version      1.3
+// @version      1.4
 // @description  Collect amazon search page data
 // @author       Xiaole Iota
 // @match        https://www.amazon.com/s*
