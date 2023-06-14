@@ -15,9 +15,12 @@
 // tamper monkey 插件，从 amazon 搜索结果页抓取产品信息
 // ***********************************************
 (function () {
-    let panel = document.createElement("div");
-    let data = {};
-    let fixnum = (num) => (num ? String(num).replace(/[^\d\.\+\-]/g, "") : "");
+    let panel = document.createElement("div"),
+        data = {};
+
+    let fixnum = (num) => (num ? String(num).replace(/[^\d\.\+\-]/g, "") : ""),
+        domInner = (dom) => (dom ? dom.innerText : "");
+
     function getButton(text, fnClick) {
         let btn = document.createElement("button");
         btn.innerText = text;
@@ -44,7 +47,7 @@
 
     function jungleSearch(data, pattern, dir) {
         let copy = [...data],
-            result = "";
+            result = ""; // 防错，未搜到返回空
         while (result === "" && copy.length) {
             let val = dir ? copy.pop() : copy.shift();
             if (val.match(pattern)) {
@@ -53,20 +56,21 @@
         }
         return result;
     }
+
     function collect() {
         let domProdList = document.querySelectorAll("div[data-asin][data-uuid]");
 
         domProdList.forEach((domProd) => {
             let asin = domProd.getAttribute("data-asin"),
-                product_id = domProd.getAttribute("data-uuid");
-            if (!domProd.querySelector("a").href.match(/\/sspa\/click/) && asin && product_id) {
+                product_id = domProd.getAttribute("data-uuid").replace(/[^a-fA-F0-9\-]/g, ""); // 防错，有新data-uuid里并不是真的uuid
+            if (asin && product_id && domProd.querySelector("a") && !domProd.querySelector("a").href.match(/\/sspa\/click/)) {
                 data[asin] = {
                     //From Amazon
                     page_url: domProd.querySelector("a").href,
                     image1: domProd.querySelector("img").src,
-                    stars_avg: document.querySelector(".a-icon-alt").innerText.replace(/ .*/, ""),
-                    review_count: domProd.querySelector("a.s-underline-text span.s-underline-text").innerText.replace(/,/, ""),
-                    price_offer: fixnum(domProd.querySelector(".a-price .a-offscreen").innerText),
+                    stars_avg: domInner(document.querySelector(".a-icon-alt")).replace(/ .*/, ""), // 防错，空格后的文字都删除
+                    review_count: fixnum(domInner(domProd.querySelector("a.s-underline-text span.s-underline-text"))), // 防错，数字含有逗号
+                    price_offer: fixnum(domInner(domProd.querySelector(".a-price .a-offscreen"))), // 防错，数字含有逗号
                     asin: asin,
                     product_name: domProd.querySelector("h2").textContent.trim(),
                     product_id: domProd.getAttribute("data-uuid")
@@ -74,18 +78,18 @@
 
                 let jungle = document.querySelector(`#embedCard-${asin}-regular-${product_id}`),
                     jungleData = jungle
-                        ? jungle.innerText
+                        ? domInner(jungle)
                               .replace(/:\n/g, ":")
                               .replace(/#(\d+) in ([^\n]+)/g, "BSR:$1\nCATEGORY:$2")
                               .split("\n")
-                        : [];
+                        : []; // 防错，有些数据jungle注入失败
 
                 Object.assign(data[asin], {
                     //From Jungle
                     category_first: jungleSearch(jungleData, /CATEGORY:(.*)/),
                     category_last: jungleSearch(jungleData, /CATEGORY:(.*)/, true), // 逆向搜索
-                    sales_month: fixnum(jungleSearch(jungleData, /Mo. Sales:(.*)/)),
-                    sales_day: fixnum(jungleSearch(jungleData, /D. Sales:(.*)/)),
+                    sales_month: fixnum(jungleSearch(jungleData, /Mo\. Sales:(.*)/)), // 防错，数字含有逗号
+                    sales_day: fixnum(jungleSearch(jungleData, /D\. Sales:(.*)/)), // 防错，数字含有逗号
                     bsr_first: jungleSearch(jungleData, /BSR:(.*)/),
                     bsr_last: jungleSearch(jungleData, /BSR:(.*)/, true), // 逆向搜索
                     brand: jungleSearch(jungleData, /Brand:(.*)/),
