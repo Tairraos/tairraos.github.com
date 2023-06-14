@@ -58,9 +58,8 @@
 
         domProdList.forEach((domProd) => {
             let asin = domProd.getAttribute("data-asin"),
-                product_id = domProd.getAttribute("data-uuid"),
-                jungle = document.querySelector(`#embedCard-${asin}-regular-${product_id}`);
-            if (!domProd.querySelector("a").href.match(/\/sspa\/click/)) {
+                product_id = domProd.getAttribute("data-uuid");
+            if (!domProd.querySelector("a").href.match(/\/sspa\/click/) && asin && product_id) {
                 data[asin] = {
                     //From Amazon
                     page_url: domProd.querySelector("a").href,
@@ -72,7 +71,14 @@
                     product_name: domProd.querySelector("h2").textContent.trim(),
                     product_id: domProd.getAttribute("data-uuid")
                 };
-                let jungleData = jungle ? jungle.innerText.replace(/:\n/g, ":").replace(/#(\d+) in ([^\n]+)/g, "BSR:$1\nCATEGORY:$2").split("\n") : [];
+
+                let jungle = document.querySelector(`#embedCard-${asin}-regular-${product_id}`),
+                    jungleData = jungle
+                        ? jungle.innerText
+                              .replace(/:\n/g, ":")
+                              .replace(/#(\d+) in ([^\n]+)/g, "BSR:$1\nCATEGORY:$2")
+                              .split("\n")
+                        : [];
 
                 Object.assign(data[asin], {
                     //From Jungle
