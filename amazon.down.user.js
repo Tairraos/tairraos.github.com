@@ -19,7 +19,8 @@
         data = {};
 
     let fixnum = (num) => (num ? String(num).replace(/[^\d\.\+\-]/g, "") : ""),
-        domInner = (dom) => (dom ? dom.innerText : "");
+        domInner = (dom) => (dom ? dom.innerText : ""),
+        getDate = () => new Date().toISOString().replace(/T/, " ").replace(/\..*/, "");
 
     function getButton(text, fnClick) {
         let btn = document.createElement("button");
@@ -41,10 +42,10 @@
         panel.append(getLog());
     }
 
-    function getDate() {
-        return new Date().toISOString().replace(/T/, " ").replace(/\..*/, "");
+    function verify() {
+        var noJungle = Object.values(data).filter((item) => !item.brand).length;
+        alert(noJungle ? `没有 Jungle 数据的记录： ${noJungle} 条` : `所有记录都有jungle数据。`);
     }
-
     function jungleSearch(data, pattern, dir) {
         let copy = [...data],
             result = ""; // 防错，未搜到返回空
@@ -56,7 +57,6 @@
         }
         return result;
     }
-
     function collect() {
         let domProdList = document.querySelectorAll("div[data-asin][data-uuid]");
 
@@ -98,6 +98,7 @@
             }
         });
         document.querySelector(".hacked-log").innerText = `已抓取 ${Object.keys(data).length} 条数据`;
+        document.querySelector(".hacked-log").prepend(getButton(`数据检查`, verify));
         document.querySelector(".hacked-log").prepend(getDownloadLink("下载数据", `amazon-data[${getDate()}].json`, JSON.stringify(data)));
     }
 
@@ -110,16 +111,13 @@
         return ele;
     }
 
-    panel.id = "hacked-panel";
-    document.body.append(panel);
-
     GM_addStyle(`
     #hacked-panel {
         position: fixed;
-        width: 350px;
+        width: 420px;
         height: 50px;
         top: 0;
-        left: calc(50% - 90px);
+        left: calc(50% - 70px);
         background: #010415e8;
         border: 2px solid #8f8f8f;
         border-top: 0;
@@ -135,7 +133,7 @@
         height: 30px;
         padding: 0 10px;
         border-radius: 8px;
-        margin: 0px 10px 0 15px;
+        margin: 0px 10px;
         background: #fc0;
         border: 1px solid #212746;
     }
@@ -149,7 +147,6 @@
         padding: 0 10px;
         color: black !important;
         border-radius: 8px;
-        margin-right: 10px;
         display: inline-block;
         background: #fc0;
         border: 1px solid #212746;
@@ -161,6 +158,7 @@
         color: #741919 !important;
     }
     `);
-
+    panel.id = "hacked-panel";
+    document.body.append(panel);
     setupCollectEnv();
 })();
