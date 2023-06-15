@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Amazon 搜索页抓取机
 // @namespace    http://tampermonkey.net/
-// @version      1.11
+// @version      1.12
 // @description  Collect amazon search page data
 // @author       Xiaole Iota
 // @match        https://www.amazon.com/s*
@@ -180,7 +180,15 @@
         Object.values(data).forEach((line) => {
             content.push(fieldList.map((item) => (line[item] ? line[item] : "")));
         });
-        return genXlsx(content /*, [30, 80, 80, 60, 400, 400, 300]*/);
+        // ["id","page_url","image1","image2","image3","image4","image5","category_first","category_last","sales_total","sales_month","sales_week","sales_day","page_rank","bsr_first","bsr_last","stars_avg","star_1","star_2","star_3","star_4","star_5","review_count","price","price_buybox","price_offer","asin","style","color","material","dimensions","weight","commercial_grade","assembly","product_name","description","brand","model","product_id","page_release","data_stamp"]
+        // [ 30,  150,       80,      30,      30,      30,      30,      100,             100,            60,           60,           60,          60,         60,         60,         60,        60,         40,      40,      40,      40,      40,      60,            60,     60,            60,           80,    40,     40,     40,        40,          40,      40,                40,        150,            150,          80,     40,    120,         80,            110]
+        return genXlsx(
+            content,
+            [
+                30, 150, 80, 30, 30, 30, 30, 100, 100, 60, 60, 60, 60, 60, 60, 60, 60, 40, 40, 40, 40, 40, 60, 60, 60, 60, 80, 40, 40, 40, 40, 40, 40, 40, 150,
+                150, 80, 40, 120, 80, 110
+            ]
+        );
     }
 
     function genXlsx(content, listWidth = []) {
@@ -190,7 +198,7 @@
             if (!key.startsWith("!")) {
                 worksheet[key].s = {
                     font: { name: "Calibri", sz: "11" },
-                    alignment: { horizontal: "left", vertical: "top", wrapText: true }
+                    alignment: { horizontal: "left", vertical: "middle", wrapText: false }
                 };
             }
         });
