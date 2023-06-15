@@ -142,7 +142,7 @@
                 let jungle = document.querySelector(`#embedCard-${asin}-regular-${product_id}`),
                     jungleData = jungle
                         ? domInner(jungle)
-                              .replace(/:\n/g, ":")
+                              .replace(/:(\d)\n/g, ":$1")
                               .replace(/#(\d+) in ([^\n]+)/g, "BSR:$1\nCATEGORY:$2")
                               .split("\n")
                         : []; // 防错，有些数据jungle注入失败
