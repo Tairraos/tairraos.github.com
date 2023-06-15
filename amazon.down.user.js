@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         Amazon 搜索页抓取机
 // @namespace    http://tampermonkey.net/
-// @version      1.10
+// @version      1.11
 // @description  Collect amazon search page data
 // @author       Xiaole Iota
 // @match        https://www.amazon.com/s*
+// @require      https://tairraos.github.io/xlsx.bundle.js
 // @icon         https://tairraos.github.io/lemade.ico
 // @downloadURL  https://tairraos.github.io/amazon.down.user.js
 // @updateURL    https://tairraos.github.io/amazon.down.user.js
@@ -16,7 +17,68 @@
 // ***********************************************
 (function () {
     let panel = document.createElement("div"),
-        data = {};
+        data = {},
+        fieldList = [
+            "id",
+            "page_url",
+            "image1",
+            "image2",
+            "image3",
+            "image4",
+            "image5",
+            "category_first",
+            "category_last",
+            "sales_total",
+            "sales_month",
+            "sales_week",
+            "sales_day",
+            "page_rank",
+            "bsr_first",
+            "bsr_last",
+            "stars_avg",
+            "star_1",
+            "star_2",
+            "star_3",
+            "star_4",
+            "star_5",
+            "review_count",
+            "price",
+            "price_buybox",
+            "price_offer",
+            "asin",
+            "style",
+            "color",
+            "material",
+            "dimensions",
+            "weight",
+            "commercial_grade",
+            "assembly",
+            "product_name",
+            "description",
+            "brand",
+            "model",
+            "product_id",
+            "page_release",
+            "data_stamp"
+        ],
+        numFieldList = [
+            "sales_total",
+            "sales_month",
+            "sales_week",
+            "sales_day",
+            "page_rank",
+            "stars_avg",
+            "star_1",
+            "star_2",
+            "star_3",
+            "star_4",
+            "star_5",
+            "review_count",
+            "price",
+            "price_buybox",
+            "price_offer",
+            "assembly"
+        ];
 
     let fixnum = (num) => (num ? String(num).replace(/[^\d\.\+\-]/g, "") : ""),
         domInner = (dom) => (dom ? dom.innerText : ""),
@@ -73,7 +135,8 @@
                     price_offer: fixnum(domInner(domProd.querySelector(".a-price .a-offscreen"))), // 防错，数字含有逗号
                     asin: asin,
                     product_name: domProd.querySelector("h2").textContent.trim(),
-                    product_id: domProd.getAttribute("data-uuid")
+                    product_id: domProd.getAttribute("data-uuid"),
+                    data_stamp: getDate()
                 };
 
                 let jungle = document.querySelector(`#embedCard-${asin}-regular-${product_id}`),
@@ -99,7 +162,8 @@
         });
         document.querySelector(".hacked-log").innerText = `已抓取 ${Object.keys(data).length} 条数据`;
         document.querySelector(".hacked-log").prepend(getButton(`数据检查`, verify));
-        document.querySelector(".hacked-log").prepend(getDownloadLink("下载数据", `amazon-data[${getDate()}].json`, JSON.stringify(data)));
+        document.querySelector(".hacked-log").prepend(getDownloadLink("下载JSON", `amazon-data[${getDate()}].json`, JSON.stringify(data)));
+        document.querySelector(".hacked-log").prepend(getDownloadLink("下载XLSX", `amazon-data[${getDate()}].xlsx`, getWorkXlsx(data)));
     }
 
     function getDownloadLink(text, filename, content) {
@@ -111,13 +175,37 @@
         return ele;
     }
 
+    function getWorkXlsx() {
+        let content = [fieldList];
+        Object.values(data).forEach((line) => {
+            content.push(fieldList.map((item) => (line[item] ? line[item] : "")));
+        });
+        return genXlsx(content /*, [30, 80, 80, 60, 400, 400, 300]*/);
+    }
+
+    function genXlsx(content, listWidth = []) {
+        let workbook = XLSX.utils.book_new(),
+            worksheet = XLSX.utils.aoa_to_sheet(content);
+        Object.keys(worksheet).forEach((key) => {
+            if (!key.startsWith("!")) {
+                worksheet[key].s = {
+                    font: { name: "Calibri", sz: "11" },
+                    alignment: { horizontal: "left", vertical: "top", wrapText: true }
+                };
+            }
+        });
+        worksheet["!cols"] = listWidth.map((i) => ({ wpx: i }));
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Amazon raw");
+        return XLSX.write(workbook, { type: "array", bookType: "xlsx" });
+    }
+
     GM_addStyle(`
     #hacked-panel {
         position: fixed;
-        width: 420px;
+        width: 540px;
         height: 50px;
         top: 0;
-        left: calc(50% - 70px);
+        left: calc(50% - 150px);
         background: #010415e8;
         border: 2px solid #8f8f8f;
         border-top: 0;
@@ -128,12 +216,13 @@
         vertical-align: middle;
         display: flex;
         align-items: center;
+        padding: 0 15px;
     }
     .hacked-btn {
         height: 30px;
         padding: 0 10px;
         border-radius: 8px;
-        margin: 0px 10px;
+        margin-right: 10px;
         background: #fc0;
         border: 1px solid #212746;
     }
@@ -151,6 +240,7 @@
         background: #fc0;
         border: 1px solid #212746;
         line-height: 30px;
+        margin-right: 10px;
     }
     .hacked-btn:hover,
     .hacked-link:hover {
