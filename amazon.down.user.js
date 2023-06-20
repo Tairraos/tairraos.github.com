@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Amazon 搜索页抓取机
 // @namespace    http://tampermonkey.net/
-// @version      1.12
+// @version      1.13
 // @description  Collect amazon search page data
 // @author       Xiaole Iota
 // @match        https://www.amazon.com/s*
@@ -18,68 +18,49 @@
 (function () {
     let panel = document.createElement("div"),
         data = {},
-        fieldList = [
-            "id",
-            "page_url",
-            "image1",
-            "image2",
-            "image3",
-            "image4",
-            "image5",
-            "category_first",
-            "category_last",
-            "sales_total",
-            "sales_month",
-            "sales_week",
-            "sales_day",
-            "page_rank",
-            "bsr_first",
-            "bsr_last",
-            "stars_avg",
-            "star_1",
-            "star_2",
-            "star_3",
-            "star_4",
-            "star_5",
-            "review_count",
-            "price",
-            "price_buybox",
-            "price_offer",
-            "asin",
-            "style",
-            "color",
-            "material",
-            "dimensions",
-            "weight",
-            "commercial_grade",
-            "assembly",
-            "product_name",
-            "description",
-            "brand",
-            "model",
-            "product_id",
-            "page_release",
-            "data_stamp"
-        ],
-        numFieldList = [
-            "sales_total",
-            "sales_month",
-            "sales_week",
-            "sales_day",
-            "page_rank",
-            "stars_avg",
-            "star_1",
-            "star_2",
-            "star_3",
-            "star_4",
-            "star_5",
-            "review_count",
-            "price",
-            "price_buybox",
-            "price_offer",
-            "assembly"
-        ];
-
+        fieldList = {
+            id: "string",
+            page_url: "string",
+            image1: "string",
+            // "image2":"string",
+            // "image3":"string",
+            // "image4":"string",
+            // "image5":"string",
+            category_first: "string",
+            category_last: "string",
+            // "sales_total":"int",
+            sales_month: "int",
+            // "sales_week":"int",
+            sales_day: "int",
+            // "page_rank":"int",
+            bsr_first: "string",
+            bsr_last: "string",
+            stars_avg: "float",
+            // "star_1":"int",
+            // "star_2":"int",
+            // "star_3":"int",
+            // "star_4":"int",
+            // "star_5":"int",
+            review_count: "int",
+            // "price":"float",
+            // "price_buybox":"float",
+            price_offer: "float",
+            asin: "float",
+            // "style":"string",
+            // "color":"string",
+            // "material":"string",
+            // "dimensions":"string",
+            // "weight":"string",
+            // "commercial_grade":"string",
+            // "assembly":"string",
+            product_name: "string",
+            // "description":"string",
+            brand: "string",
+            // "model":"string",
+            product_id: "string",
+            page_release: "string",
+            data_stamp: "string"
+        };
     let fixnum = (num) => (num ? String(num).replace(/[^\d\.\+\-]/g, "") : ""),
         domInner = (dom) => (dom ? dom.innerText : ""),
         getDate = () => new Date().toISOString().replace(/T/, " ").replace(/\..*/, "");
@@ -120,9 +101,12 @@
         return result;
     }
     function collect() {
-        let domProdList = document.querySelectorAll("div[data-asin][data-uuid]");
+        let domProdList = document.querySelectorAll("div[data-asin][data-uuid]"),
+            searched_category = document.querySelector("#searchDropdownBox").selectedOptions[0].innerText,
+            searched_keywords = document.querySelector("#twotabsearchtextbox").value,
+            current_page = document.querySelector(".s-pagination-selected").innerText;
 
-        domProdList.forEach((domProd) => {
+        domProdList.forEach((domProd, index) => {
             let asin = domProd.getAttribute("data-asin"),
                 product_id = domProd.getAttribute("data-uuid").replace(/[^a-fA-F0-9\-]/g, ""); // 防错，有新data-uuid里并不是真的uuid
             if (asin && product_id && domProd.querySelector("a") && !domProd.querySelector("a").href.match(/\/sspa\/click/)) {
@@ -176,9 +160,9 @@
     }
 
     function getWorkXlsx() {
-        let content = [fieldList];
+        let content = [Object.keys(fieldList)];
         Object.values(data).forEach((line) => {
-            content.push(fieldList.map((item) => (line[item] ? line[item] : "")));
+            content.push(Object.keys(fieldList).map((item) => (line[item] ? line[item] : "")));
         });
         // ["id","page_url","image1","image2","image3","image4","image5","category_first","category_last","sales_total","sales_month","sales_week","sales_day","page_rank","bsr_first","bsr_last","stars_avg","star_1","star_2","star_3","star_4","star_5","review_count","price","price_buybox","price_offer","asin","style","color","material","dimensions","weight","commercial_grade","assembly","product_name","description","brand","model","product_id","page_release","data_stamp"]
         // [ 30,  150,       80,      30,      30,      30,      30,      100,             100,            60,           60,           60,          60,         60,         60,         60,        60,         40,      40,      40,      40,      40,      60,            60,     60,            60,           80,    40,     40,     40,        40,          40,      40,                40,        150,            150,          80,     40,    120,         80,            110]
