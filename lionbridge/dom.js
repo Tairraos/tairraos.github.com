@@ -1,4 +1,5 @@
-let $basket = document.getElementById("basket"),
+let exportName = getDate(),
+    $basket = document.getElementById("basket"),
     $action = document.getElementById("action"),
     $preview = document.getElementById("preview"),
     $log = document.getElementById("log"),
@@ -14,10 +15,20 @@ document.querySelector("#t2 button").addEventListener("click", copydom);
 document.querySelector("#t3 button").addEventListener("click", copydom);
 document.querySelector("#t4 button").addEventListener("click", copydom);
 document.querySelector("#t5 button").addEventListener("click", copydom);
+document.querySelector("#t6 button").addEventListener("click", copydom);
+document.querySelector("#t7 button").addEventListener("click", copydom);
+document.querySelector("#t8 button").addEventListener("click", copydom);
+
+Object.keys(localStorage.valueOf()).forEach((id) => {
+    if (!id.match(/^\w+$/)) return;
+    let $input = document.querySelector(`#clipboard #${id} input`);
+    if ($input) $input.value = localStorage.getItem(id);
+});
 
 function copydom(e) {
     let $text = e.target.parentElement.querySelector("input");
     navigator.clipboard.writeText($text.value);
+    localStorage.setItem($text.parentElement.id, $text.value);
 }
 
 function dragLeave() {
@@ -50,7 +61,8 @@ function log(msg) {
 }
 
 function handleFiles(file) {
-    let test = file.name.match(/\.(txt|srt|xls|xlsx|csv)$/);
+    let extPattern = /\.(txt|srt|xls|xlsx|csv)$/,
+        test = file.name.match(extPattern);
     dragLeave();
     if (!test) {
         log(`无法处理：[${file.name}]`);
@@ -58,6 +70,7 @@ function handleFiles(file) {
     }
 
     log(`读取${file.name}...`);
+    exportName = file.name.replace(extPattern, "");
     let reader = new FileReader();
     reader.onload = function (e) {
         let data = e.target.result;
@@ -88,11 +101,11 @@ function genPreview() {
 function genAction() {
     if (subs.length) {
         $action.innerHTML = "下载：";
-        $action.appendChild(getDownloadLink("中文SRT", `[work].${getDate()}.CHN.srt`, getSrtContent(false)));
-        $action.appendChild(getDownloadLink("英语SRT", `[work].${getDate()}.ENG.srt`, getSrtContent(true)));
-        $action.appendChild(getDownloadLink("工作XLSX", `[work].${getDate()}.xlsx`, getWorkXlsx()));
-        $action.appendChild(getDownloadLink("交付XLSX", `[RELEASE].${getDate()}.xlsx`, getReleaseXlsx()));
-        $action.appendChild(getDownloadLink("交付TXT", `[RELEASE].${getDate()}.txt`, getReleasTxt()));
+        $action.appendChild(getDownloadLink("中文SRT", `${exportName}.work.CHN.srt`, getSrtContent(false)));
+        $action.appendChild(getDownloadLink("英语SRT", `${exportName}.work.ENG.srt`, getSrtContent(true)));
+        $action.appendChild(getDownloadLink("工作XLSX", `${exportName}.work.xlsx`, getWorkXlsx()));
+        $action.appendChild(getDownloadLink("交付XLSX", `${exportName}.RELEASE.xlsx`, getReleaseXlsx()));
+        $action.appendChild(getDownloadLink("交付TXT", `${exportName}.RELEASE.txt`, getReleasTxt()));
     }
 }
 
