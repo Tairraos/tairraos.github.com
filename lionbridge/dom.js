@@ -9,6 +9,16 @@ $material.addEventListener("dragenter", dragEnter, false);
 $material.addEventListener("dragover", dragEnter, false);
 $material.addEventListener("dragleave", dragLeave, false);
 $material.addEventListener("drop", dropHandler, false);
+document.querySelector("#t1 button").addEventListener("click", copydom);
+document.querySelector("#t2 button").addEventListener("click", copydom);
+document.querySelector("#t3 button").addEventListener("click", copydom);
+document.querySelector("#t4 button").addEventListener("click", copydom);
+document.querySelector("#t5 button").addEventListener("click", copydom);
+
+function copydom(e) {
+    let $text = e.target.parentElement.querySelector("input");
+    navigator.clipboard.writeText($text.value);
+}
 
 function dragLeave() {
     $basket.classList.remove("dragover");
@@ -61,13 +71,18 @@ function genPreview() {
         index = 1;
 
     domArr.push(`<table id="content"><thead>`);
-    domArr.push(`<tr class="xls-title"><td>#</td><td>Time Start</td><td>Time End</td><td>Speecher</td><td>Chinese</td><td>Translation</td><td>Annotation</td></tr>`);
+    domArr.push(
+        `<tr class="xls-title"><td>#</td><td>Time Start</td><td>Time End</td><td>Speecher</td><td>Chinese</td><td>Translation</td><td>Annotation</td></tr>`
+    );
     domArr.push(`</thead><tbody>`);
     subs.forEach((item) => {
         domArr.push(`<tr class="xls-data"><td>${index++}</td><td>${item.join("</td><td>")}</td></tr>`);
     });
     domArr.push("</tbody></table>");
     $preview.innerHTML = domArr.join("");
+    document.querySelector("#content").addEventListener("click", (e) => {
+        e.target.parentElement.style.backgroundColor = "#cce";
+    });
 }
 
 function genAction() {

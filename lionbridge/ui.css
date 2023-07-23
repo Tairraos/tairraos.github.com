@@ -126,3 +126,41 @@
 #content tr:nth-child(even) {
     background: #eee;
 }
+
+#clipboard {
+    border-radius: 10px;
+    border: 2px solid #888;
+    position: fixed;
+    right: 10px;
+    top: 20px;
+    padding: 10px;
+    box-shadow: 2px 2px 7px #0004;
+}
+
+#t1,
+#t2,
+#t3,
+#t4,
+#t5 {
+    margin: 10px;
+}
+
+#t1 input,
+#t2 input,
+#t3 input,
+#t4 input,
+#t5 input {
+    width: 100px;
+    height: 20px;
+    vertical-align: bottom;
+    margin-right: 10px;
+}
+
+#t1 button,
+#t2 button,
+#t3 button,
+#t4 button,
+#t5 button {
+    height: 26px;
+    width: 60px;
+}

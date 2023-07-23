@@ -28,7 +28,10 @@ function analyseContent(data, type) {
             mergeRow([stamp, getHolderStamp(stamp), "", chnTxt, engTxt, ""]);
         });
     } else if (type === "srt") {
-        let blocks = data.replace(/^\s+|\r|\s+$/g, "").split(/\n{2,}/);
+        let blocks = data
+            .replace(/^\s+|\r|\s+$/g, "")
+            .replace(/【OST】/gi, "[OST]")
+            .split(/\n{2,}/);
         engIdx = isEnglish(blocks[0].split(/\n/)[2]) ? 2 : 3;
         chnIdx = engIdx === 2 ? 3 : 2;
         blocks.forEach((block) => {
@@ -98,7 +101,10 @@ function getSrtContent(isEng) {
 }
 
 function getReleasTxt() {
-    let fmtReleaseStamp = (stamp) => String(stamp).replace(/^(\d+):(\d+):(\d+)\.\d+$/, `$1 hours $2 minutes $3 seconds`).replace("00 hours ", "");
+    let fmtReleaseStamp = (stamp) =>
+        String(stamp)
+            .replace(/^(\d+):(\d+):(\d+)\.\d+$/, `$1 hours $2 minutes $3 seconds`)
+            .replace("00 hours ", "");
     return subs.map((line) => `Timestamp ${fmtReleaseStamp(line[0])} ${line[4]}`).join("\n");
 }
 
@@ -114,7 +120,10 @@ function getWorkXlsx() {
 }
 
 function getReleaseXlsx() {
-    let fmtReleaseStamp = (stamp) => String(stamp).replace(/^(\d+):(\d+):(\d+)\.\d+$/, `$1 hours $2 min $3 s`).replace("00 hours ", "");
+    let fmtReleaseStamp = (stamp) =>
+        String(stamp)
+            .replace(/^(\d+):(\d+):(\d+)\.\d+$/, `$1 hours $2 min $3 s`)
+            .replace("00 hours ", "");
     let content = subs.map((item, index) => [index + 1, fmtReleaseStamp(item[0]), item[4], item[5]]);
     content.unshift(["#", "Timestamp", "Translation", "Annotation"]);
     return genXlsx(content, { AB: "008000", C: "0000FF", D: "ff0000" }, [30, 90, 600, 300]);
