@@ -1,5 +1,6 @@
 //TimeStart, TimeEnd, Speecher, Chinese, Translation, Annotation
-let subs = [];
+let conf = { subs: [], start: 1, target:0 },
+    subs = conf.subs;
 
 function analyseContent(data, type) {
     let isEnglishFile, chnTxt, engTxt, chnIdx, engIdx;
@@ -25,7 +26,7 @@ function analyseContent(data, type) {
             let items = line.match(/(\d[^\s]+)\s+(.*)/),
                 stamp = fmtStamp(items[1]);
             [chnTxt, engTxt] = isEnglishFile ? ["", `[OST] ${items[2]}`] : [`[OST] ${items[2]}`, ""];
-            mergeRow([stamp, getHolderStamp(stamp), "", chnTxt, engTxt, ""]);
+            mergeRow([stamp, get1sDurationStamp(stamp), "", chnTxt, engTxt, ""]);
         });
     } else if (type === "srt") {
         let blocks = data
@@ -56,6 +57,7 @@ function analyseContent(data, type) {
     }
     log(`${type}文件导入完成，共有${subs.length}条字幕`);
     subs.sort((a, b) => (a[0] > b[0] ? 1 : a[0] < b[0] ? -1 : 0));
+    resetTools();
     genAction();
     genPreview();
     log(`已准备好下载文件，点击可下载`);
@@ -85,8 +87,16 @@ function fmtStamp(stamp) {
     return `${hh}:${mm}:${ss}.${mmm}`;
 }
 
+//两个时间戳的差
+function getStampDiff(start, end) {
+    var startTime = new Date("1970-01-01T" + start + "Z").getTime();
+    var endTime = new Date("1970-01-01T" + end + "Z").getTime();
+    var diff = (endTime - startTime) / 1000;
+    return diff.toFixed(1);
+}
+
 //下一秒的时间戳，毫秒清零以表示这是生成戳
-function getHolderStamp(stamp) {
+function get1sDurationStamp(stamp) {
     let base = new Date(+new Date("1970-01-01T" + stamp.replace(",", ".") + "Z") + 1000);
     base.setMilliseconds(0);
     return base.toISOString().slice(11, 23);

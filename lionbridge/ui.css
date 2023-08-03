@@ -68,7 +68,8 @@
 }
 
 #action,
-#preview {
+#preview,
+#tools {
     border-radius: 6px;
     margin: 10px auto;
     font-size: 16px;
@@ -76,9 +77,10 @@
     line-height: 32px;
 }
 
-#action {
-    text-align: center;
-    width: 640px;
+#action,
+#tools {
+    padding-left: 20px;
+    width: 615px;
     border: 2px dashed #333;
 }
 
@@ -86,12 +88,14 @@
     background: #fff;
 }
 
-.link-download {
+.link-download,
+#tools button {
     color: #000;
     padding: 0px 15px;
     text-decoration: none;
     display: inline-block;
     font-size: 14px;
+    height: 32px;
     margin: 10px 12px;
     cursor: pointer;
     background-color: #ccc;
@@ -100,11 +104,22 @@
     box-shadow: 1px 1px 4px #000;
 }
 
+#tools button.toolon {
+    border: 1px solid #6f0;
+    box-shadow: 1px 1px 4px #6f08;
+}
+
+#tools button.hide {
+    display: none;
+}
+
 #content {
     border-collapse: collapse;
     margin: 0 auto;
     font-size: 13px;
     line-height: 20px;
+    cursor: pointer;
+    /* width: 1000px; */
 }
 
 #content .xls-title td {
@@ -127,14 +142,24 @@
     background: #eee;
 }
 
+#content tr.longline:nth-child(odd) {
+    background: #fe84;
+}
+
+#content tr.longline:nth-child(even) {
+    background: #ccbb8844;
+}
+
 #clipboard {
     border-radius: 10px;
     border: 2px solid #888;
     position: fixed;
     right: 10px;
     top: 20px;
+    background: #fffc;
     padding: 10px;
     box-shadow: 2px 2px 7px #0004;
+    display: none;
 }
 
 #clipboard > div {
@@ -151,4 +176,20 @@
 #clipboard > div > button {
     height: 26px;
     width: 60px;
+}
+
+.pointer {
+    background: #fc0;
+}
+
+.select:hover,
+.go:hover {
+    background: #fc0;
+}
+
+.ready {
+    background: #b6e7;
+}
+.ready:hover {
+    background: #b6e9;
 }

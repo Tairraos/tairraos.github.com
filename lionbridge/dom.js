@@ -4,12 +4,21 @@ let exportName = getDate(),
     $preview = document.getElementById("preview"),
     $log = document.getElementById("log"),
     $content = document.getElementById("content"),
-    $material = document.getElementById("material");
+    $material = document.getElementById("material"),
+    $clipboard = document.getElementById("clipboard"),
+    $toolClipboard = document.getElementById("tool_clipboard"),
+    $toolMergesrt = document.getElementById("tool_mergesrt"),
+    $toolBackcolor = document.getElementById("tool_backcolor");
 
 $material.addEventListener("dragenter", dragEnter, false);
 $material.addEventListener("dragover", dragEnter, false);
 $material.addEventListener("dragleave", dragLeave, false);
 $material.addEventListener("drop", dropHandler, false);
+
+$toolClipboard.addEventListener("click", toggleToolClipboard);
+$toolMergesrt.addEventListener("click", toggleToolMergesrt);
+$toolBackcolor.addEventListener("click", toggleToolBackcolor);
+
 document.querySelector("#t1 button").addEventListener("click", copydom);
 document.querySelector("#t2 button").addEventListener("click", copydom);
 document.querySelector("#t3 button").addEventListener("click", copydom);
@@ -18,6 +27,71 @@ document.querySelector("#t5 button").addEventListener("click", copydom);
 document.querySelector("#t6 button").addEventListener("click", copydom);
 document.querySelector("#t7 button").addEventListener("click", copydom);
 document.querySelector("#t8 button").addEventListener("click", copydom);
+
+function toggleToolClipboard(e) {
+    $clipboard.style.display = tiggerToggle($toolClipboard) ? "block" : "none";
+}
+function toggleToolMergesrt(e) {
+    if (tiggerToggle($toolMergesrt)) {
+        genMergeview();
+        tiggerToggle($toolBackcolor, "off");
+        $preview.addEventListener("click", processMergeAction);
+    } else {
+        genPreview();
+        $preview.removeEventListener("click", processMergeAction);
+    }
+}
+function toggleToolBackcolor(e) {
+    genPreview();
+    if (tiggerToggle($toolBackcolor)) {
+        tiggerToggle($toolMergesrt, "off");
+        $preview.addEventListener("click", toggleTRBackcolor);
+    } else {
+        $preview.removeEventListener("click", toggleTRBackcolor);
+    }
+}
+function resetTools() {
+    $toolMergesrt.className = "tooloff";
+    $toolBackcolor.className = "tooloff";
+    $preview.removeEventListener("click", processMergeAction);
+    $preview.removeEventListener("click", toggleTRBackcolor);
+}
+
+function processMergeAction(e) {
+    let index = +e.target.parentElement.getAttribute("data-index");
+    if (e.target.className === "line") {
+        conf.start = index;
+        if (index >= conf.target) {
+            conf.target = index;
+        }
+    } else if (e.target.className === "select") {
+        if (index >= conf.start) {
+            conf.target = index;
+        }
+    } else if (e.target.className === "ready" && conf.start < conf.target) {
+        let length = conf.target - conf.start + 1,
+            tmpsub = subs.splice(conf.start - 1, length),
+            targetArrTxt = tmpsub.map((item) => item[3]);
+        tmpsub[0][1] = tmpsub[length - 1][1];
+        tmpsub[0][3] = targetArrTxt.join("，");
+        subs.splice(conf.start - 1, 0, tmpsub[0]);
+        if (conf.start < subs.length) {
+            conf.start += 1;
+        }
+        conf.target = conf.start;
+        genAction();
+    }
+    genMergeview();
+}
+
+function toggleTRBackcolor(e) {
+    e.target.parentElement.style.background = e.target.parentElement.style.background === "" ? "#cce" : "";
+}
+
+function tiggerToggle(btn, status) {
+    btn.className = (status ? status === "off" : btn.className === "toolon") ? "tooloff" : "toolon";
+    return btn.className === "toolon";
+}
 
 Object.keys(localStorage.valueOf()).forEach((id) => {
     if (!id.match(/^\w+$/)) return;
@@ -70,7 +144,7 @@ function handleFiles(file) {
     }
 
     log(`读取${file.name}...`);
-    exportName = file.name.replace(extPattern, "");
+    exportName = file.name.replace(/^([^\.]+).*$/, "$1");
     let reader = new FileReader();
     reader.onload = function (e) {
         let data = e.target.result;
@@ -79,23 +153,50 @@ function handleFiles(file) {
     test[1].match(/txt|srt|csv/) ? reader.readAsText(file) : reader.readAsBinaryString(file);
 }
 
-function genPreview() {
+function genMergeview() {
     let domArr = [],
-        index = 1;
+        start = conf.start,
+        target = conf.target,
+        targetArrTxt = [],
+        startTime = subs[start - 1][0];
+    domArr.push(`<table id="content"><thead>`);
+    domArr.push(`<tr class="xls-title"><td>#</td><td>Time Start</td><td>Time End</td><td>Duration</td><td>Chinese</td></tr>`);
+    domArr.push(`</thead><tbody>`);
+
+    subs.forEach((item, index) => {
+        let pointer = index + 1,
+            duration = getStampDiff(pointer > start ? startTime : item[0], item[1]);
+        if (pointer >= start && pointer <= target) {
+            targetArrTxt.push(item[3]);
+        }
+        domArr.push(
+            [
+                `<tr class="xls-data${duration > 30 ? " longline" : ""}" data-index="${pointer}">`,
+                `<td>${pointer}</td>`,
+                `<td class="${pointer === start ? "pointer" : "line"}">${item[0]}</td>`,
+                `<td>${item[1]}</td>`,
+                `<td class="${pointer === target ? "ready" : "select"}">${duration}</td>`,
+                `<td class="txt">${pointer === target ? targetArrTxt.join("，") : item[3]}</td></tr>`
+            ].join("")
+        );
+    });
+    domArr.push("</tbody></table>");
+    $preview.innerHTML = domArr.join("");
+}
+
+function genPreview() {
+    let domArr = [];
 
     domArr.push(`<table id="content"><thead>`);
     domArr.push(
         `<tr class="xls-title"><td>#</td><td>Time Start</td><td>Time End</td><td>Speecher</td><td>Chinese</td><td>Translation</td><td>Annotation</td></tr>`
     );
     domArr.push(`</thead><tbody>`);
-    subs.forEach((item) => {
-        domArr.push(`<tr class="xls-data"><td>${index++}</td><td>${item.join("</td><td>")}</td></tr>`);
+    subs.forEach((item, index) => {
+        domArr.push(`<tr class="xls-data"><td>${index + 1}</td><td>${item.join("</td><td>")}</td></tr>`);
     });
     domArr.push("</tbody></table>");
     $preview.innerHTML = domArr.join("");
-    document.querySelector("#content").addEventListener("click", (e) => {
-        e.target.parentElement.style.backgroundColor = "#cce";
-    });
 }
 
 function genAction() {
