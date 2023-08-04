@@ -8,6 +8,7 @@ let exportName = getDate(),
     $clipboard = document.getElementById("clipboard"),
     $toolClipboard = document.getElementById("tool_clipboard"),
     $toolMergesrt = document.getElementById("tool_mergesrt"),
+    $toolFixmark = document.getElementById("tool_fixmark"),
     $toolBackcolor = document.getElementById("tool_backcolor");
 
 // ***************************
@@ -77,22 +78,34 @@ function copydom(e) {
 // ***************************
 $toolClipboard.addEventListener("click", toggleToolClipboard);
 $toolMergesrt.addEventListener("click", toggleToolMergesrt);
+$toolFixmark.addEventListener("click", goFixmark);
 $toolBackcolor.addEventListener("click", toggleToolBackcolor);
 
 function resetTools() {
     $toolMergesrt.className = "tooloff";
+    $toolFixmark.className = "tooloff";
     $toolBackcolor.className = "tooloff";
     $preview.removeEventListener("click", processMergeAction);
     $preview.removeEventListener("click", toggleTRBackcolor);
+}
+
+function goFixmark() {
+    subs.forEach((item, index) => {
+        subs[index][3] = !item[3] ? "" : (item[3] + "。").replace(/[。，,.]{2,}/g, "。");
+        subs[index][4] = !item[4] ? "" : (item[4] + ".").replace(/[.,]{2,}/g, ".");
+    });
+    refreshAction();
 }
 
 function tiggerToggle(btn, status) {
     btn.className = (status ? status === "off" : btn.className === "toolon") ? "tooloff" : "toolon";
     return btn.className === "toolon";
 }
+
 function toggleToolClipboard(e) {
     $clipboard.style.display = tiggerToggle($toolClipboard) ? "block" : "none";
 }
+
 function toggleToolMergesrt(e) {
     if (tiggerToggle($toolMergesrt)) {
         genMergeview();
@@ -161,7 +174,9 @@ function genMergeview() {
                 `<td class="${pointer === mergeStart ? "pointer" : pointer <= mergeStart || pointer > mergeEnd ? "start" : "startfade"}">${
                     pointer <= mergeStart || pointer > mergeEnd ? item[0] : "→"
                 }</td>`,
-                `<td class="${pointer < mergeStart || pointer > mergeEnd ? "" : "endfade"}">${pointer < mergeStart || pointer >= mergeEnd ? item[1] : "→"}</td>`,
+                `<td class="${pointer < mergeStart || pointer > mergeEnd ? "" : "endfade"}">${
+                    pointer < mergeStart || pointer >= mergeEnd ? item[1] : "→"
+                }</td>`,
                 `<td class="${pointer === mergeEnd ? "ready" : "select"}">${pointer < mergeStart || pointer >= mergeEnd ? duration : ""}</td>`,
                 `<td class="${pointer < mergeStart || pointer >= mergeEnd ? "" : "txtfade"}">${
                     pointer === mergeEnd ? targetArrTxt.join("，") + "。" : item[3]

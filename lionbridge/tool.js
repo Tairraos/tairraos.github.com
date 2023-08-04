@@ -58,10 +58,14 @@ function analyseContent(data, type) {
     }
     log(`${type}文件导入完成，共有${subs.length}条字幕`);
     subs.sort((a, b) => (a[0] > b[0] ? 1 : a[0] < b[0] ? -1 : 0));
+    refreshAction();
+    log(`已准备好下载文件，点击可下载`);
+}
+
+function refreshAction() {
     resetTools();
     genAction();
     genPreview();
-    log(`已准备好下载文件，点击可下载`);
 }
 
 //拖入的文件，时间戳相同的行合并
