@@ -67,6 +67,7 @@
     background-color: #484848;
 }
 
+/*Actions 和 Tools*/
 #action,
 #preview,
 #tools {
@@ -113,43 +114,7 @@
     display: none;
 }
 
-#content {
-    border-collapse: collapse;
-    margin: 0 auto;
-    font-size: 13px;
-    line-height: 20px;
-    cursor: pointer;
-    /* width: 1000px; */
-}
-
-#content .xls-title td {
-    text-align: center;
-    background: #333;
-    color: #fff;
-}
-
-#content td {
-    border: 1px solid #cad9ea;
-    color: #666;
-    padding: 4px 6px;
-}
-
-#content tr:nth-child(odd) {
-    background: #fff;
-}
-
-#content tr:nth-child(even) {
-    background: #eee;
-}
-
-#content tr.longline:nth-child(odd) {
-    background: #fe84;
-}
-
-#content tr.longline:nth-child(even) {
-    background: #ccbb8844;
-}
-
+/*剪帖板工具*/
 #clipboard {
     border-radius: 10px;
     border: 2px solid #888;
@@ -178,18 +143,88 @@
     width: 60px;
 }
 
-.pointer {
-    background: #fc0;
+/*字幕工具 和 预览表格*/
+#content {
+    border-collapse: collapse;
+    margin: 0 auto;
+    font-size: 13px;
+    line-height: 20px;
+    cursor: pointer;
 }
 
+#content .xls-title td {
+    text-align: center;
+    background: #333;
+    color: #fff;
+}
+
+#content.merge {
+    width: 1200px;
+}
+
+#content td {
+    border: 1px solid #cad9ea;
+    color: #666;
+    padding: 4px 6px;
+    text-align: center;
+}
+
+#content tr:nth-child(odd) {
+    background: #fff;
+}
+
+#content tr:nth-child(even) {
+    background: #eee;
+}
+
+#content tr.longline:nth-child(odd) {
+    background: #fe84;
+}
+
+#content tr.longline:nth-child(even) {
+    background: #ccbb8844;
+}
+
+#content tr td:nth-child(5),
+#content tr td:nth-child(6),
+#content tr td:nth-child(7) {
+    text-align: left;
+}
+
+#content tr td:nth-child(1) {
+    width: 25px;
+}
+#content tr td:nth-child(2),
+#content tr td:nth-child(3) {
+    width: 80px;
+}
+
+#content tr td:nth-child(4) {
+    width: 50px;
+}
+.preview tr td:nth-child(5),
+.preview tr td:nth-child(6) {
+    width: 50%;
+}
+.preview tr td:nth-child(7) {
+    width: 100px;
+}
+
+.ready:hover,
 .select:hover,
-.go:hover {
+.start:hover,
+.go:hover,
+#content tr td.startfade:hover {
     background: #fc0;
 }
 
-.ready {
-    background: #b6e7;
+.ready,
+.pointer,
+#content tr td.startfade,
+#content tr td.endfade {
+    background: #fea;
 }
-.ready:hover {
-    background: #b6e9;
+
+#content tr td.txtfade {
+    color: #ccc;
 }

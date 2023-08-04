@@ -1,6 +1,7 @@
 //TimeStart, TimeEnd, Speecher, Chinese, Translation, Annotation
-let conf = { subs: [], start: 1, target:0 },
-    subs = conf.subs;
+let subs = [],
+    mergeStart = 1,
+    mergeEnd = 1;
 
 function analyseContent(data, type) {
     let isEnglishFile, chnTxt, engTxt, chnIdx, engIdx;
@@ -63,6 +64,7 @@ function analyseContent(data, type) {
     log(`已准备好下载文件，点击可下载`);
 }
 
+//拖入的文件，时间戳相同的行合并
 function mergeRow(row) {
     let isMerged = false;
     for (let idx1 = 0; idx1 < subs.length; idx1++) {
