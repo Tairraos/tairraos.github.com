@@ -79,7 +79,7 @@ function mergeRow(row) {
         }
     }
     if (!isMerged) {
-        subs.push(row);
+        subs.push(row.map((item) => item.trim().replace(/ +/g, " ")));
     }
 }
 
@@ -116,12 +116,12 @@ function getSrtContent(isEng) {
     return subs.map((line, index) => `${index}\n${line[0]} --> ${line[1]}\n${isEng ? line[4] : line[3]}\n`).join("\n");
 }
 
-function getReleasTxt() {
+function getReleaseTxt() {
     let fmtReleaseStamp = (stamp) =>
         String(stamp)
             .replace(/^(\d+):(\d+):(\d+)\.\d+$/, `$1 hours $2 minutes $3 seconds`)
             .replace("00 hours ", "");
-    return subs.map((line) => `Timestamp ${fmtReleaseStamp(line[0])} ${line[4]}`).join("\n");
+    return subs.map((line) => `Timestamp ${fmtReleaseStamp(line[0])} ${line[4]}${line[5]?" [Annotation] "+line[5]:""}`).join("\n");
 }
 
 function getDate() {

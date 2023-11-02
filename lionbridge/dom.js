@@ -217,7 +217,7 @@ function genAction() {
         $action.appendChild(getDownloadLink("英语SRT", `${exportName}.work.ENG.srt`, getSrtContent(true)));
         $action.appendChild(getDownloadLink("工作XLSX", `${exportName}.work.xlsx`, getWorkXlsx()));
         $action.appendChild(getDownloadLink("交付XLSX", `${exportName}.RELEASE.xlsx`, getReleaseXlsx()));
-        $action.appendChild(getDownloadLink("交付TXT", `${exportName}.RELEASE.txt`, getReleasTxt()));
+        $action.appendChild(getDownloadLink("交付TXT", `${exportName}.RELEASE.txt`, getReleaseTxt()));
     }
 }
 
