@@ -1,0 +1,71 @@
+#title {
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 40px;
+    text-align: center;
+    width: 600px;
+    margin: 25px auto;
+}
+
+#material {
+    display: flex;
+    justify-content: center;
+}
+
+#basket {
+    width: 180px;
+    transition: background-color 1s, height 0s;
+    border: 2px dashed #333;
+    border-radius: 10px;
+    padding: 30px 10px;
+    font-size: 24px;
+    line-height: 43px;
+    text-align: center;
+    color: #bf4ff0;
+}
+
+#basket.dragover {
+    background: #d2baff;
+    border-style: dotted;
+}
+
+#content {
+    border-collapse: collapse;
+    margin: 0 auto;
+    font-size: 13px;
+    line-height: 20px;
+    cursor: pointer;
+}
+
+#content .xls-title td {
+    text-align: center;
+    background: #333;
+    color: #fff;
+}
+
+#content.merge {
+    width: 1200px;
+}
+
+#content td {
+    border: 1px solid #cad9ea;
+    color: #666;
+    padding: 4px 6px;
+    text-align: center;
+}
+
+#content tr:nth-child(odd) {
+    background: #fff;
+}
+
+#content tr:nth-child(even) {
+    background: #eee;
+}
+
+#content tr.longline:nth-child(odd) {
+    background: #fe84;
+}
+
+#content tr.longline:nth-child(even) {
+    background: #ccbb8844;
+}
