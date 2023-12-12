@@ -39,7 +39,7 @@ function analyseContent(data, type) {
         blocks.forEach((block) => {
             let items = block.split(/\n/),
                 stamp = items[1].split(/[ >-]+/);
-            mergeRow([fmtStamp(stamp[0]), fmtStamp(items[1]), "", items[chnIdx] || "", items[engIdx] || "", ""]);
+            mergeRow([fmtStamp(stamp[0]), fmtStamp(stamp[1]), "", items[chnIdx] || "", items[engIdx] || "", ""]);
         });
     } else {
         let workbook = XLSX.read(data, { type: "binary" }),
