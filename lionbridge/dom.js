@@ -128,16 +128,21 @@ function toggleToolBackcolor(e) {
 
 function processMergeAction(e) {
     let index = +e.target.parentElement.getAttribute("data-index");
-    if (e.target.className.match(/^start/)) {
+    if (e.target.classList.contains("text")) { //合并模式 点击修改text
+        let newString = prompt("请修改", e.target.innerText);
+        if (newString) {
+            subs[index - 1][3] = newString;
+        }
+    } else if (e.target.classList.contains("start")) {
         mergeStart = index;
         if (index >= mergeEnd) {
             mergeEnd = index;
         }
-    } else if (e.target.className === "select") {
+    } else if (e.target.classList.contains("select")) {
         if (index >= mergeStart) {
             mergeEnd = index;
         }
-    } else if (e.target.className === "ready" && mergeStart < mergeEnd) {
+    } else if (e.target.classList.contains("ready") && mergeStart < mergeEnd) {
         let length = mergeEnd - mergeStart + 1,
             tmpsub = subs.splice(mergeStart - 1, length),
             targetArrTxt = tmpsub.map((item) => item[3]);
@@ -178,7 +183,7 @@ function genMergeview() {
                     pointer < mergeStart || pointer >= mergeEnd ? item[1] : "→"
                 }</td>`,
                 `<td class="${pointer === mergeEnd ? "ready" : "select"}">${pointer < mergeStart || pointer >= mergeEnd ? duration : ""}</td>`,
-                `<td class="${pointer < mergeStart || pointer >= mergeEnd ? "" : "txtfade"}">${
+                `<td class="text ${pointer < mergeStart || pointer >= mergeEnd ? "" : "txtfade"}">${
                     pointer === mergeEnd ? targetArrTxt.join("，") + "。" : item[3]
                 }</td></tr>`
             ].join("")
