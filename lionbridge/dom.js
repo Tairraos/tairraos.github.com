@@ -9,7 +9,8 @@ let exportName = getDate(),
     $toolClipboard = document.getElementById("tool_clipboard"),
     $toolMergesrt = document.getElementById("tool_mergesrt"),
     $toolFixmark = document.getElementById("tool_fixmark"),
-    $toolBackcolor = document.getElementById("tool_backcolor");
+    $toolBackcolor = document.getElementById("tool_backcolor"),
+    $toolCopysrt = document.getElementById("tool_copysrt");
 
 // ***************************
 // 拖拽区域
@@ -80,6 +81,7 @@ $toolClipboard.addEventListener("click", toggleToolClipboard);
 $toolMergesrt.addEventListener("click", toggleToolMergesrt);
 $toolFixmark.addEventListener("click", goFixmark);
 $toolBackcolor.addEventListener("click", toggleToolBackcolor);
+$toolCopysrt.addEventListener("click", toggletoolCopysrt);
 
 function resetTools() {
     $toolMergesrt.className = "tooloff";
@@ -91,8 +93,13 @@ function resetTools() {
 
 function goFixmark() {
     subs.forEach((item, index) => {
-        subs[index][3] = !item[3] ? "" : (item[3] + "。").replace(/[。，,.]{2,}/g, "。");
-        subs[index][4] = !item[4] ? "" : (item[4] + ".").replace(/[.,]{2,}/g, ".");
+        let duration = getStampDiff(item[0], item[1]);
+        if (duration < 10) {
+            subs[index][3] = subs[index][3].replace(/[。，,.]+$/, "");
+        } else {
+            subs[index][3] = !item[3] ? "" : (item[3] + "。").replace(/[。，,.]{2,}/g, "。");
+            subs[index][4] = !item[4] ? "" : (item[4] + ".").replace(/[.,]{2,}/g, ".");
+        }
     });
     refreshAction();
 }
@@ -104,6 +111,10 @@ function tiggerToggle(btn, status) {
 
 function toggleToolClipboard(e) {
     $clipboard.style.display = tiggerToggle($toolClipboard) ? "block" : "none";
+}
+
+function toggletoolCopysrt(e) {
+    navigator.clipboard.writeText(getSrtContent(false));
 }
 
 function toggleToolMergesrt(e) {
@@ -128,7 +139,8 @@ function toggleToolBackcolor(e) {
 
 function processMergeAction(e) {
     let index = +e.target.parentElement.getAttribute("data-index");
-    if (e.target.classList.contains("text")) { //合并模式 点击修改text
+    if (e.target.classList.contains("text")) {
+        //合并模式 点击修改text
         let newString = prompt("请修改", e.target.innerText);
         if (newString) {
             subs[index - 1][3] = newString;
@@ -147,7 +159,7 @@ function processMergeAction(e) {
             tmpsub = subs.splice(mergeStart - 1, length),
             targetArrTxt = tmpsub.map((item) => item[3]);
         tmpsub[0][1] = tmpsub[length - 1][1];
-        tmpsub[0][3] = targetArrTxt.join("，") + "。";
+        tmpsub[0][3] = "[Audio]" + targetArrTxt.join("，") + "。";
         subs.splice(mergeStart - 1, 0, tmpsub[0]);
         if (mergeStart < subs.length) {
             mergeStart += 1;
