@@ -135,6 +135,16 @@ function getWorkXlsx() {
     return genXlsx(content, { ABCD: "008000", EF: "0000FF", G: "ff0000" }, [30, 80, 80, 60, 400, 400, 300]);
 }
 
+function getWordXlsx(){
+    let fmtReleaseStamp = (stamp) =>
+        String(stamp)
+            .replace(/^(\d+):(\d+):(\d+)\.\d+$/, `Timestamp $1 hours $2 minutes $3 seconds`)
+            .replace("00 hours ", "");
+    let content = subs.map((item, index) => [fmtReleaseStamp(item[0]), item[3], item[4], "", ""]);
+    content.unshift(["Timestamp (hh:mm:ss)", "Chinese", "Translation", "OST", "Notes"]);
+    return genXlsx(content, { ABCDEFG: "000000" }, [80, 400, 400, 300, 80]);
+}
+
 function getReleaseXlsx() {
     let fmtReleaseStamp = (stamp) =>
         String(stamp)

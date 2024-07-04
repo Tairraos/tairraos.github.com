@@ -80,7 +80,7 @@
 
 #action,
 #tools {
-    padding-left: 20px;
+    padding-left: 15px;
     width: 615px;
     border: 2px dashed #333;
 }
@@ -92,7 +92,7 @@
 .link-download,
 #tools button {
     color: #000;
-    padding: 0px 15px;
+    padding: 0px 10px;
     text-decoration: none;
     display: inline-block;
     font-size: 14px;
