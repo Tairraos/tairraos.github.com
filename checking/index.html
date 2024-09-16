@@ -14,16 +14,30 @@
     <body>
         <div id="title">多谱财务数据速导工具</div>
         <div id="material">
-            <div id="basket">把文件拖放到此处开始处理</div>
+            <div id="basket">拖放文件到此处开始处理</div>
             <div id="logback"><pre id="log"></pre></div>
         </div>
-        <div id="action">请拖放素材文件进行处理...</div>
+        <div id="action">
+            <div id="info">当前显示: <span id="showing">无</span></div>
+            <div id="display">
+                切换显示: <button id="show-finance" disabled>财务帐</button><button id="show-ledger" disabled>台账</button
+                ><button id="show-result" disabled>对比结果</button>
+            </div>
+            <div id="download">
+                数据下载: <span id="download-finance"><button disabled>财务帐</button></span><span id="download-ledger"><button disabled>台账</button></span
+                ><span id="download-result"><button disabled>对比结果</button></span>
+            </div>
+        </div>
         <div id="preview">
-            <div id="financePreview"></div>
-            <div id="ledgerPreview"></div>
+            <div id="preview-finance" class="hidden"></div>
+            <div id="preview-ledger" class="hidden"></div>
+            <div id="preview-result" class="hidden"></div>
         </div>
     </body>
     <script src="xlsx.bundle.js"></script>
-    <script src="tool.js"></script>
+    <script src="setup.js"></script>
+    <script src="loader.js"></script>
+    <script src="analyser.js"></script>
+    <script src="exporter.js"></script>
     <script src="dom.js"></script>
 </html>

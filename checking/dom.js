@@ -1,10 +1,14 @@
-let exportName = getDate(),
-    $basket = document.getElementById("basket"),
-    $action = document.getElementById("action"),
-    $preview = document.getElementById("preview"),
-    $log = document.getElementById("log"),
-    $content = document.getElementById("content"),
-    $material = document.getElementById("material");
+let $ = (id) => document.getElementById(id),
+    today = new Date().toISOString().slice(0, 10),
+    $basket = $("basket"),
+    $log = $("log"),
+    $material = $("material");
+
+let actionDom = {
+    finance: { preview: $("preview-finance"), show: $("show-finance"), download: $("download-finance"), name: "财务帐" },
+    ledger: { preview: $("preview-ledger"), show: $("show-ledger"), download: $("download-ledger"), name: "台账" },
+    result: { preview: $("preview-result"), show: $("show-result"), download: $("download-result"), name: "对比结果" }
+};
 
 // ***************************
 // 拖拽区域
@@ -43,7 +47,7 @@ function dropHandler(e) {
     handleFiles(file[0]);
 }
 
-function genPreview(domid, stru, data) {
+function genPreview(type, stru, data) {
     let domArr = [];
     domArr.push(`<table id="content" class="preview"><thead>`);
     domArr.push(`<tr class="xls-title"><th>#</th>${stru.map((item) => `<th>${item}</th>`).join("")}</tr>`);
@@ -52,24 +56,36 @@ function genPreview(domid, stru, data) {
         domArr.push(`<tr class="xls-data"><td>${index + 1}</td>${line.map((item) => `<td>${item}</td>`).join("")}</tr>`);
     });
     domArr.push("</tbody></table>");
-    document.getElementById(domid).innerHTML = domArr.join("");
+    actionDom[type].preview.innerHTML = domArr.join("");
+    actionDom[type].show.addEventListener("click", () => switchDisplay(type));
+    switchDisplay(type);
 }
 
-// ***************************
-// Action:下载输出
-// ***************************
+function switchDisplay(type) {
+    $("showing").innerText = actionDom[type].name;
+    Object.keys(actionDom).forEach((type) => {
+        actionDom[type].preview.classList.add("hidden");
+    });
+    actionDom[type].preview.classList.remove("hidden");
+    actionDom[type].show.removeAttribute("disabled");
+}
 
 function genAction(financeData, ledgerData) {
-    $action.innerHTML = "";
     if (financeData.length) {
-        $action.appendChild(getDownloadLink("财务账纯数据", `账务账备份.多谱到账.${exportName}.xlsx`, getFinanceXlsx(false)));
+        replaceDownload("finance", getDownloadLink("财务账", `账务账备份.多谱到账.${today}.xlsx`, getFinanceXlsx()));
     }
     if (ledgerData.length) {
-        $action.appendChild(getDownloadLink("台账纯数据", `台账备份.${exportName}.xlsx`, getLedgerXlsx()));
+        replaceDownload("ledger", getDownloadLink("台账", `台账备份.${today}.xlsx`, getLedgerXlsx()));
     }
     if (financeData.length && ledgerData.length) {
-        $action.appendChild(getDownloadLink("台账和财务账对比结果", `${exportName}.checking.xlsx`, getSrtContent(false)));
+        replaceDownload("result", getDownloadLink("对比结果", `比对账.${today}.xlsx`, getComparedXlsx()));
     }
+}
+
+function replaceDownload(type, child) {
+    let ele = actionDom[type].download;
+    ele.innerHTML = "";
+    ele.appendChild(child);
 }
 
 function handleFiles(file) {
@@ -80,7 +96,8 @@ function handleFiles(file) {
     }
 
     if (checkedType === "invalid") {
-        log(`文件名有误：[${file.name}]`);
+        log(`请检查文件：[${file.name}]`);
+        log(`文件包含”台账"或"多谱到账"为正确的财务账或台账。`);
         return;
     }
 
@@ -101,5 +118,3 @@ function getDownloadLink(text, filename, content) {
     ele.href = URL.createObjectURL(new Blob([content]));
     return ele;
 }
-
-
