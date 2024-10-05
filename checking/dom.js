@@ -1,13 +1,13 @@
-let $ = (id) => document.getElementById(id),
+let $ = (selector) => document.querySelector(selector),
     today = new Date().toISOString().slice(0, 10),
-    $basket = $("basket"),
-    $log = $("log"),
-    $material = $("material");
+    $basket = $("#basket"),
+    $log = $("#log"),
+    $material = $("#material");
 
 let actionDom = {
-    finance: { preview: $("preview-finance"), show: $("show-finance"), download: $("download-finance"), name: "财务帐" },
-    ledger: { preview: $("preview-ledger"), show: $("show-ledger"), download: $("download-ledger"), name: "台账" },
-    result: { preview: $("preview-result"), show: $("show-result"), download: $("download-result"), name: "对比结果" }
+    fin: { preview: $("#preview-fin"), show: $("#show-fin"), download: $("#download-fin"), placeHolder: $("#download-fin button"), name: "财务帐" },
+    led: { preview: $("#preview-led"), show: $("#show-led"), download: $("#download-led"), placeHolder: $("#download-led button"), name: "台账" },
+    result: { preview: $("#preview-result"), show: $("#show-result"), download: $("#download-result"), name: "对比结果" }
 };
 
 // ***************************
@@ -40,20 +40,27 @@ function dropHandler(e) {
     e.preventDefault();
 
     if (!file.length) {
-        $basket.innerHTML = "文件拖放动作有问题，重试一次。";
+        $basket.innerHTML = "文件拖放动作有问题，重试一次";
         dragLeave();
         return;
     }
     handleFiles(file[0]);
 }
 
-function genPreview(type, stru, data) {
+//type 注入哪个dom, ref 数据源格字段含义, stru 目标字段, data 数据
+function genPreview(type, ref, stru, data) {
     let domArr = [];
+    //hardcode
+    let leftList = ["委托方", "对方户名", "备注"];
     domArr.push(`<table id="content" class="preview"><thead>`);
-    domArr.push(`<tr class="xls-title"><th>#</th>${stru.map((item) => `<th>${item}</th>`).join("")}</tr>`);
+    domArr.push(`<tr class="preview-title"><th>#</th>${stru.map((item) => `<th>${item}</th>`).join("")}</tr>`);
     domArr.push(`</thead><tbody>`);
     data.forEach((line, index) => {
-        domArr.push(`<tr class="xls-data"><td>${index + 1}</td>${line.map((item) => `<td>${item}</td>`).join("")}</tr>`);
+        domArr.push(
+            `<tr><td>${index + 1}</td>${stru
+                .map((item) => `<td${leftList.includes(item) ? " class='left'" : ""}>${line[ref.indexOf(item)]}</td>`)
+                .join("")}</tr>`
+        );
     });
     domArr.push("</tbody></table>");
     actionDom[type].preview.innerHTML = domArr.join("");
@@ -62,22 +69,22 @@ function genPreview(type, stru, data) {
 }
 
 function switchDisplay(type) {
-    $("showing").innerText = actionDom[type].name;
+    $("#showing").innerText = actionDom[type].name;
     Object.keys(actionDom).forEach((type) => {
-        actionDom[type].preview.classList.add("hidden");
+        actionDom[type].preview && actionDom[type].preview.classList.add("hidden");
     });
     actionDom[type].preview.classList.remove("hidden");
     actionDom[type].show.removeAttribute("disabled");
 }
 
-function genAction(financeData, ledgerData) {
-    if (financeData.length) {
-        replaceDownload("finance", getDownloadLink("财务账", `账务账备份.多谱到账.${today}.xlsx`, getFinanceXlsx()));
+function genAction() {
+    if (finData.length && document.body.contains(actionDom.fin.placeHolder)) {
+        replaceDownload("fin", getDownloadLink("财务账", `账务账备份.多谱到账.${today}.xlsx`, getFinXlsx()));
     }
-    if (ledgerData.length) {
-        replaceDownload("ledger", getDownloadLink("台账", `台账备份.${today}.xlsx`, getLedgerXlsx()));
+    if (ledData.length && document.body.contains(actionDom.led.placeHolder)) {
+        replaceDownload("led", getDownloadLink("台账", `台账备份.${today}.xlsx`, getLedXlsx()));
     }
-    if (financeData.length && ledgerData.length) {
+    if (finData.length && ledData.length) {
         replaceDownload("result", getDownloadLink("对比结果", `比对账.${today}.xlsx`, getComparedXlsx()));
     }
 }
@@ -92,12 +99,13 @@ function handleFiles(file) {
     let checkedType;
     dragLeave();
     if (file.name.match(/\.(xls|xlsx)$/)) {
-        checkedType = file.name.match(/多谱到账/) ? "finance" : file.name.match(/台账/) ? "ledger" : "invalid";
+        checkedType = file.name.match(/多谱到账|财务账/) ? "fin" : file.name.match(/台账/) ? "led" : "invalid";
     }
 
     if (checkedType === "invalid") {
         log(`请检查文件：[${file.name}]`);
-        log(`文件包含”台账"或"多谱到账"为正确的财务账或台账。`);
+        log(`文件名需要包含”台账"作为台账`);
+        log(`文件名需要包含"多谱到账"或"财务账"作为财务账`);
         return;
     }
 

@@ -85,7 +85,7 @@ html {
 
 #action {
     padding: 5px 0;
-    width: 680px;
+    width: 720px;
     border: 2px dashed #333;
     font-size: 12px;
 }
@@ -115,9 +115,8 @@ html {
     text-decoration: none;
     display: inline-block;
     font-size: 12px;
-    height: 24px;
-    margin-right: 10px;
-    line-height: 23px;
+    margin-right: 6px;
+    line-height: 24px;
     cursor: pointer;
     background-color: #eee;
     border-radius: 3px;
@@ -148,7 +147,7 @@ html {
     border: 3px solid #ccc;
 }
 
-#content .xls-title td {
+#content .preview-title td {
     text-align: center;
     background: #333;
     color: #fff;
@@ -159,7 +158,11 @@ html {
     color: #666;
     padding: 4px 6px;
     text-align: center;
-    max-width: 280px;
+    max-width: 350px;
+}
+
+#content .left {
+    text-align: left;
 }
 
 #content tr:nth-child(odd) {

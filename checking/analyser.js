@@ -1,49 +1,131 @@
+let led = (name) => ledCols.indexOf(name),
+    fin = (name) => finCols.indexOf(name);
+com = (name) => comCols.indexOf(name);
+
 //比对台账和财务账
 function compareData() {
-    let companyData = {},
-        financeMap = dataToMap(financeData), //用第1列做key，用公司名分组
-        ledgerMap = dataToMap(ledgerData), //用1,2列做key，用公司+业务员分组
-        companyies = Array.from(financeMap.keys());
+    let finMap = dataToMap(finData, finCols.indexOf("对方户名")), //用公司名分组
+        ledMap = dataToMap(ledData, ledCols.indexOf("委托方")), //用公司名分组
+        companyies = Array.from(finMap.keys()); //财务账涉及公司就是要对比的
 
+    let comMatched = [],
+        comMissed = [],
+        comUnmatched = [];
     log(`财务帐所涉公司为${companyies.length}家`);
-    log(`按公司名进行分组，准备比对`);
-
+    log(`1 对比财务账和单行台账匹配情况`);
     companyies.forEach((company) => {
-        let projectGroup = [];
-        if (ledgerMap.has(company)) {
-            let ledgerLines = ledgerMap.get(company);
-            projectGroup.push(...financeMap.get(company).map((line) => [company, ...ledgerLines[0], ...line]));
-            for (let i = 1; i < ledgerLines.length; i++) {
-                projectGroup.push([company, ...ledgerLines[i], ...financeMissed]);
+        if (ledMap.has(company)) {
+            let ledLines = ledMap.get(company),
+                finLines = finMap.get(company);
+            for (let i = 0; i < ledLines.length; i++) {
+                for (let j = 0; j < finLines.length; j++) {
+                    //台账应收款和财务账到款金额匹配
+                    if (ledLines[i][led("应收款")] === finLines[j][fin("到款金额")]) {
+                        comMatched.push(...mergeData(ledLines[i], finLines[j], "单行匹配"));
+                        ledLines.splice(i, 1);
+                        finLines.splice(j, 1);
+                        i--;
+                        break;
+                    }
+                }
+            }
+            ledLines.length === 0 && ledMap.delete(company);
+            finLines.length === 0 && finMap.delete(company);
+        }
+    });
+    log(`2 对比财务账和多行台账匹配情况`);
+    companyies = Array.from(finMap.keys()); //更新公司列表，财务账已完全匹配的公司在上一步被删除了
+    companyies.forEach((company) => {
+        if (ledMap.has(company)) {
+            let ledLines = ledMap.get(company),
+                finLines = finMap.get(company),
+                ledSum = ledLines.reduce((total, ledLine) => total + ledLine[led("应收款")], 0), //台账应收款求和
+                finSum = finLines.reduce((total, finLine) => total + finLine[fin("到款金额")], 0); //财务账到款金额求和
+            if (ledSum === finSum) {
+                comMatched.push(...mergeData(ledLines, finLines, "折分匹配"));
+            } else {
+                comUnmatched.push(...mergeData(ledLines, finLines, "未匹配"));
             }
         } else {
-            projectGroup.push(...financeMap.get(company).map((line) => [company, ...ledgerMissed, ...line]));
+            let ledEmpty = ledCols.map((item) => ""); //用全空行代替缺台账的情形
+            comMissed.push(...mergeData(ledEmpty, finMap.get(company), "缺台账"));
         }
-        companyData[company] = projectGroup;
-        compared.push(...projectGroup);
-    });
-    log(`开始比对应收款和到款金额`);
-    companyies.forEach((company, index) => {
-        let financeSum = companyData[company].reduce((sum, current) => sum + +current[12], 0); //到款金额
-        let ledgerSum = companyData[company].reduce((sum, current) => sum + +current[9], 0); //应收款
-        compareResult[company] = { index, match: financeSum === ledgerSum ? true : false, financeSum, ledgerSum };
     });
 
-    log(`比对结束，结果有${compared.length}条数据`);
+    comMerged = [...comMatched, ...comUnmatched, ...comMissed];
+    log(`比对结束，结果有${comMerged.length}条数据`);
+    log(`台账中委托方不存在于财务帐中的记录已被忽略`);
 
-    genPreview("result", comparedColumns, compared);
-    return compared;
+    genPreview("result", comCols, comPreview, comMerged);
+    return comMerged;
 }
 
-//将 financeData 和 ledgerData 据转换为 Map，用第几列数据做key
-function dataToMap(data, colNum = 0) {
+function compareLed() {
+    let idIndex = com("项目编号");
+
+    return ledData.map((ledLine) => {
+        let ledComLine = [...ledLine], //复制一行
+            id = ledComLine[led("项目编号")],
+            matched = comMerged.filter((comLine) => comLine[idIndex] === id);
+        if (matched.length > 0) {
+            ledComLine[led("到款日期")] = matched[0][com("到款日期")];
+            ledComLine[led("到款金额")] = matched[0][com("到款金额")];
+            ledComLine.push(matched[0][com("匹配状态")]);
+            return ledComLine;
+        }
+        return [...ledComLine, "无财务账"];
+    });
+}
+
+//["月份", "形式", "到款日期", "对方户名", "到款金额", "类型", "区域", "项目编号", "业务员", "是否开票", "备注", "所在系统", "财务到款", "匹配状态"]
+function mergeData(ledLines, finLines, matchStatus) {
+    console.log(ledLines, finLines, matchStatus);
+    ledLines = Array.isArray(ledLines[0]) ? ledLines : [ledLines]; //如果只是单行数据，用数组包一层
+    finLines = Array.isArray(finLines[0]) ? finLines : [finLines];
+    //把两个数组拼到一起
+    let len = Math.max(ledLines.length, finLines.length),
+        finBase = finLines[0], //财务数据只取第一行
+        result = [];
+    for (let i = 0; i < len; i++) {
+        let finValue = i < finLines.length ? finLines[i][fin("到款金额")] : "", //取出财务账到款金额
+            ledLine = i < ledLines.length ? ledLines[i] : ledCols.map((item) => ""); //用全空行代替缺台账的情形
+        result.push([
+            getMonth(finBase[fin("到款日期")]), //月份 = 提取月(finData.到款日期)
+            finBase[fin("形式")], //形式 = finData.形式
+            matchStatus !== "未匹配" ? finBase[fin("到款日期")] : "", //到款日期= finData.到款日期
+            finBase[fin("对方户名")], //对方户名 = finData.对方户名
+            (matchStatus === "未匹配" ? "应收" : "") + ledLine[led("应收款")], //到款金额 = ledData.应收款
+            ledLine[led("项目类型")], //类型 = ledData.项目类型
+            ledLine[led("归属地")], //区域 = ledData.归属地
+            ledLine[led("项目编号")], //项目编号 = ledData.项目编号
+            ledLine[led("业务员")], //业务员 = ledData.业务员
+            "", //是否开票 = ""
+            finBase[fin("备注")], //备注 = finData.备注
+            getYear(finBase[fin("到款日期")]) >= 2023 ? "八骏" : "", //所在系统 = 提取年(finData.到款日期) >= 2023 ? "八骏" : ""
+            finValue, //财务账到款金额
+            matchStatus || "" //匹配状态
+        ]);
+    }
+    return result;
+}
+
+function getMonth(date) {
+    return String(date).match(/^(\d+)\/(\d+)\/(\d+)*$/) ? date.replace(/^(\d+)\/(\d+)\/(\d+)*$/, "$2") : "未知";
+}
+
+function getYear(date) {
+    return String(date).match(/^(\d+)\/(\d+)\/(\d+)*$/) ? date.replace(/^(\d+)\/(\d+)\/(\d+)*$/, "$1") : 0;
+}
+
+//将 finData 和 ledData 据转换为 Map，用第几列数据做key
+function dataToMap(data, colNum) {
     let resultMap = new Map();
     for (let i = 0; i < data.length; i++) {
         let key = data[i][colNum];
         if (resultMap.has(key)) {
-            resultMap.get(key).push(data[i].slice(1));
+            resultMap.get(key).push(data[i]);
         } else {
-            resultMap.set(key, [data[i].slice(1)]);
+            resultMap.set(key, [data[i]]);
         }
     }
     return resultMap;
