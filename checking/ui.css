@@ -85,7 +85,7 @@ html {
 
 #action {
     padding: 5px 0;
-    width: 720px;
+    width: 685px;
     border: 2px dashed #333;
     font-size: 12px;
 }
@@ -96,7 +96,7 @@ html {
 #showing {
     background: #333333;
     padding: 3px 5px;
-    width: 56px;
+    width: 60px;
     height: 20px;
     line-height: 20px;
     border-radius: 5px;

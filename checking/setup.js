@@ -64,6 +64,6 @@ let currencyList = ["月份", "合同额", "合作费", "其他费用", "评审�
  */
 
 let colorSets = {
-    0: { 未匹配: "D9D9D9", 单行匹配: "CCD9CB", 折分匹配: "CBD2D9", 缺台账: "D9B9B9", 无财务账: "D9D9D9" }, //偶数行
-    1: { 未匹配: "FFFFFF", 单行匹配: "F0FFEF", 折分匹配: "EFF7FF", 缺台账: "FFDADA", 无财务账: "FFFFFF" } //奇数行
+    0: { 未匹配: "E6DDCB", 单行匹配: "CBE6CB", 折分匹配: "CBD9E6", 缺台账: "E6CBCB", 无财务账: "D9D9D9" }, //偶数行
+    1: { 未匹配: "FFF3DA", 单行匹配: "DBFFDB", 折分匹配: "DBEDFF", 缺台账: "FFDADA", 无财务账: "FFFFFF" } //奇数行
 };
