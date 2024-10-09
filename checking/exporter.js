@@ -71,7 +71,7 @@ function genXlsx(sheetConfigs) {
             if (!cellName.startsWith("!")) {
                 let pos = XLSX.utils.decode_cell(cellName);
                 sheet[cellName].s = {
-                    font: { name: "Calibri", sz: "12" },
+                    font: { name: "微软雅黑", sz: "10" },
                     alignment: { horizontal: getWidth(pos.c) > 200 ? "left" : "center", vertical: "top", wrapText: true },
                     border: {
                         top: { style: "thin", color: { rgb: "CCCCCC" } },
