@@ -1,6 +1,6 @@
 let led = (name) => ledCols.indexOf(name),
-    fin = (name) => finCols.indexOf(name);
-com = (name) => comCols.indexOf(name);
+    fin = (name) => finCols.indexOf(name),
+    com = (name) => comCols.indexOf(name);
 
 //比对台账和财务账
 function compareData() {

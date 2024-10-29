@@ -6,42 +6,81 @@
         <meta http-equiv="cache-control" content="no-store, must-revalidate" />
         <meta http-equiv="expires" content="Tus, 1 Jan 1980 11:11:11 GMT" />
         <meta http-equiv="expires" content="0" />
-        <title>多谱财务数据速导工具</title>
-        <link rel="icon" href="../lemade.ico" />
-        <link type="text/css" rel="stylesheet" href="ui.css" />
+        <title>多谱工具库</title>
+        <link rel="icon" href="lemade.ico" />
+        <style>
+            #title {
+                height: 80px;
+                font-size: 36px;
+                text-align: center;
+                line-height: 80px;
+                display: flex;
+                font-family: 微软雅黑;
+                box-shadow: 0 5px 10px #0006;
+                align-items: center;
+                justify-content: center;
+                flex-direction: row;
+                background: #ccc;
+                margin-bottom: 30px;
+            }
+            body {
+                margin: 0;
+                background: #eee;
+            }
+  
+            #tool ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+                justify-content: center;
+                text-align: center;
+            }
+            #tool li {
+                display: flex;
+                width: 200px;
+                height: 170px;
+                border-radius: 20px;
+                background: #ddd;
+                margin: 30px;
+                box-shadow: 5px 5px 5px #ccc, -5px -5px 5px #fff;
+                justify-content: center;
+                align-items: flex-end;
+            }
+
+            #tool a {
+                padding: 10px;
+                color: #000;
+                font-weight: 900;
+                font-family: 微软雅黑;
+                text-decoration: none;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            #tool a img {
+                width: 100px;
+                display: block;
+            }
+            #title img {
+                width: 56px;
+                height: 50px;
+                padding-right: 20px;
+            }
+        </style>
     </head>
 
     <body>
-        <div id="title">多谱财务数据速导工具</div>
-        <div id="material">
-            <div id="basket">拖放文件到此处开始处理</div>
-            <div id="logback"><pre id="log"></pre></div>
-        </div>
-        <div id="action">
-            <div id="info">当前显示: <span id="showing">无</span></div>
-            <div id="display">
-                切换预览:
-                <button id="show-fin" disabled>财务帐</button>
-                <button id="show-led" disabled>台账</button>
-                <button id="show-result" disabled>对比结果</button>
-            </div>
-            <div id="download">
-                下载Excel:
-                <span id="download-fin"><button disabled>财务帐</button></span>
-                <span id="download-led"><button disabled>台账</button></span>
-                <span id="download-result"><button disabled>对比结果</button></span>
-            </div>
-        </div>
-        <div id="preview">
-            <div id="preview-fin" class="hidden"></div>
-            <div id="preview-led" class="hidden"></div>
-            <div id="preview-result" class="hidden"></div>
+        <div id="title"><img src="lib/logo.png" />工具库</div>
+        <div id="tool">
+            <ul>
+                <li>
+                    <a href="finance.vs.ledger/"><img src="lib/ledger.png" /> 财务帐 / 台帐<br />比对工具</a>
+                </li>
+                <li>
+                    <a href="project.vs.ledger/"><img src="lib/project.png" />业务报告 / 台账报告<br />比对工具</a>
+                </li>
+            </ul>
         </div>
     </body>
-    <script src="xlsx.bundle.js"></script>
-    <script src="setup.js"></script>
-    <script src="loader.js"></script>
-    <script src="analyser.js"></script>
-    <script src="exporter.js"></script>
-    <script src="dom.js"></script>
 </html>
