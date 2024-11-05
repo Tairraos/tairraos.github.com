@@ -9,78 +9,32 @@
         <title>多谱工具库</title>
         <link rel="icon" href="lemade.ico" />
         <style>
-            #title {
-                height: 80px;
-                font-size: 36px;
-                text-align: center;
-                line-height: 80px;
-                display: flex;
-                font-family: 微软雅黑;
-                box-shadow: 0 5px 10px #0006;
-                align-items: center;
-                justify-content: center;
-                flex-direction: row;
-                background: #ccc;
-                margin-bottom: 30px;
-            }
-            body {
-                margin: 0;
-                background: #eee;
-            }
-  
-            #tool ul {
-                list-style: none;
-                padding: 0;
-                margin: 0;
-                display: flex;
-                justify-content: center;
-                text-align: center;
-            }
-            #tool li {
-                display: flex;
-                width: 200px;
-                height: 170px;
-                border-radius: 20px;
-                background: #ddd;
-                margin: 30px;
-                box-shadow: 5px 5px 5px #ccc, -5px -5px 5px #fff;
-                justify-content: center;
-                align-items: flex-end;
-            }
-
-            #tool a {
-                padding: 10px;
-                color: #000;
-                font-weight: 900;
-                font-family: 微软雅黑;
-                text-decoration: none;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-            #tool a img {
-                width: 100px;
-                display: block;
-            }
-            #title img {
-                width: 56px;
-                height: 50px;
-                padding-right: 20px;
-            }
+            body {margin: 0;background: #eee;}
+            #header {height: 80px;font-size: 36px;text-align: center;line-height: 80px;display: flex;font-family: 微软雅黑;box-shadow: 0 5px 10px #0006;align-items: center;justify-content: center;flex-direction: row;background: #ccc;margin-bottom: 30px;}
+            #header img {width: 56px;height: 50px;padding-right: 20px;}
+            #tool ul {list-style: none;padding: 0;margin: 0;display: flex;justify-content: center;text-align: center;}
+            #tool li {display: flex;width: 200px;height: 170px;border-radius: 20px;background: #ddd;margin: 30px;box-shadow: 5px 5px 5px #ccc, -5px -5px 5px #fff;justify-content: center;align-items: flex-end;}
+            #tool li:hover {background: #f7ffc9;}
+            #tool li:active {box-shadow: 5px 5px 5px #fff, -5px -5px 5px #ccc;}
+            #tool a {padding: 10px;color: #000;font-weight: 900;font-family: 微软雅黑;text-decoration: none;display: flex;flex-direction: column;align-items: center;cursor: pointer;width: 100%;}
+            #tool a img {width: 100px;display: block;}
+            #footer {position: absolute;bottom: 20px;width: 100%;text-align: center;}
         </style>
     </head>
 
     <body>
-        <div id="title"><img src="lib/logo.png" />工具库</div>
-        <div id="tool">
-            <ul>
-                <li>
-                    <a href="finance.vs.ledger/"><img src="lib/ledger.png" /> 财务帐 / 台帐<br />比对工具</a>
-                </li>
-                <li>
-                    <a href="project.vs.ledger/"><img src="lib/project.png" />业务报告 / 台账报告<br />比对工具</a>
-                </li>
-            </ul>
-        </div>
+        <div id="header"><img src="lib/logo.png" />工具库</div>
+        <div id="tool"><ul>
+            <li><a href="finance.vs.ledger/"><img src="lib/ledger.png" /> 财务帐 / 台帐<br />比对工具</a></li>
+            <li><a href="project.vs.ledger/"><img src="lib/project.png" />业务报告 / 台账报告<br />比对工具</a></li>
+            <li><a href="healthcheck/"><img src="lib/healthcheck.png" />体检报告信息<br />补全工具</a></li>
+        </ul></div>
+        <div id="footer">&copy; <span id="copyright">2024</span> 浙江多谱检测科技有限公司版权所有</div>
     </body>
+    <script>
+        const currentYear = new Date().getFullYear();
+        if (currentYear !== 2024) {
+            document.getElementById("copyright").textContent = `2024-${currentYear}`;
+        }
+    </script>
 </html>

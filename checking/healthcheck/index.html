@@ -6,42 +6,36 @@
         <meta http-equiv="cache-control" content="no-store, must-revalidate" />
         <meta http-equiv="expires" content="Tus, 1 Jan 1980 11:11:11 GMT" />
         <meta http-equiv="expires" content="0" />
-        <title>财务帐 比对 台帐工具</title>
+        <title>体检报告信息补全工具</title>
         <link rel="icon" href="../lemade.ico" />
         <link type="text/css" rel="stylesheet" href="../lib/ui.css" />
     </head>
 
     <body>
-        <div id="title">财务帐 比对 台帐工具</div>
+        <div id="title">体检报告信息补全工具</div>
         <div id="material">
-            <div id="basket">拖放财务帐和台账到此处</div>
+            <div id="basket">拖放体检报告和人员信息到此处</div>
             <div id="logback"><pre id="log"></pre></div>
         </div>
         <div id="action">
             <div id="info">当前显示: <span id="showing">无</span></div>
             <div id="display">
                 切换预览:
-                <button id="show-fin" disabled>财务帐</button>
-                <button id="show-led" disabled>台账</button>
+                <button id="show-health" disabled>体检报告</button>
+                <button id="show-info" disabled>人员信息</button>
                 <button id="show-result" disabled>对比结果</button>
             </div>
             <div id="download">
                 下载Excel:
-                <span id="download-fin"><button disabled>财务帐</button></span>
-                <span id="download-led"><button disabled>台账</button></span>
                 <span id="download-result"><button disabled>对比结果</button></span>
             </div>
         </div>
         <div id="preview">
-            <div id="preview-fin" class="hidden"></div>
-            <div id="preview-led" class="hidden"></div>
+            <div id="preview-health" class="hidden"></div>
+            <div id="preview-info" class="hidden"></div>
             <div id="preview-result" class="hidden"></div>
         </div>
     </body>
     <script src="../lib/xlsx.bundle.js"></script>
-    <!-- <script src="setup.js"></script> -->
-    <!-- <script src="loader.js"></script> -->
-    <!-- <script src="analyser.js"></script> -->
-    <!-- <script src="exporter.js"></script> -->
     <script src="dom.js" type="module"></script>
 </html>

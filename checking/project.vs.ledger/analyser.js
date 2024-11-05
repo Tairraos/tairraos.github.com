@@ -1,31 +1,36 @@
-let led = (name) => ledCols.indexOf(name),
-    pro = (name) => proCols.indexOf(name);
+import { setup } from "./setup.js";
+import { log, genPreview } from "./dom.js";
+
+let led = (name) => setup.ledCols.indexOf(name),
+    pro = (name) => setup.proCols.indexOf(name);
 
 //比对台账报告和业务报告
 function compareData() {
-    let ledObj = arrayToObj(ledData,0),
-        proObj = arrayToObj(proData,0);
+    let ledObj = arrayToObj(setup.ledData, 0),
+        proObj = arrayToObj(setup.proData, 0);
 
     log(`遍历业务报告，根据台账报告分类匹配和未匹配项`);
     for (let pid of Object.keys(proObj)) {
-        if (ledObj[pid]) { //台账报告中存在
-            comMatched.push(mergeData(ledObj[pid], proObj[pid]));
+        if (ledObj[pid]) {
+            //台账报告中存在
+            setup.comMatched.push(mergeData(ledObj[pid], proObj[pid]));
         } else {
-            proMissed.push(proObj[pid]);
+            setup.proMissed.push(proObj[pid]);
         }
     }
     log(`遍历台账报告，查找未匹配的台账报告数据`);
     for (let pid of Object.keys(ledObj)) {
-        if (!proObj[pid]) { //业务报告中不存在
-            ledMissed.push(ledObj[pid]);
+        if (!proObj[pid]) {
+            //业务报告中不存在
+            setup.ledMissed.push(ledObj[pid]);
         }
     }
     log(`比对结束`);
-    log(`${comMatched.length} 条数据匹配成功`);
-    log(`${ledMissed.length} 条台账报告数据未匹配`);
-    log(`${proMissed.length} 条业务报告数据未匹配`);
+    log(`${setup.comMatched.length} 条数据匹配成功`);
+    log(`${setup.ledMissed.length} 条台账报告数据未匹配`);
+    log(`${setup.proMissed.length} 条业务报告数据未匹配`);
 
-    genPreview("result", comCols, comPreview, comMatched);
+    genPreview("result", setup.comCols, setup.comPreview, setup.comMatched);
 }
 
 // ["项目编号", "项目名称", "金额", "评审费"]
@@ -42,7 +47,9 @@ function mergeData(ledLine, proLine) {
 function arrayToObj(data, colKey) {
     let resultObj = {};
     for (let i = 0; i < data.length; i++) {
-        resultObj[data[i][colKey]]=data[i];
+        resultObj[data[i][colKey]] = data[i];
     }
     return resultObj;
 }
+
+export { compareData };

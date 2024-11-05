@@ -1,3 +1,7 @@
+import { setup } from "./setup.js";
+import { getFinXlsx, getLedXlsx, getComparedXlsx } from "./exporter.js";
+import { analyseContent } from "./loader.js";
+
 let $ = (selector) => document.querySelector(selector),
     today = new Date().toISOString().slice(0, 10),
     $basket = $("#basket"),
@@ -78,13 +82,13 @@ function switchDisplay(type) {
 }
 
 function genAction() {
-    if (finData.length && document.body.contains(actionDom.fin.placeHolder)) {
+    if (setup.finData.length && document.body.contains(actionDom.fin.placeHolder)) {
         replaceDownload("fin", getDownloadLink("财务账", `账务账备份.多谱到账.${today}.xlsx`, getFinXlsx()));
     }
-    if (ledData.length && document.body.contains(actionDom.led.placeHolder)) {
+    if (setup.ledData.length && document.body.contains(actionDom.led.placeHolder)) {
         replaceDownload("led", getDownloadLink("台账", `台账备份.${today}.xlsx`, getLedXlsx()));
     }
-    if (finData.length && ledData.length) {
+    if (setup.finData.length && setup.ledData.length) {
         replaceDownload("result", getDownloadLink("对比结果", `比对账.${today}.xlsx`, getComparedXlsx()));
     }
 }
@@ -126,3 +130,5 @@ function getDownloadLink(text, filename, content) {
     ele.href = URL.createObjectURL(new Blob([content]));
     return ele;
 }
+
+export { log, genPreview, genAction };

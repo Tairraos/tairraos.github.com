@@ -1,16 +1,12 @@
 import { setup } from "./setup.js";
 import { compareData } from "./analyser.js";
 
-//导出台账报告和业务报告的算法比对结果
+//导出人员信息和体检报告的算法比对结果
 function getComparedXlsx() {
     compareData();
     setup.comMatched.unshift(setup.comCols);
-    setup.proMissed.unshift(setup.proCols);
-    setup.ledMissed.unshift(setup.ledCols);
     return genXlsx([
-        { sheetName: "台账报告比对业务报告", sheetContent: setup.comMatched, colWidths: setup.comWidths, fnCalcColor: calcColor },
-        { sheetName: "业务报告未匹配项", sheetContent: setup.proMissed, colWidths: setup.proWidths, fnCalcColor: calcColor },
-        { sheetName: "台账报告未匹配项", sheetContent: setup.ledMissed, colWidths: setup.ledWidths, fnCalcColor: calcColor }
+        { sheetName: "人员信息比对体检报告", sheetContent: setup.comMatched, colWidths: setup.comWidths, fnCalcColor: calcColor },
     ]);
 }
 

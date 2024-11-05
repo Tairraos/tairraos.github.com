@@ -1,25 +1,28 @@
+import { setup } from "./setup.js";
+import { compareData, compareLed, com } from "./analyser.js";
+
 let lastCompany, parity;
 //导出财务数据
 function getFinXlsx() {
-    let content = [...finData];
-    content.unshift(finCols);
+    let content = [...setup.finData];
+    content.unshift(setup.finCols);
     //["形式", "到款日期", "对方户名", "到款金额", "备注"]
-    return genXlsx([{ sheetName: "财务帐待匹配", sheetContent: content, colWidths: finWidths }]);
+    return genXlsx([{ sheetName: "财务帐待匹配", sheetContent: content, colWidths: setup.finWidths }]);
 }
 
 //导出台账数据
 function getLedXlsx() {
-    let dataContent = [...ledData];
-    dataContent.unshift(ledCols);
-    let doneContent = [...ledDone];
-    doneContent.unshift(ledCols);
+    let dataContent = [...setup.ledData];
+    dataContent.unshift(setup.ledCols);
+    let doneContent = [...setup.ledDone];
+    doneContent.unshift(setup.ledCols);
     //["客户等级", "项目来源", "月份", "区域", "业绩业务员", "项目类型", "项目编号"],
     //["委托方", "合同额", "合作费", "其他费用", "评审费", "应收款", "净额"],
     //["已收款", "欠款额", "结清情况", "负责人", "业务员", "提交日期", "开票逾期天数"],
     //["合同归档类型", "签订日期", "采样/评审日期", "开票日期", "到款日期", "到款金额", "归属地"]
     return genXlsx([
-        { sheetName: "台账未结清", sheetContent: dataContent, colWidths: ledWidths },
-        { sheetName: "台账已结清", sheetContent: doneContent, colWidths: ledWidths }
+        { sheetName: "台账未结清", sheetContent: dataContent, colWidths: setup.ledWidths },
+        { sheetName: "台账已结清", sheetContent: doneContent, colWidths: setup.ledWidths }
     ]);
 }
 
@@ -27,12 +30,12 @@ function getLedXlsx() {
 function getComparedXlsx() {
     let comContent = compareData();
     //["月份", "形式", "到款日期", "对方户名", "到款金额", "类型", "区域", "项目编号", "业务员", "是否开票", "备注", "所在系统", "财务到款", "匹配状态"]
-    comContent.unshift(comCols);
+    comContent.unshift(setup.comCols);
     let ledComContent = compareLed();
-    ledComContent.unshift(ledComCols);
+    ledComContent.unshift(setup.ledComCols);
     return genXlsx([
-        { sheetName: "台账比对财务账", sheetContent: comContent, colWidths: comWidths, fnCalcColor: calcComparedColor },
-        { sheetName: "台账未结清", sheetContent: ledComContent, colWidths: ledComWidths, fnCalcColor: calcLedgerColor }
+        { sheetName: "台账比对财务账", sheetContent: comContent, colWidths: setup.comWidths, fnCalcColor: calcComparedColor },
+        { sheetName: "台账未结清", sheetContent: ledComContent, colWidths: setup.ledComWidths, fnCalcColor: calcLedgerColor }
     ]);
 }
 
@@ -45,8 +48,8 @@ function calcComparedColor(sheet, pos) {
 
 //计算每个单元格的颜色
 function calcLedgerColor(sheet, pos) {
-    let company = sheet[XLSX.utils.encode_col(ledComCols.indexOf("委托方")) + (pos.r + 1)].v,
-        status = sheet[XLSX.utils.encode_col(ledComCols.indexOf("匹配状态")) + (pos.r + 1)].v;
+    let company = sheet[XLSX.utils.encode_col(setup.ledComCols.indexOf("委托方")) + (pos.r + 1)].v,
+        status = sheet[XLSX.utils.encode_col(setup.ledComCols.indexOf("匹配状态")) + (pos.r + 1)].v;
     return calcColor(pos, company, status);
 }
 
@@ -58,7 +61,7 @@ function calcColor(pos, company, status) {
         parity = +!parity;
         lastCompany = company;
     }
-    return colorSets[parity || 0][status];
+    return setup.colorSets[parity || 0][status];
 }
 
 //生成 xlsx 数据
@@ -99,3 +102,5 @@ function genXlsx(sheetConfigs) {
 
     return XLSX.write(workbook, { type: "array", bookType: "xlsx" });
 }
+
+export { getFinXlsx, getLedXlsx, getComparedXlsx };

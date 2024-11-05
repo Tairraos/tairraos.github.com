@@ -3,15 +3,15 @@ import { log, genAction, genPreview } from "./dom.js";
 
 function analyseContent(data, checkedType) {
     let workbook = XLSX.read(data, { type: "binary" });
-    if (checkedType === "pro") {
-        log(`业务报告读取成功，开始提取非空行数据...`);
-        //业务报告仅加载第一个sheet
-        setup.proData = loadData(workbook, [Object.keys(workbook.Sheets)[0]], setup.proCols);
-        genPreview("pro", setup.proCols, setup.proPreview, setup.proData);
-    } else if (checkedType === "led") {
-        log(`台账报告读取成功，开始提取非空行数据...`);
-        setup.ledData = loadData(workbook, [Object.keys(workbook.Sheets)[0]], setup.ledCols);
-        genPreview("led", setup.ledCols, setup.ledPreview, setup.ledData);
+    if (checkedType === "health") {
+        log(`体检报告读取成功，开始提取非空行数据...`);
+        //体检报告仅加载第一个sheet
+        setup.healthData = loadData(workbook, [Object.keys(workbook.Sheets)[0]], setup.healthCols);
+        genPreview("health", setup.healthCols, setup.healthPreview, setup.healthData);
+    } else if (checkedType === "info") {
+        log(`人员信息读取成功，开始提取非空行数据...`);
+        setup.infoData = loadData(workbook, [Object.keys(workbook.Sheets)[0]], setup.infoCols);
+        genPreview("info", setup.infoCols, setup.infoPreview, setup.infoData);
     }
     genAction();
 }
@@ -30,20 +30,13 @@ function loadData(workbook, sheets, cols, { col, checker } = {}) {
         //解析首行标题
         let titles = {}; //读入首行标题，title 里存放每个标题对应的列坐标
         let startLine = 0;
-        //在前4行找title
-        for (let rowIndex = range.s.r; rowIndex <= 3; rowIndex++) {
-            if ([setup.proCols[0], setup.ledCols[0]].includes(g(range.s.c, rowIndex))) {
-                for (let colIndex = range.s.c; colIndex <= range.e.c; colIndex++) {
-                    titles[g(colIndex, rowIndex)] = colIndex; //rowIndex 是首当前行的行坐标
-                }
-                startLine = rowIndex + 1;
-            }
+        //解析title
+        for (let colIndex = range.s.c; colIndex <= range.e.c; colIndex++) {
+            titles[g(colIndex, 0)] = colIndex; //rowIndex 是首当前行的行坐标
         }
-        if (startLine === 0) {
-            log(`解析失败，未找到标题行`);
-        }
+
         //解析内容，符合条件的数据会被存入 target
-        for (let rowIndex = range.s.r + startLine; rowIndex <= range.e.r; rowIndex++) {
+        for (let rowIndex = range.s.r + 1; rowIndex <= range.e.r; rowIndex++) {
             //满足数据有效条件 并且 第一列不为空 （第一列是公司名字）
             if (!checker || checker(g(titles[col], rowIndex))) {
                 let line = cols.map((colName) => g(titles[colName], rowIndex));

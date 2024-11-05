@@ -1,18 +1,21 @@
+import { setup } from "./setup.js";
+import { log, genAction, genPreview } from "./dom.js";
+
 function analyseContent(data, checkedType) {
     let workbook = XLSX.read(data, { type: "binary" });
     if (checkedType === "fin") {
         log(`财务文件读取成功，开始提取非空行数据...`);
         //财务账仅加载第一个sheet
-        finData = loadData(workbook, [Object.keys(workbook.Sheets)[0]], finCols);
-        genPreview("fin", finCols, finPreview, finData);
+        setup.finData = loadData(workbook, [Object.keys(workbook.Sheets)[0]], setup.finCols);
+        genPreview("fin", setup.finCols, setup.finPreview, setup.finData);
     } else if (checkedType === "led") {
         log(`台账文件读取成功，开始提取 结清情况 为 未结清的数据...`);
         //文员台账加载所有"台账"结尾的sheet
         let sheets = Object.keys(workbook.Sheets).filter((sheetName) => sheetName.match(/台账/));
         if (sheets.length) {
-            ledData = loadData(workbook, sheets, ledCols, { col: "结清情况", checker: (v) => v === "未结清" }); //“结清情况 为 未结清" 的用于比对
-            ledDone = loadData(workbook, sheets, ledCols, { col: "结清情况", checker: (v) => v !== "未结清" }); //“结清情况 不是 未结清" 的，仅导出
-            genPreview("led", ledCols, ledPreview, ledData);
+            setup.ledData = loadData(workbook, sheets, setup.ledCols, { col: "结清情况", checker: (v) => v === "未结清" }); //“结清情况 为 未结清" 的用于比对
+            setup.ledDone = loadData(workbook, sheets, setup.ledCols, { col: "结清情况", checker: (v) => v !== "未结清" }); //“结清情况 不是 未结清" 的，仅导出
+            genPreview("led", setup.ledCols, setup.ledPreview, setup.ledData);
         } else {
             log(`台账文件不包含有效sheet`);
         }
@@ -60,7 +63,7 @@ function loadData(workbook, sheets, cols, { col, checker } = {}) {
             if (!checker || checker(g(titles[col], rowIndex))) {
                 let line = cols.map((colName) => {
                     let value = g(titles[colName], rowIndex);
-                    return currencyList.includes(colName) ? toNum(value) : dateList.includes(colName) ? toDate(value) : value;
+                    return setup.currencyList.includes(colName) ? toNum(value) : setup.dateList.includes(colName) ? toDate(value) : value;
                 });
                 if (!line.join("0").match(/^0+$/)) {
                     target.push(line); //不是全空白的行，才被添入target
@@ -72,3 +75,5 @@ function loadData(workbook, sheets, cols, { col, checker } = {}) {
     log(`解析成功，提取到${counter}条有效数据`);
     return target;
 }
+
+export { analyseContent };

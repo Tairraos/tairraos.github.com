@@ -9,8 +9,8 @@ let $ = (selector) => document.querySelector(selector),
     $material = $("#material");
 
 let actionDom = {
-    pro: { preview: $("#preview-pro"), show: $("#show-pro"), name: "业务报告" },
-    led: { preview: $("#preview-led"), show: $("#show-led"), name: "台账报告" },
+    health: { preview: $("#preview-health"), show: $("#show-health"), name: "体检报告" },
+    info: { preview: $("#preview-info"), show: $("#show-info"), name: "人员信息" },
     result: { preview: $("#preview-result"), show: $("#show-result"), download: $("#download-result"), name: "对比结果" }
 };
 
@@ -82,7 +82,7 @@ function switchDisplay(type) {
 }
 
 function genAction() {
-    if (setup.proData.length && setup.ledData.length) {
+    if (setup.healthData.length && setup.infoData.length) {
         replaceDownload("result", getDownloadLink("对比结果", `比对报告.${today}.xlsx`, getComparedXlsx()));
     }
 }
@@ -97,12 +97,12 @@ function handleFiles(file) {
     let checkedType;
     dragLeave();
     if (file.name.match(/\.(xls|xlsx)$/)) {
-        checkedType = file.name.match(/报告交接/) ? "led" : file.name.match(/出报告/) ? "pro" : "invalid";
+        checkedType = file.name.match(/信息/) ? "info" : file.name.match(/体检/) ? "health" : "invalid";
     }
 
     if (checkedType === "invalid") {
-        log(`文件名需要包含”出报告"作为业务报告`);
-        log(`文件名需要包含"报告交接"作为台账报告`);
+        log(`文件名需要包含”体检"作为体检报告`);
+        log(`文件名需要包含"信息"作为人员信息`);
         return;
     }
 

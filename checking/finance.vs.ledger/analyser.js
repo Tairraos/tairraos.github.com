@@ -1,16 +1,19 @@
-let led = (name) => ledCols.indexOf(name),
-    fin = (name) => finCols.indexOf(name),
-    com = (name) => comCols.indexOf(name);
+import { setup } from "./setup.js";
+import { log, genPreview } from "./dom.js";
+
+let led = (name) => setup.ledCols.indexOf(name),
+    fin = (name) => setup.finCols.indexOf(name),
+    com = (name) => setup.comCols.indexOf(name);
 
 //比对台账和财务账
 function compareData() {
-    let finMap = dataToMap(finData, finCols.indexOf("对方户名")), //用公司名分组
-        ledMap = dataToMap(ledData, ledCols.indexOf("委托方")), //用公司名分组
+    let finMap = dataToMap(setup.finData, setup.finCols.indexOf("对方户名")), //用公司名分组
+        ledMap = dataToMap(setup.ledData, setup.ledCols.indexOf("委托方")), //用公司名分组
         companyies = Array.from(finMap.keys()); //财务账涉及公司就是要对比的
 
-    let comMatched = [],
-        comMissed = [],
-        comUnmatched = [];
+    setup.comMatched = [];
+    setup.comMissed = [];
+    setup.comUnmatched = [];
     log(`财务帐所涉公司为${companyies.length}家`);
     log(`1 对比财务账和单行台账匹配情况`);
     companyies.forEach((company) => {
@@ -21,7 +24,7 @@ function compareData() {
                 for (let j = 0; j < finLines.length; j++) {
                     //台账应收款和财务账到款金额匹配
                     if (ledLines[i][led("应收款")] === finLines[j][fin("到款金额")]) {
-                        comMatched.push(...mergeData(ledLines[i], finLines[j], "单行匹配"));
+                        setup.comMatched.push(...mergeData(ledLines[i], finLines[j], "单行匹配"));
                         ledLines.splice(i, 1);
                         finLines.splice(j, 1);
                         i--;
@@ -42,31 +45,31 @@ function compareData() {
                 ledSum = ledLines.reduce((total, ledLine) => total + ledLine[led("应收款")], 0), //台账应收款求和
                 finSum = finLines.reduce((total, finLine) => total + finLine[fin("到款金额")], 0); //财务账到款金额求和
             if (ledSum === finSum) {
-                comMatched.push(...mergeData(ledLines, finLines, "折分匹配"));
+                setup.comMatched.push(...mergeData(ledLines, finLines, "折分匹配"));
             } else {
-                comUnmatched.push(...mergeData(ledLines, finLines, "未匹配"));
+                setup.comUnmatched.push(...mergeData(ledLines, finLines, "未匹配"));
             }
         } else {
-            let ledEmpty = ledCols.map((item) => ""); //用全空行代替缺台账的情形
-            comMissed.push(...mergeData(ledEmpty, finMap.get(company), "缺台账"));
+            let ledEmpty = setup.ledCols.map((item) => ""); //用全空行代替缺台账的情形
+            setup.comMissed.push(...mergeData(ledEmpty, finMap.get(company), "缺台账"));
         }
     });
 
-    comMerged = [...comMatched, ...comUnmatched, ...comMissed];
-    log(`比对结束，结果有${comMerged.length}条数据`);
+    setup.comMerged = [...setup.comMatched, ...setup.comUnmatched, ...setup.comMissed];
+    log(`比对结束，结果有${setup.comMerged.length}条数据`);
     log(`台账中委托方不存在于财务帐中的记录已被忽略`);
 
-    genPreview("result", comCols, comPreview, comMerged);
-    return comMerged;
+    genPreview("result", setup.comCols, setup.comPreview, setup.comMerged);
+    return setup.comMerged;
 }
 
 function compareLed() {
     let idIndex = com("项目编号");
 
-    return ledData.map((ledLine) => {
+    return setup.ledData.map((ledLine) => {
         let ledComLine = [...ledLine], //复制一行
             id = ledComLine[led("项目编号")],
-            matched = comMerged.filter((comLine) => comLine[idIndex] === id);
+            matched = setup.comMerged.filter((comLine) => comLine[idIndex] === id);
         if (matched.length > 0) {
             ledComLine[led("到款日期")] = matched[0][com("到款日期")];
             ledComLine[led("到款金额")] = matched[0][com("到款金额")];
@@ -88,20 +91,20 @@ function mergeData(ledLines, finLines, matchStatus) {
         result = [];
     for (let i = 0; i < len; i++) {
         let finValue = i < finLines.length ? finLines[i][fin("到款金额")] : "", //取出财务账到款金额
-            ledLine = i < ledLines.length ? ledLines[i] : ledCols.map((item) => ""); //用全空行代替缺台账的情形
+            ledLine = i < ledLines.length ? ledLines[i] : setup.ledCols.map((item) => ""); //用全空行代替缺台账的情形
         result.push([
-            getMonth(finBase[fin("到款日期")]), //月份 = 提取月(finData.到款日期)
-            finBase[fin("形式")], //形式 = finData.形式
-            matchStatus !== "未匹配" ? finBase[fin("到款日期")] : "", //到款日期= finData.到款日期
-            finBase[fin("对方户名")], //对方户名 = finData.对方户名
-            (matchStatus === "未匹配" ? "应收" : "") + ledLine[led("应收款")], //到款金额 = ledData.应收款
-            ledLine[led("项目类型")], //类型 = ledData.项目类型
-            ledLine[led("归属地")], //区域 = ledData.归属地
-            ledLine[led("项目编号")], //项目编号 = ledData.项目编号
-            ledLine[led("业务员")], //业务员 = ledData.业务员
+            getMonth(finBase[fin("到款日期")]), //月份 = 提取月(setup.finData.到款日期)
+            finBase[fin("形式")], //形式 = setup.finData.形式
+            matchStatus !== "未匹配" ? finBase[fin("到款日期")] : "", //到款日期= setup.finData.到款日期
+            finBase[fin("对方户名")], //对方户名 = setup.finData.对方户名
+            (matchStatus === "未匹配" ? "应收" : "") + ledLine[led("应收款")], //到款金额 = setup.ledData.应收款
+            ledLine[led("项目类型")], //类型 = setup.ledData.项目类型
+            ledLine[led("归属地")], //区域 = setup.ledData.归属地
+            ledLine[led("项目编号")], //项目编号 = setup.ledData.项目编号
+            ledLine[led("业务员")], //业务员 = setup.ledData.业务员
             "", //是否开票 = ""
-            finBase[fin("备注")], //备注 = finData.备注
-            getYear(finBase[fin("到款日期")]) >= 2023 ? "八骏" : "", //所在系统 = 提取年(finData.到款日期) >= 2023 ? "八骏" : ""
+            finBase[fin("备注")], //备注 = setup.finData.备注
+            getYear(finBase[fin("到款日期")]) >= 2023 ? "八骏" : "", //所在系统 = 提取年(setup.finData.到款日期) >= 2023 ? "八骏" : ""
             finValue, //财务账到款金额
             matchStatus || "" //匹配状态
         ]);
@@ -117,7 +120,7 @@ function getYear(date) {
     return String(date).match(/^(\d+)\/(\d+)\/(\d+)*$/) ? date.replace(/^(\d+)\/(\d+)\/(\d+)*$/, "$1") : 0;
 }
 
-//将 finData 和 ledData 据转换为 Map，用第几列数据做key
+//将 setup.finData 和 setup.ledData 据转换为 Map，用第几列数据做key
 function dataToMap(data, colNum) {
     let resultMap = new Map();
     for (let i = 0; i < data.length; i++) {
@@ -130,3 +133,5 @@ function dataToMap(data, colNum) {
     }
     return resultMap;
 }
+
+export { compareData, compareLed, com };
