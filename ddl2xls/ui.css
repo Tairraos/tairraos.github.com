@@ -1,0 +1,209 @@
+html {
+    overflow-y: scroll;
+}
+#title {
+    font-weight: 900;
+    font-size: 25px;
+    line-height: 40px;
+    text-align: center;
+    width: 600px;
+    margin: 25px auto;
+    font-family: math;
+}
+
+#material {
+    display: flex;
+    justify-content: center;
+}
+
+#basket {
+    width: 180px;
+    transition: background-color 1s, height 0s;
+    border: 2px dashed #333;
+    border-radius: 10px;
+    padding: 30px 10px;
+    font-size: 18px;
+    font-weight: 900;
+    font-family: math;
+    text-align: center;
+    color: #bf4ff0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#basket.dragover {
+    background: #d2baff;
+    border-style: dotted;
+}
+
+#logback {
+    margin-left: 20px;
+    width: 450px;
+    background: #333;
+    border-radius: 5px;
+    color: #eee;
+    padding: 5px;
+}
+
+#log {
+    margin: 0;
+    height: 150px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    font-size: 14px;
+    line-height: 19px;
+    text-overflow: ellipsis;
+}
+
+/* 设置滚动条整体样式 */
+#log::-webkit-scrollbar {
+    width: 10px;
+    background-color: #333;
+    border-radius: 10px;
+}
+
+/* 设置滚动条里面小方块 */
+#log::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #888;
+}
+
+/* 设置滚动条轨道 */
+#log::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: #484848;
+}
+
+/*Actions 和 Tools*/
+#action,
+#preview,
+#tools {
+    border-radius: 6px;
+    margin: 10px auto;
+    font-size: 16px;
+    color: #000000;
+    line-height: 32px;
+    display: flex;
+    justify-content: center;
+}
+
+#action {
+    padding: 5px 0;
+    width: 685px;
+    border: 2px dashed #333;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+}
+#action div {
+    margin: 0 10px;
+}
+
+#showing {
+    background: #333333;
+    padding: 3px 5px;
+    width: 60px;
+    height: 20px;
+    line-height: 20px;
+    border-radius: 5px;
+    color: #fff;
+    display: inline-block;
+    text-align: center;
+}
+#preview {
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+.link-download,
+.link-button,
+#action button {
+    color: #000;
+    padding: 0px 5px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin-right: 6px;
+    line-height: 24px;
+    height: 24px;
+    cursor: pointer;
+    background-color: #eee;
+    border-radius: 3px;
+    border: 1px solid #999;
+    box-shadow: 1px 1px 2px #0008;
+}
+.link-download:hover,
+#action button:hover {
+    background-color: #ddd;
+}
+
+.link-download:active,
+#action button:active {
+    background-color: #ccc;
+}
+
+#action button:disabled {
+    color: #999;
+    background-color: #ccc;
+}
+
+.preview {
+    border-collapse: collapse;
+    margin: 0 auto;
+    font-size: 13px;
+    line-height: 20px;
+    cursor: pointer;
+    border: 3px solid #ccc;
+}
+
+.preview .preview-title td {
+    text-align: center;
+    background: #333;
+    color: #fff;
+}
+
+.preview td {
+    border: 1px solid #cad9ea;
+    color: #666;
+    padding: 4px 6px;
+    text-align: center;
+    max-width: 350px;
+}
+
+.preview .left {
+    text-align: left;
+}
+
+.preview th {
+    background: #333;
+    color: #fff;
+}
+
+.preview tr:nth-child(odd) {
+    background: #fff;
+}
+
+.preview tr:nth-child(even) {
+    background: #eee;
+}
+
+.preview tr.longline:nth-child(odd) {
+    background: #fe84;
+}
+
+.preview tr.longline:nth-child(even) {
+    background: #ccbb8844;
+}
+
+.hidden {
+    display: none;
+}
+
+#source {
+    margin-top: 10px;
+    width: 700px;
+    height: 300px;
+    overflow: scroll;
+}
