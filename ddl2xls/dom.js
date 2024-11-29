@@ -7,22 +7,9 @@ let $ = (selector) => document.querySelector(selector),
     $sqltext = $("#material textarea");
 
 $("#do-preview").addEventListener("click", () => {
-    let analyzed = analyseContent($sqltext.value);
-    genPreview(analyzed); //生成预览表格
-    $action.append(getDownloadLink("下载excel type chs", "数据目录.xlsx", genXlsx("数据目录", formatData(analyzed, 1), [215, 66, 275])));
-    $action.append(getDownloadLink("下载excel type full", "数据目录.xlsx", genXlsx("数据目录", formatData(analyzed, 0), [215, 85, 275])));
-});
-
-/**
- * 生成预览表格
- * @param {Array} ref - 数据的引用数组
- * @param {Array} stru - 表格的结构数组
- * @param {Array} data - 要显示的数据数组data
- */
-
-function genPreview(data) {
+    let analyzed = analyseContent($sqltext.value); //分析sql语句
     let domArr = [];
-    for (let table of data) {
+    for (let table of analyzed) {
         domArr.push(`<table class="preview"><thead>`);
         domArr.push(`<tr class="preview-title"><th class="left">${table.name}</th><th>&nbsp;</th><th>&nbsp;</th><th class="left">${table.comment}</th></tr>`);
         domArr.push(`</thead><tbody>`);
@@ -32,7 +19,9 @@ function genPreview(data) {
         domArr.push("</tbody></table>");
     }
     $preview.innerHTML = domArr.join("");
-}
+    $action.append(getDownloadLink("下载excel type chs", "数据目录.xlsx", genXlsx("数据目录", formatData(analyzed, 1), [215, 66, 275])));
+    $action.append(getDownloadLink("下载excel type full", "数据目录.xlsx", genXlsx("数据目录", formatData(analyzed, 0), [215, 85, 275])));
+});
 
 function getDownloadLink(text, filename, content) {
     let ele = document.createElement("a");
@@ -42,5 +31,3 @@ function getDownloadLink(text, filename, content) {
     ele.href = URL.createObjectURL(new Blob([content]));
     return ele;
 }
-
-export { genPreview };
