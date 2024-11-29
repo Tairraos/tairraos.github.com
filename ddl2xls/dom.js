@@ -19,8 +19,8 @@ $("#do-preview").addEventListener("click", () => {
         domArr.push("</tbody></table>");
     }
     $preview.innerHTML = domArr.join("");
-    $action.append(getDownloadLink("下载excel type chs", "数据目录.xlsx", genXlsx("数据目录", formatData(analyzed, 1), [215, 66, 275])));
-    $action.append(getDownloadLink("下载excel type full", "数据目录.xlsx", genXlsx("数据目录", formatData(analyzed, 0), [215, 85, 275])));
+    $action.append(getDownloadLink("下载excel中文类型", "数据目录.xlsx", genXlsx("数据目录", formatData(analyzed, 1), [215, 66, 275])));
+    $action.append(getDownloadLink("下载excel原始类型", "数据目录.xlsx", genXlsx("数据目录", formatData(analyzed, 0), [215, 85, 275])));
 });
 
 function getDownloadLink(text, filename, content) {
