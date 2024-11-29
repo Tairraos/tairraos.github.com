@@ -11,7 +11,7 @@ $("#do-preview").addEventListener("click", () => {
     let domArr = [];
     for (let table of analyzed) {
         domArr.push(`<table class="preview"><thead>`);
-        domArr.push(`<tr class="preview-title"><th class="left">${table.name}</th><th>&nbsp;</th><th>&nbsp;</th><th class="left">${table.comment}</th></tr>`);
+        domArr.push(`<tr class="preview-title"><th class="left" style="width:200px">${table.name}</th><th style="width:100px">&nbsp;</th><th style="width:80px">&nbsp;</th><th class="left" style="width:300px">${table.comment}</th></tr>`);
         domArr.push(`</thead><tbody>`);
         table.fields.forEach((line) =>
             domArr.push(`<tr><td class="left">${line[0]}</td><td class="left">${line[2]}</td><td>${line[1]}</td><td class="left">${line[3]}</td></tr>`)
