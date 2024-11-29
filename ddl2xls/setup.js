@@ -1,8 +1,8 @@
 let setup = {
-    colorSets: {
-        // xlsx 输出颜色集
-        0: "F0F0F0",
-        1: "FFFFFF"
+    themes: {
+        dark:{ bg: "333333", fg: "FFFFFF", border: "CCCCCC" },
+        deep:{ bg: "F0F0F0", fg: "000000", border: "333333" },
+        light:{ bg: "FFFFFF", fg: "000000", border: "333333" }
     },
     fieldType: {
         int: "数值",

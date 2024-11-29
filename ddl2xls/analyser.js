@@ -28,10 +28,11 @@ function analyseContent(data) {
         }
         if (line.startsWith("`")) {
             let name = safeGet(line.match(/`(\w+)`\s*([a-zA-Z]+)/), 1),
-                etype = safeGet(line.match(/`(\w+)`\s*([a-zA-Z]+)/), 2).toLowerCase(),
-                type = safeGet(setup.fieldType, etype),
+                type = safeGet(line.match(/`(\w+)`\s*([a-zA-Z]+)/), 2).toLowerCase(),
+                typefull = safeGet(line.match(/`(\w+)`\s*([a-zA-Z\(\)\d]+)/), 2).toLowerCase(),
+                typechs = safeGet(setup.fieldType, type),
                 comment = safeGet(line.match(/COMMENT\s*'([^']+)'/), 1);
-            block.fields.push([name, type, comment]);
+            block.fields.push([name, typechs, typefull, comment]);
         }
     }
     return result;

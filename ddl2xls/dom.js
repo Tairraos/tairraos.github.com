@@ -1,5 +1,4 @@
-import { setup } from "./setup.js";
-import { genXlsx } from "./exporter.js";
+import { genXlsx, formatData } from "./exporter.js";
 import { analyseContent } from "./analyser.js";
 
 let $ = (selector) => document.querySelector(selector),
@@ -8,24 +7,10 @@ let $ = (selector) => document.querySelector(selector),
     $sqltext = $("#material textarea");
 
 $("#do-preview").addEventListener("click", () => {
-    let analyzed = analyseContent($sqltext.value),
-        content = [];
-    genPreview(analyzed);
-
-    //生成集中的表名项
-    for (let table of analyzed) {
-        content.push([table.name, "数据表", table.comment]);
-    }
-    //空一行
-    content.push(["", "", ""]);
-    //为每个表生成数据项
-    for (let table of analyzed) {
-        content.push([table.name, "数据表", table.comment]);
-        table.fields.forEach((line) => content.push(line));
-        content.push(["", "", ""]);
-    }
-
-    $action.append(getDownloadLink("下载excel", "数据目录.xlsx", genXlsx("数据目录", content, [215, 66, 275])));
+    let analyzed = analyseContent($sqltext.value);
+    genPreview(analyzed); //生成预览表格
+    $action.append(getDownloadLink("下载excel type chs", "数据目录.xlsx", genXlsx("数据目录", formatData(analyzed, 1), [215, 66, 275])));
+    $action.append(getDownloadLink("下载excel type full", "数据目录.xlsx", genXlsx("数据目录", formatData(analyzed, 0), [215, 85, 275])));
 });
 
 /**
@@ -39,9 +24,11 @@ function genPreview(data) {
     let domArr = [];
     for (let table of data) {
         domArr.push(`<table class="preview"><thead>`);
-        domArr.push(`<tr class="preview-title"><th class="left">${table.name}</th><th>&nbsp;</th><th class="left">${table.comment}</th></tr>`);
+        domArr.push(`<tr class="preview-title"><th class="left">${table.name}</th><th>&nbsp;</th><th>&nbsp;</th><th class="left">${table.comment}</th></tr>`);
         domArr.push(`</thead><tbody>`);
-        table.fields.forEach((line) => domArr.push(`<tr><td class="left">${line[0]}</td><td>${line[1]}</td><td class="left">${line[2]}</td></tr>`));
+        table.fields.forEach((line) =>
+            domArr.push(`<tr><td class="left">${line[0]}</td><td class="left">${line[2]}</td><td>${line[1]}</td><td class="left">${line[3]}</td></tr>`)
+        );
         domArr.push("</tbody></table>");
     }
     $preview.innerHTML = domArr.join("");

@@ -1,5 +1,19 @@
 import { setup } from "./setup.js";
 
+//格式化出一个数组，用它生成对应的xlsx
+function formatData(analyzed, isChs) {
+    let content = [];
+    analyzed.forEach((line) => content.push([line.name, " ", line.comment])); //先生成集中的表名项
+    content.push(["", "", ""]); //空一行
+    //为每个表生成数据项
+    for (let table of analyzed) {
+        content.push([table.name, " ", table.comment]); //表名第二列使用“数据表”三个字，这样会应用黑底白字theme
+        table.fields.forEach((line) => content.push([line[0], isChs ? line[1] : line[2], line[3]]));
+        content.push(["", "", ""]); //空一行
+    }
+    return content;
+}
+
 function genXlsx(sheetName, sheetContent, colWidths) {
     let workbook = XLSX.utils.book_new(),
         sheet = XLSX.utils.aoa_to_sheet(sheetContent),
@@ -9,41 +23,38 @@ function genXlsx(sheetName, sheetContent, colWidths) {
         g = (c, r) => (c !== "undefined" ? gv(gn(c, r)) : ""), //读取单元格工具，传入坐标, 列不存在则返回空
         isDeepLine = false,
         isEmptyLine = false,
-        theme = ["FFFFFF", "000000"];
+        theme = {};
 
-    for (let rowIndex = range.s.r; rowIndex <= range.e.r; rowIndex++) {
-        isDeepLine = !isDeepLine;
-        isEmptyLine = g(0, rowIndex) === "" && g(1, rowIndex) === "" && g(2, rowIndex) === "";
-        if (g(1, rowIndex) === "数据表") {
-            sheet[gn(1, rowIndex)].v = ""; //清空数据表三个字
-            theme = ["333333", "FFFFFF", "CCCCCC"];
+    for (let r = range.s.r; r <= range.e.r; r++) {
+        isDeepLine = !isDeepLine; //行背景深浅
+        isEmptyLine = g(0, r) === "" && g(1, r) === "" && g(2, r) === "";
+        //第二列为“数据表”三个字，此行会使用黑底白字theme
+        if (g(0, r) !== "" && g(1, r) === " " && g(2, r) !== "") {
+            theme = setup.themes.dark;
             isDeepLine = true;
         } else {
-            theme = [setup.colorSets[+isDeepLine], "000000", "333333"];
+            theme = isDeepLine ? setup.themes.deep : setup.themes.light;
         }
-        for (let colIndex = range.s.c; colIndex <= range.e.c; colIndex++) {
-            let cellName = gn(colIndex, rowIndex);
+        for (let c = 0; c <= 2; c++) {
+            let cellName = gn(c, r);
             if (!isEmptyLine) {
                 sheet[cellName].s = {
-                    font: { name: "微软雅黑", sz: "12", color: { rgb: theme[1] } },
-                    fill: { fgColor: { rgb: theme[0] } },
-                    alignment: { horizontal: "left", vertical: "center", wrapText: true },
+                    font: { name: "微软雅黑", sz: "12", color: { rgb: theme.fg } },
+                    fill: { fgColor: { rgb: theme.bg } },
+                    alignment: { horizontal: c === 1 && !g(1, r).match(/^[a-z]/) ? "center" : "left", vertical: "center", wrapText: true },
                     border: {
-                        top: { style: "thin", color: { rgb: theme[2] } },
-                        bottom: { style: "thin", color: { rgb: theme[2] } },
-                        left: { style: "thin", color: { rgb: theme[2] } },
-                        right: { style: "thin", color: { rgb: theme[2] } }
+                        top: { style: "thin", color: { rgb: theme.border } },
+                        bottom: { style: "thin", color: { rgb: theme.border } },
+                        left: { style: "thin", color: { rgb: theme.border } },
+                        right: { style: "thin", color: { rgb: theme.border } }
                     }
                 };
-            } else {
-                console.log(rowIndex);
             }
         }
     }
-    sheet["!cols"] = colWidths.map((i) => ({ wpx: i }));
+    sheet["!cols"] = colWidths.map((i) => ({ wpx: i })); //单元格宽度
     XLSX.utils.book_append_sheet(workbook, sheet, sheetName);
-
     return XLSX.write(workbook, { type: "array", bookType: "xlsx" });
 }
 
-export { genXlsx };
+export { genXlsx, formatData };
