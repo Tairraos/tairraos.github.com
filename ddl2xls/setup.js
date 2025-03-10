@@ -5,6 +5,7 @@ let setup = {
         light:{ bg: "FFFFFF", fg: "000000", border: "333333" }
     },
     fieldType: {
+        bit: "比特布尔",
         int: "数值",
         smallint: "数值",
         bigint: "数值",
