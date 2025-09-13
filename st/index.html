@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>营养学刷题工具</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>营养学刷题工具</h1>
+            <!-- 正常刷题进度条 -->
+            <div class="progress" id="normal-progress">
+                <div class="progress-text">
+                    正常刷题：<span id="normal-current">1</span> / <span id="normal-total">0</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="normal-progress-fill"></div>
+                </div>
+            </div>
+            <!-- 错题复习进度条 -->
+            <div class="progress hidden" id="review-progress">
+                <div class="progress-text">
+                    错题复习：<span id="review-current">1</span> / <span id="review-total">0</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="review-progress-fill"></div>
+                </div>
+            </div>
+            <div class="controls">
+                <button class="control-btn" onclick="shuffleQuestions()">重新打乱题序</button>
+                <button class="control-btn" onclick="resetQuiz()">重新开始</button>
+                <button class="control-btn hidden" onclick="returnToNormalQuiz()" id="return-btn" title="返回继续正常刷题">返回刷题</button>
+                <button class="control-btn" onclick="reviewWrongQuestions()" id="review-btn">复习错题</button>
+                <button class="control-btn" onclick="exportWrongQuestions()" id="export-btn">导出错题</button>
+            </div>
+            <div class="quiz-mode" id="quiz-mode">
+                <span>当前模式：正常题库</span>
+            </div>
+            <div class="stats">
+                <div class="stats-item">正确: <span id="correct-count">0</span></div>
+                <div class="stats-item">错误: <span id="wrong-count">0</span></div>
+                <div class="stats-item">正确率: <span id="accuracy">0%</span></div>
+            </div>
+        </div>
+
+        <div class="card" id="question-card">
+            <div class="question-type" id="question-type">单选题</div>
+            <div class="question" id="question-text"></div>
+            <div class="options" id="options-container"></div>
+            <button class="submit-btn hidden" id="submit-btn" onclick="submitAnswer()">提交答案</button>
+            <div class="result" id="result-container">
+                <div class="result-title" id="result-title"></div>
+                <div class="correct-answer" id="correct-answer"></div>
+                <div class="explanation" id="explanation"></div>
+            </div>
+            <button class="next-btn hidden" id="next-btn" onclick="nextQuestion()">下一题</button>
+        </div>
+
+        <!-- 错题导出区域 -->
+        <div class="export-area hidden" id="export-area">
+            <h3>错题导出</h3>
+            <textarea id="export-textarea" readonly placeholder="错题内容将显示在这里..."></textarea>
+            <div class="export-controls">
+                <button class="control-btn" onclick="selectAllText()">全选</button>
+                <button class="control-btn" onclick="closeExportArea()">关闭</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入题库数据 -->
+    <script src="nutrition-questions.js"></script>
+    <!-- 引入主要功能脚本 -->
+    <script src="script.js"></script>
+</body>
+</html>

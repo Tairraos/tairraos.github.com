@@ -17,7 +17,8 @@ let setup = {
         datetime: "时间日期",
         time: "时间",
         timestamp: "时间戳",
-        json: "JSON"
+        json: "JSON",
+        decimal: "小数数值",
     }
 };
 
