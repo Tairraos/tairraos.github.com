@@ -1,11 +1,15 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="zh-CN">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width">
-    <title>Tairraos' Project</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tairraos' Project - 小乐的开源世界</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- 百度统计 -->
     <script>
         var _hmt = _hmt || [];
         (function() {
@@ -14,100 +18,792 @@
             var s = document.getElementsByTagName("script")[0];
             s.parentNode.insertBefore(hm, s);
         })();
-
     </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-bg: #0a0a0f;
+            --secondary-bg: #1a1a2e;
+            --card-bg: rgba(26, 26, 46, 0.8);
+            --accent-color: #6366f1;
+            --accent-secondary: #8b5cf6;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --border-color: rgba(99, 102, 241, 0.2);
+            --hover-glow: rgba(99, 102, 241, 0.3);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* 动态背景 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
+            z-index: -1;
+            animation: backgroundShift 20s ease-in-out infinite;
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% { transform: translateX(0) translateY(0); }
+            50% { transform: translateX(-20px) translateY(-20px); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* 头部样式 */
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            from { filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.3)); }
+            to { filter: drop-shadow(0 0 30px rgba(139, 92, 246, 0.5)); }
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* 分类标题 */
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin: 3rem 0 2rem 0;
+            text-align: center;
+            position: relative;
+            color: var(--text-primary);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-color), var(--accent-secondary));
+            border-radius: 2px;
+        }
+
+        /* 项目网格 */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        /* 项目卡片 */
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-color);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(99, 102, 241, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        .project-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .project-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 8px;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .project-link:hover {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .project-link i {
+            font-size: 0.8rem;
+        }
+
+        /* 硬件项目特殊样式 */
+        .hardware-section {
+            margin-top: 4rem;
+        }
+
+        .hardware-card {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1));
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        .hardware-card .project-icon {
+            background: linear-gradient(135deg, var(--accent-secondary), #3b82f6);
+        }
+
+        /* 学习资源部分 */
+        .learning-section {
+            margin-top: 4rem;
+            text-align: center;
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .book-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .book-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-secondary);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .book-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--accent-secondary);
+        }
+
+        .book-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .book-link:hover {
+            color: var(--accent-color);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .project-card {
+                padding: 1.5rem;
+            }
+
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* 滚动条样式 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--primary-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-secondary);
+        }
+
+        /* 加载动画 */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 为不同延迟添加动画 */
+        .project-card:nth-child(1) { animation-delay: 0.1s; }
+        .project-card:nth-child(2) { animation-delay: 0.2s; }
+        .project-card:nth-child(3) { animation-delay: 0.3s; }
+        .project-card:nth-child(4) { animation-delay: 0.4s; }
+        .project-card:nth-child(5) { animation-delay: 0.5s; }
+        .project-card:nth-child(6) { animation-delay: 0.6s; }
+    </style>
 </head>
-
 <body>
+    <div class="container">
+        <!-- 头部 -->
+        <header class="header fade-in">
+            <h1><i class="fas fa-code"></i> 小乐的开源世界</h1>
+            <p>探索代码的无限可能，用技术创造美好未来</p>
+        </header>
 
-    <h3>小乐的开源项目链接</h3>
+        <!-- 主要开源项目 -->
+        <section>
+            <h2 class="section-title">🚀 主要开源项目</h2>
+            <div class="projects-grid">
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div class="project-icon"><i class="fas fa-gamepad"></i></div>
+                        <h3 class="project-title">MineCreation</h3>
+                    </div>
+                    <p class="project-description">和自家小朋友一起，在 Minecraft 中用 Python 创造新世界</p>
+                    <div class="project-links">
+                        <a href="https://github.com/Tairraos/MineCreation" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </div>
+                </div>
 
-    <p>
-        <strong>Poker.JS</strong> (<a href="https://tairraos.github.io/Poker.JS/" target="outter">演示网页</a>)<br />
-        Poker.JS是通过扩展HTML5 Canvas实现的矢量扑克牌的JS库。<br />
-        开源Repo: <a href="https://github.com/Tairraos/Poker.JS" target="outter">https://github.com/Tairraos/Poker.JS</a>
-    </p>
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div class="project-icon"><i class="fas fa-calendar-alt"></i></div>
+                        <h3 class="project-title">sino-calendar-mcp</h3>
+                    </div>
+                    <p class="project-description">中国农历节日转换MCP服务，基于Model Context Protocol的中国农历节日转换服务，提供公历与农历转换、传统节日识别、24节气计算、工作日判断等功能。</p>
+                    <div class="project-links">
+                        <a href="https://github.com/Tairraos/sino-calendar-mcp" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </div>
+                </div>
 
-    <p>
-        <strong>Tikdown</strong> <br />
-        跨平台 TikTok/抖音 无水印视频下载器，用Electron打包<br />
-        开源Repo: <a href="https://github.com/Tairraos/TikDown" target="outter">https://github.com/Tairraos/TikDown</a>
-    </p>
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div class="project-icon"><i class="fas fa-image"></i></div>
+                        <h3 class="project-title">text-2-image</h3>
+                    </div>
+                    <p class="project-description">基于AI的图像生成应用，允许用户通过构建精确的文本提示词来生成高质量图像。</p>
+                    <div class="project-links">
+                        <a href="https://github.com/Tairraos/text-2-image" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </div>
+                </div>
 
-    <p>
-        <strong>rpn.js</strong><br />
-        逆波兰表达式工具，可以把普通表达式转换为逆波兰表达式，还可以计算逆波兰表达式。支持+ - * / ^ % ! √ ( )。<br />
-        开源Repo: <a href="https://github.com/Tairraos/rpn.js" target="outter">https://github.com/Tairraos/rpn.js</a>
-    </p>
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div class="project-icon"><i class="fas fa-spade"></i></div>
+                        <h3 class="project-title">Poker.JS</h3>
+                    </div>
+                    <p class="project-description">Poker.JS是通过扩展HTML5 Canvas实现的矢量扑克牌的JS库。</p>
+                    <div class="project-links">
+                        <a href="https://tairraos.github.io/Poker.JS/" target="_blank" class="project-link">
+                            <i class="fas fa-external-link-alt"></i> 演示
+                        </a>
+                        <a href="https://github.com/Tairraos/Poker.JS" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </div>
+                </div>
 
-    <p>
-        <strong>local-web-opener</strong><br />
-        VS Code 插件: 在右键菜单上加上使用本地web服务器打开html的项。<br />
-        开源Repo: <a href="https://github.com/Tairraos/vscode-local-web-opener" target="outter">https://github.com/Tairraos/vscode-local-web-opener</a>
-    </p>
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div class="project-icon"><i class="fab fa-tiktok"></i></div>
+                        <h3 class="project-title">Tikdown</h3>
+                    </div>
+                    <p class="project-description">跨平台 TikTok/抖音 无水印视频下载器，用Electron打包</p>
+                    <div class="project-links">
+                        <a href="https://github.com/Tairraos/TikDown" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </div>
+                </div>
 
-    <p>
-        <strong>几何求解</strong> (<a href="https://tairraos.github.io/Geometry-Solving/" target="outter">演示网页</a>) <br />
-        Apple app store 里的 Pythagorea, Pythagorea 60, XSection 三款几何游戏的求解。<br />
-        开源Repo: <a href="https://github.com/Tairraos/Geometry-Solving" target="outter">https://github.com/Tairraos/Geometry-Solving</a>
-    </p>
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div class="project-icon"><i class="fas fa-calculator"></i></div>
+                        <h3 class="project-title">rpn.js</h3>
+                    </div>
+                    <p class="project-description">逆波兰表达式工具，可以把普通表达式转换为逆波兰表达式，还可以计算逆波兰表达式。支持+ - * / ^ % ! √ ( )。</p>
+                    <div class="project-links">
+                        <a href="https://github.com/Tairraos/rpn.js" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </div>
+                </div>
 
-    <p>
-        <strong>Euclidea 3求解</strong> (<a href="https://mathsfans.github.io/Euclidea/" target="outter">演示网页</a>)<br />
-        对应 Apple app store 里的 Euclidea 3游戏求解。<br />
-        开源Repo: <a href="https://github.com/MathsFans/Euclidea" target="outter">https://github.com/MathsFans/Euclidea</a>
-    </p>
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div class="project-icon"><i class="fas fa-plug"></i></div>
+                        <h3 class="project-title">local-web-opener</h3>
+                    </div>
+                    <p class="project-description">VS Code 插件: 在右键菜单上加上使用本地web服务器打开html的项。</p>
+                    <div class="project-links">
+                        <a href="https://github.com/Tairraos/vscode-local-web-opener" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </div>
+                </div>
 
-    <p>
-        <strong>Tchisla求解</strong> (<a href="https://mathsfans.github.io/Tchisla/" target="outter">演示网页</a>)<br />
-        对应 Apple app store 里的 Tchisla 游戏求解。<br />
-        开源Repo: <a href="https://github.com/MathsFans/Tchisla" target="outter">https://github.com/MathsFans/Tchisla</a>
-    </p>
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div class="project-icon"><i class="fas fa-shapes"></i></div>
+                        <h3 class="project-title">几何求解</h3>
+                    </div>
+                    <p class="project-description">Apple app store 里的 Pythagorea, Pythagorea 60, XSection 三款几何游戏的求解。</p>
+                    <div class="project-links">
+                        <a href="https://tairraos.github.io/Geometry-Solving/" target="_blank" class="project-link">
+                            <i class="fas fa-external-link-alt"></i> 演示
+                        </a>
+                        <a href="https://github.com/Tairraos/Geometry-Solving" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </div>
+                </div>
 
-    <p>
-        <strong>xTool.js</strong> (<a href="https://www.npmjs.com/package/xtool.js" target="outter">NPM库链接</a>)<br />
-        Node下用的小工具集，自己做的瑞士军刀。<code> npm i xtool.js </code><br />
-        开源Repo: <a href="https://github.com/Tairraos/xTool.js" target="outter">https://github.com/Tairraos/xTool.js</a>
-    </p>
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div class="project-icon"><i class="fas fa-compass"></i></div>
+                        <h3 class="project-title">Euclidea 3求解</h3>
+                    </div>
+                    <p class="project-description">对应 Apple app store 里的 Euclidea 3游戏求解。</p>
+                    <div class="project-links">
+                        <a href="https://mathsfans.github.io/Euclidea/" target="_blank" class="project-link">
+                            <i class="fas fa-external-link-alt"></i> 演示
+                        </a>
+                        <a href="https://github.com/MathsFans/Euclidea" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </div>
+                </div>
 
-    <hr />
-    <p>
-        <strong>SPI墨水屏全能驱动</strong> <br />
-        SPI接口的墨水屏驱动板，适用于多种超市用单色双色价签拆机屏。<br />
-        开源工程: <a href="https://oshwhub.com/Xiaole.Tao/Universal-ePaper-Driver" target="outter">https://oshwhub.com/Xiaole.Tao/Universal-ePaper-Driver</a>
-    </p>
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div class="project-icon"><i class="fas fa-puzzle-piece"></i></div>
+                        <h3 class="project-title">Tchisla求解</h3>
+                    </div>
+                    <p class="project-description">对应 Apple app store 里的 Tchisla 游戏求解。</p>
+                    <div class="project-links">
+                        <a href="https://mathsfans.github.io/Tchisla/" target="_blank" class="project-link">
+                            <i class="fas fa-external-link-alt"></i> 演示
+                        </a>
+                        <a href="https://github.com/MathsFans/Tchisla" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </div>
+                </div>
 
-    <p>
-        <strong>ESP Air Burnner</strong> <br />
-        我设计的ESP 8266烧录器，带磁吸接口和自己设计的打印烧录夹<br />
-        开源工程: <a href="https://oshwhub.com/Xiaole.Tao/esp-air-burnner" target="outter">https://oshwhub.com/Xiaole.Tao/esp-air-burnner</a>
-    </p>
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div class="project-icon"><i class="fas fa-toolbox"></i></div>
+                        <h3 class="project-title">xTool.js</h3>
+                    </div>
+                    <p class="project-description">Node下用的小工具集，自己做的瑞士军刀。<code>npm i xtool.js</code></p>
+                    <div class="project-links">
+                        <a href="https://www.npmjs.com/package/xtool.js" target="_blank" class="project-link">
+                            <i class="fab fa-npm"></i> NPM
+                        </a>
+                        <a href="https://github.com/Tairraos/xTool.js" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </div>
+                </div>
 
-    <p>
-        <strong>Larduino LED POV</strong> <br />
-        对称设计的POV，对应淘宝购买的Larduino控制版，3块左右一片不带USB很小巧。<br />
-        开源工程: <a href="https://oshwhub.com/Xiaole.Tao/larduino-led-pov" target="outter">https://oshwhub.com/Xiaole.Tao/larduino-led-pov</a>
-    </p>
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div class="project-icon"><i class="fas fa-hashtag"></i></div>
+                        <h3 class="project-title">xNumber.js</h3>
+                    </div>
+                    <p class="project-description">xTools包里的子功能，数字转换格式，中文数字，中文货币，罗马数字，阿拉伯数字互换。</p>
+                    <div class="project-links">
+                        <a href="https://github.com/Tairraos/xNumber.js" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <p>
-        <strong>3轴电控云台</strong> <br />
-        我设计的三轴云台，双舵机结构。基础结构稍加调整即可用于各种需要灵活控制底座的场景。<br />
-        开源工程: <a href="https://oshwhub.com/Xiaole.Tao/pan-tilt-platform" target="outter">https://oshwhub.com/Xiaole.Tao/pan-tilt-platform</a>
-    </p>
+        <!-- 工具类项目 -->
+        <section>
+            <h2 class="section-title">🛠️ 工具类项目</h2>
+            <div class="projects-grid">
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div class="project-icon"><i class="fas fa-video"></i></div>
+                        <h3 class="project-title">remotion-podcast-template</h3>
+                    </div>
+                    <p class="project-description">使用Remotion制作播客视频剪辑的模板。</p>
+                    <div class="project-links">
+                        <a href="https://github.com/Tairraos/remotion-podcast-template" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </div>
+                </div>
 
-    <p>
-        <strong>鸿蒙无线开关</strong> <br />
-        学习华为鸿蒙物联网开发，设计了一个套在普通86开关上的远程控制开关插件。纯玩，基本没有实用性。<br />
-        开源工程: <a href="https://oshwhub.com/Xiaole.Tao/harmonyos-switch-helper" target="outter">https://oshwhub.com/Xiaole.Tao/harmonyos-switch-helper</a>
-    </p>
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div class="project-icon"><i class="fas fa-images"></i></div>
+                        <h3 class="project-title">web-png-merger</h3>
+                    </div>
+                    <p class="project-description">纯前端的单页面Web应用工具，用于合并两张图片并生成新的合成图片。</p>
+                    <div class="project-links">
+                        <a href="https://github.com/Tairraos/web-png-merger" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </div>
+                </div>
 
-    <p>
-        <strong>还有其它纯玩工程，请看：</strong> <a href="https://oshwhub.com/xiaole.tao?tab=project&page=1" target="outter">https://oshwhub.com/xiaole.tao?tab=project&page=1</a>
-    </p>
-    
-    <hr />
-    
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div class="project-icon"><i class="fas fa-layer-group"></i></div>
+                        <h3 class="project-title">png-merger</h3>
+                    </div>
+                    <p class="project-description">基于Node.js的命令行工具，使用ImageMagick进行智能PNG图像合并。</p>
+                    <div class="project-links">
+                        <a href="https://github.com/Tairraos/png-merger" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </div>
+                </div>
 
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div class="project-icon"><i class="fas fa-compress"></i></div>
+                        <h3 class="project-title">mp4-compresser</h3>
+                    </div>
+                    <p class="project-description">Node.js CLI工具，用于批量处理MP4视频的智能压缩和缩放。</p>
+                    <div class="project-links">
+                        <a href="https://github.com/Tairraos/mp4-compresser" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div class="project-icon"><i class="fas fa-cut"></i></div>
+                        <h3 class="project-title">srtseg</h3>
+                    </div>
+                    <p class="project-description">为中文srt文件分词的命令行工具，让srt以词为单位，而不是以句为单位。</p>
+                    <div class="project-links">
+                        <a href="https://github.com/Tairraos/srtseg" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div class="project-icon"><i class="fas fa-play-circle"></i></div>
+                        <h3 class="project-title">ttv</h3>
+                    </div>
+                    <p class="project-description">Text to video工具，用于整理文案Slide，然后生成视频。</p>
+                    <div class="project-links">
+                        <a href="https://github.com/Tairraos/ttv" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div class="project-icon"><i class="fas fa-mouse-pointer"></i></div>
+                        <h3 class="project-title">dragConfig</h3>
+                    </div>
+                    <p class="project-description">拖动内容进行配置的模块。</p>
+                    <div class="project-links">
+                        <a href="https://github.com/Tairraos/dragConfig" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div class="project-icon"><i class="fas fa-terminal"></i></div>
+                        <h3 class="project-title">prompt-manager</h3>
+                    </div>
+                    <p class="project-description">单机部署的Prompt工具。</p>
+                    <div class="project-links">
+                        <a href="https://github.com/Tairraos/prompt-manager" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div class="project-icon"><i class="fas fa-film"></i></div>
+                        <h3 class="project-title">movie-site</h3>
+                    </div>
+                    <p class="project-description">一键部署的影视站。</p>
+                    <div class="project-links">
+                        <a href="https://github.com/Tairraos/movie-site" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 硬件项目 -->
+        <section class="hardware-section">
+            <h2 class="section-title">🔧 硬件开源项目</h2>
+            <div class="projects-grid">
+                <div class="project-card hardware-card fade-in">
+                    <div class="project-header">
+                        <div class="project-icon"><i class="fas fa-display"></i></div>
+                        <h3 class="project-title">SPI墨水屏全能驱动</h3>
+                    </div>
+                    <p class="project-description">SPI接口的墨水屏驱动板，适用于多种超市用单色双色价签拆机屏。</p>
+                    <div class="project-links">
+                        <a href="https://oshwhub.com/Xiaole.Tao/Universal-ePaper-Driver" target="_blank" class="project-link">
+                            <i class="fas fa-external-link-alt"></i> 开源工程
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card hardware-card fade-in">
+                    <div class="project-header">
+                        <div class="project-icon"><i class="fas fa-microchip"></i></div>
+                        <h3 class="project-title">ESP Air Burnner</h3>
+                    </div>
+                    <p class="project-description">我设计的ESP 8266烧录器，带磁吸接口和自己设计的打印烧录夹</p>
+                    <div class="project-links">
+                        <a href="https://oshwhub.com/Xiaole.Tao/esp-air-burnner" target="_blank" class="project-link">
+                            <i class="fas fa-external-link-alt"></i> 开源工程
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card hardware-card fade-in">
+                    <div class="project-header">
+                        <div class="project-icon"><i class="fas fa-lightbulb"></i></div>
+                        <h3 class="project-title">Larduino LED POV</h3>
+                    </div>
+                    <p class="project-description">对称设计的POV，对应淘宝购买的Larduino控制版，3块左右一片不带USB很小巧。</p>
+                    <div class="project-links">
+                        <a href="https://oshwhub.com/Xiaole.Tao/larduino-led-pov" target="_blank" class="project-link">
+                            <i class="fas fa-external-link-alt"></i> 开源工程
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card hardware-card fade-in">
+                    <div class="project-header">
+                        <div class="project-icon"><i class="fas fa-video"></i></div>
+                        <h3 class="project-title">3轴电控云台</h3>
+                    </div>
+                    <p class="project-description">我设计的三轴云台，双舵机结构。基础结构稍加调整即可用于各种需要灵活控制底座的场景。</p>
+                    <div class="project-links">
+                        <a href="https://oshwhub.com/Xiaole.Tao/pan-tilt-platform" target="_blank" class="project-link">
+                            <i class="fas fa-external-link-alt"></i> 开源工程
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card hardware-card fade-in">
+                    <div class="project-header">
+                        <div class="project-icon"><i class="fas fa-toggle-on"></i></div>
+                        <h3 class="project-title">鸿蒙无线开关</h3>
+                    </div>
+                    <p class="project-description">学习华为鸿蒙物联网开发，设计了一个套在普通86开关上的远程控制开关插件。纯玩，基本没有实用性。</p>
+                    <div class="project-links">
+                        <a href="https://oshwhub.com/Xiaole.Tao/harmonyos-switch-helper" target="_blank" class="project-link">
+                            <i class="fas fa-external-link-alt"></i> 开源工程
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card hardware-card fade-in">
+                    <div class="project-header">
+                        <div class="project-icon"><i class="fas fa-ellipsis-h"></i></div>
+                        <h3 class="project-title">更多硬件项目</h3>
+                    </div>
+                    <p class="project-description">还有其它纯玩工程，欢迎查看我的完整硬件项目列表。</p>
+                    <div class="project-links">
+                        <a href="https://oshwhub.com/xiaole.tao?tab=project&page=1" target="_blank" class="project-link">
+                            <i class="fas fa-external-link-alt"></i> 查看更多
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // 添加滚动动画
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        // 观察所有项目卡片
+        document.querySelectorAll('.project-card, .book-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // 添加鼠标跟随效果
+        document.addEventListener('mousemove', (e) => {
+            const cursor = document.querySelector('.cursor');
+            if (!cursor) {
+                const newCursor = document.createElement('div');
+                newCursor.className = 'cursor';
+                newCursor.style.cssText = `
+                    position: fixed;
+                    width: 20px;
+                    height: 20px;
+                    background: radial-gradient(circle, rgba(99, 102, 241, 0.3), transparent);
+                    border-radius: 50%;
+                    pointer-events: none;
+                    z-index: 9999;
+                    transition: transform 0.1s ease;
+                `;
+                document.body.appendChild(newCursor);
+            }
+            
+            const cursorElement = document.querySelector('.cursor');
+            cursorElement.style.left = e.clientX - 10 + 'px';
+            cursorElement.style.top = e.clientY - 10 + 'px';
+        });
+
+        // 添加卡片悬停音效（可选）
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
 </body>
-
 </html>

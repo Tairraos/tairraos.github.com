@@ -1,5 +1,17 @@
 ### 小乐的开源项目链接
 
+**MineCreation**
+和自家小朋友一起，在 Minecraft 中用 Python 创造新世界
+开源Repo: https://github.com/Tairraos/MineCreation
+
+**sino-calendar-mcp**
+中国农历节日转换MCP服务，提供公历与农历转换、传统节日识别、24节气计算、工作日判断等功能。
+开源Repo: https://github.com/Tairraos/sino-calendar-mcp
+
+**text-2-image**
+基于AI的图像生成应用，通过see-dream模型构建精确的文本提示词来批量生成高质量图像。
+开源Repo: https://github.com/Tairraos/text-2-image
+
 **Poker.JS** ([演示网页](https://tairraos.github.io/Poker.JS/))
 Poker.JS是通过扩展HTML5 Canvas实现的矢量扑克牌的JS库。
 开源Repo: https://github.com/Tairraos/Poker.JS
@@ -32,6 +44,32 @@ Apple app store 里的 Pythagorea, Pythagorea 60, XSection 三款几何游戏的
 Node下用的小工具集，自己做的瑞士军刀。`npm i xtool.js`
 开源Repo: https://github.com/Tairraos/xTool.js
 
+**xNumber.js**
+xTools包里的子功能，数字转换格式，中文数字，中文货币，罗马数字，阿拉伯数字互换。
+开源Repo: https://github.com/Tairraos/xNumber.js
+
+**工具类项目**
+
+**web-png-merger**
+纯前端的单页面Web应用工具，用于合并两张图片并生成新的合成图片。
+开源Repo: https://github.com/Tairraos/web-png-merger
+
+**png-merger**
+基于Node.js的命令行工具，使用ImageMagick进行智能PNG图像合并。
+开源Repo: https://github.com/Tairraos/png-merger
+
+**mp4-compresser**
+Node.js CLI工具，用于批量处理MP4视频的智能压缩和缩放。
+开源Repo: https://github.com/Tairraos/mp4-compresser
+
+**srtseg**
+为中文srt文件分词的命令行工具，让srt以词为单位，而不是以句为单位。
+开源Repo: https://github.com/Tairraos/srtseg
+
+**ttv**
+Text to video工具，用于整理文案Slide，然后生成视频。
+开源Repo: https://github.com/Tairraos/ttv
+
 ------
 
 **SPI墨水屏全能驱动**
@@ -55,12 +93,3 @@ SPI接口的墨水屏驱动板，适用于多种超市用单色双色价签拆�
 开源工程: https://oshwhub.com/Xiaole.Tao/harmonyos-switch-helper
 
 **还有其它纯玩工程，请看：** https://oshwhub.com/xiaole.tao?tab=project&page=1
-
-------
-
-### 推荐几本学习Python的好书
-
-[First Step In Python](https://tairraos.github.io/FirstStepInPython) ([来源网页](https://www.runoob.com/manual/pythontutorial3/docs/html/index.html))
-[Intermediate Python](https://tairraos.github.io/IntermediatePython) ([来源Repo](https://github.com/eastlakeside/interpy-zh))
-[Python Cookbook](https://tairraos.github.io/PythonCookBook) ([来源Repo](https://github.com/yidao620c/python3-cookbook))
-[Think Python](https://tairraos.github.io/ThinkPython) ([来源Repo](https://github.com/bingjin/ThinkPython2-CN))
