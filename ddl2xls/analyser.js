@@ -14,58 +14,58 @@ import { setup } from "./setup.js";
  */
 function analyzeContent(data) {
     // 将输入按行拆分，逐行解析
-    let lines = data.split(/\r?\n/),
-        isInTable = false,
-        result = [],
-        block = {};
+    const ddlLines = data.split(/\r?\n/);
+    let inCreateTable = false;
+    const tables = [];
+    let currentTable = /** @type {{name: string, comment: string, fields: [string, string, string, string][]} | Record<string, never>} */ ({});
 
-    for (let rawLine of lines) {
+    for (const rawLine of ddlLines) {
         // 逐行处理，消除两侧空白
-        let line = rawLine.trim();
+        const line = rawLine.trim();
         if (!line) continue; // 空行跳过
 
         // 统一大小写判断，增强健壮性
         const upper = line.toUpperCase();
 
-        // 还没整理完一个表，又遇到 CREATE TABLE，进行提示并跳过
-        if (upper.startsWith("CREATE TABLE") && isInTable) {
+        // 尚未结束的表体又遇到 CREATE TABLE，提示并跳过
+        if (upper.startsWith("CREATE TABLE") && inCreateTable) {
             console.log(`CREATE TABLE 语句嵌套了：${line}`);
             continue;
         }
 
         // 未处于建表上下文且当前行不是 CREATE TABLE，忽略
-        if (!upper.startsWith("CREATE TABLE") && !isInTable) continue;
+        if (!upper.startsWith("CREATE TABLE") && !inCreateTable) continue;
 
-        // 开始建表：匹配表名（优先匹配反引号包裹的，其次匹配普通标识符），初始化 block
+        // 开始建表：匹配表名（优先匹配反引号包裹的，其次匹配普通标识符），初始化 currentTable
         if (upper.startsWith("CREATE TABLE")) {
-            isInTable = true;
+            inCreateTable = true;
             const tableName =
                 // 反引号表名
                 safeGet(line.match(/`([^`]+)`/), 1) ||
                 // 非反引号表名（允许 schema 前缀）
                 safeGet(line.match(/CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?(?:`?[A-Za-z0-9_]+`?\.)?`?([A-Za-z0-9_]+)`?/i), 1);
-            block = { name: tableName, comment: "", fields: [] };
+            currentTable = { name: tableName, comment: "", fields: [] };
             continue;
         }
 
         // 结束建表：遇到右括号开头的行，提取表注释（如果存在），push 到结果
         if (line.startsWith(")")) {
-            isInTable = false;
+            inCreateTable = false;
             // 表级注释可能写在闭括号行后面，如：) ENGINE=... COMMENT='表注释'
-            block.comment = safeGet(line.match(/COMMENT\s*=\s*'([^']+)'/i), 1);
-            result.push(block);
-            block = {};
+            currentTable.comment = safeGet(line.match(/COMMENT\s*=\s*'([^']+)'/i), 1);
+            tables.push(currentTable);
+            currentTable = {};
             continue;
         }
 
         // 处于表定义体中，尝试解析字段行
         const fieldTuple = parseFieldLine(line);
         if (fieldTuple) {
-            block.fields.push(fieldTuple); // [name, type_chs, type_full, comment]
+            currentTable.fields.push(fieldTuple); // [name, type_chs, type_full, comment]
         }
         // 其他（如主键/索引/约束）行忽略
     }
-    return result;
+    return tables;
 }
 
 /**
@@ -82,37 +82,37 @@ function parseFieldLine(line) {
     if (nonColumnStarters.test(line)) return null;
 
     // 移除行尾逗号，便于处理
-    let work = line.replace(/,\s*$/, "");
+    const normalized = line.replace(/,\s*$/, "");
 
     // 名称匹配：优先反引号，其次普通标识符
-    let name = safeGet(work.match(/^`([^`]+)`\s+/), 1);
+    let name = safeGet(normalized.match(/^`([^`]+)`\s+/), 1);
     let consumedLength = 0;
     if (name) {
-        // 计算已消费长度：`name` + 之后的至少一个空格
-        const m = work.match(/^`([^`]+)`\s+/);
+        // 计算已消费长度：`name` + 至少一个空格
+        const m = normalized.match(/^`([^`]+)`\s+/);
         consumedLength = m ? m[0].length : 0;
     } else {
         // 普通标识符（字母或下划线开头，后续为字母数字下划线）
-        name = safeGet(work.match(/^([A-Za-z_][A-Za-z0-9_]*)\s+/), 1);
-        const m = work.match(/^([A-Za-z_][A-Za-z0-9_]*)\s+/);
+        name = safeGet(normalized.match(/^([A-Za-z_][A-Za-z0-9_]*)\s+/), 1);
+        const m = normalized.match(/^([A-Za-z_][A-Za-z0-9_]*)\s+/);
         consumedLength = m ? m[0].length : 0;
     }
     if (!name) return null; // 未匹配到字段名，判定为非字段行
 
     // 剩余部分用于提取类型/修饰符
-    const rest = work.slice(consumedLength).trim();
+    const rest = normalized.slice(consumedLength).trim();
 
     // 在 rest 中找到第一个约束/修饰关键字的位置，用于截断 type_full
     const boundaryIdx = rest.search(/\b(?:NOT\s+NULL|NULL|DEFAULT|COMMENT|AUTO_INCREMENT|PRIMARY|UNIQUE|KEY|REFERENCES|CHECK|ON\s+UPDATE|COLLATE|CHARACTER\s+SET)\b/i);
-    const type_full_raw = boundaryIdx >= 0 ? rest.slice(0, boundaryIdx).trim() : rest.trim();
+    const typeFullRaw = boundaryIdx >= 0 ? rest.slice(0, boundaryIdx).trim() : rest.trim();
 
     // 规范化大小写（保持与旧实现一致）
-    const type_full = type_full_raw.toLowerCase();
+    const type_full = typeFullRaw.toLowerCase();
 
     // 基础类型（第一个单词）用于中文类型映射
     const typeBaseMatch = type_full.match(/^[a-zA-Z]+/);
-    const type_base = typeBaseMatch ? typeBaseMatch[0].toLowerCase() : "";
-    const type_chs = setup.fieldType[type_base] || "";
+    const typeBase = typeBaseMatch ? typeBaseMatch[0].toLowerCase() : "";
+    const type_chs = setup.fieldType[typeBase] || "";
 
     // 字段注释（优先匹配单引号）
     const comment = safeGet(line.match(/COMMENT\s*'([^']*)'/i), 1);
