@@ -6,8 +6,35 @@ let $ = (selector) => document.querySelector(selector),
     $preview = $("#preview"),
     $sqltext = $("#material textarea");
 
+/**
+ * 重置预览区：
+ * - 删除旧的下载按钮（class 为 link-download）并释放 Blob URL
+ * - 清空预览表格内容
+ * - 初始化可能需要的局部状态
+ */
+function resetPreview() {
+    // 删除旧的下载按钮，并尝试释放对象URL
+    $action.querySelectorAll(".link-download").forEach((link) => {
+        try {
+            if (link.href) URL.revokeObjectURL(link.href);
+        } catch (e) {
+            // 忽略可能的异常，保证清理流程不中断
+        }
+        link.remove();
+    });
+    // 清空预览区域表格
+    $preview.innerHTML = "";
+}
+
+// 预览按钮点击事件：先清理，再解析并生成内容
 $("#do-preview").addEventListener("click", () => {
-    let analyzed = analyzeContent($sqltext.value); //分析sql语句
+    // 1) 清理旧内容和按钮
+    resetPreview();
+
+    // 2) 解析 SQL 文本，得到结构化数据
+    let analyzed = analyzeContent($sqltext.value); // 分析 sql 语句
+
+    // 3) 渲染预览表格
     let domArr = [];
     for (let table of analyzed) {
         domArr.push(`<table class="preview"><thead>`);
@@ -21,6 +48,8 @@ $("#do-preview").addEventListener("click", () => {
         domArr.push("</tbody></table>");
     }
     $preview.innerHTML = domArr.join("");
+
+    // 4) 生成下载按钮（中文类型 / 原始类型）
     $action.append(
         getDownloadLink(
             "下载excel中文类型",
