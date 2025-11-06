@@ -1,6 +1,6 @@
 import { setup } from "./setup.js";
 
-function analyseContent(data) {
+function analyzeContent(data) {
     let lines = data.split("\n"),
         isInTable = false,
         result = [],
@@ -29,10 +29,10 @@ function analyseContent(data) {
         if (line.startsWith("`")) {
             let name = safeGet(line.match(/`(\w+)`\s*([a-zA-Z]+)/), 1),
                 type = safeGet(line.match(/`(\w+)`\s*([a-zA-Z]+)/), 2).toLowerCase(),
-                typefull = safeGet(line.match(/`(\w+)`\s*([a-zA-Z\(\)\d]+)/), 2).toLowerCase(),
-                typechs = safeGet(setup.fieldType, type),
+                type_full = safeGet(line.match(/`(\w+)`\s*([a-zA-Z\(\)\d,]+( unsigned)?)/), 2).toLowerCase(),
+                type_chs = safeGet(setup.fieldType, type),
                 comment = safeGet(line.match(/COMMENT\s*'([^']+)'/), 1);
-            block.fields.push([name, typechs, typefull, comment]);
+            block.fields.push([name, type_chs, type_full, comment]);
         }
     }
     return result;
@@ -40,4 +40,4 @@ function analyseContent(data) {
 function safeGet(reg, index) {
     return reg && reg[index] ? reg[index] : "";
 }
-export { analyseContent };
+export { analyzeContent as analyseContent };
