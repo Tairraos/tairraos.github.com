@@ -1,5 +1,5 @@
 import { genXlsx, formatData } from "./exporter.js";
-import { analyseContent } from "./analyser.js";
+import { analyzeContent } from "./analyser.js";
 
 let $ = (selector) => document.querySelector(selector),
     $action = $("#action"),
@@ -7,7 +7,7 @@ let $ = (selector) => document.querySelector(selector),
     $sqltext = $("#material textarea");
 
 $("#do-preview").addEventListener("click", () => {
-    let analyzed = analyseContent($sqltext.value); //分析sql语句
+    let analyzed = analyzeContent($sqltext.value); //分析sql语句
     let domArr = [];
     for (let table of analyzed) {
         domArr.push(`<table class="preview"><thead>`);

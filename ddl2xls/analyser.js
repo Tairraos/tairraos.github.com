@@ -40,4 +40,4 @@ function analyzeContent(data) {
 function safeGet(reg, index) {
     return reg && reg[index] ? reg[index] : "";
 }
-export { analyzeContent as analyseContent };
+export { analyzeContent };
